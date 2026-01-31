@@ -16,6 +16,8 @@
       --ice: #e6f3ff;
       --light: #ffffff;
       --success: #32cd32;
+      --warning: #ffa500;
+      --danger: #ff4500;
       --gradient-blue: linear-gradient(135deg, #1e90ff, #00bfff);
       --gradient-dark: linear-gradient(135deg, var(--darker), var(--dark));
       --gradient-silver: linear-gradient(135deg, var(--silver), var(--accent));
@@ -32,9 +34,17 @@
       background: linear-gradient(135deg, var(--darker), var(--dark));
       color: var(--light);
       min-height: 100vh;
+      transition: background 0.3s;
     }
 
-    /* Header - уменьшенный */
+    body.light-theme {
+      background: linear-gradient(135deg, #e6f3ff, #b0e0e6);
+      color: #072340;
+      --ice: #072340;
+      --light: #072340;
+    }
+
+    /* Header */
     header {
       background: rgba(7, 35, 64, 0.95);
       padding: 12px 0;
@@ -43,6 +53,12 @@
       width: 100%;
       top: 0;
       z-index: 1000;
+      transition: all 0.3s;
+    }
+
+    body.light-theme header {
+      background: rgba(230, 243, 255, 0.95);
+      border-bottom: 2px solid #1e90ff;
     }
 
     .container {
@@ -71,6 +87,10 @@
       border-radius: 50%;
     }
 
+    body.light-theme .logo-icon {
+      background: linear-gradient(135deg, #1e90ff, #00bfff);
+    }
+
     .logo-text {
       font-size: 1.4rem;
       font-weight: 700;
@@ -79,7 +99,13 @@
       -webkit-text-fill-color: transparent;
     }
 
-    /* Навигация с иконками */
+    body.light-theme .logo-text {
+      background: linear-gradient(to right, #1e90ff, #00bfff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Навигация */
     .nav-menu {
       display: flex;
       align-items: center;
@@ -101,12 +127,21 @@
       transition: all 0.3s;
     }
 
+    body.light-theme .nav-item {
+      color: #072340;
+      border: 1px solid rgba(30, 144, 255, 0.3);
+    }
+
     .nav-item:hover {
       background: rgba(30, 144, 255, 0.15);
       border-color: var(--silver);
     }
 
-    /* Меню бургер */
+    body.light-theme .nav-item:hover {
+      background: rgba(30, 144, 255, 0.1);
+      border-color: #1e90ff;
+    }
+
     .menu-toggle {
       display: none;
       background: none;
@@ -115,6 +150,10 @@
       font-size: 1.5rem;
       cursor: pointer;
       padding: 8px;
+    }
+
+    body.light-theme .menu-toggle {
+      color: #072340;
     }
 
     /* Основной контент */
@@ -140,6 +179,12 @@
       border-radius: 25px;
       border: 2px solid rgba(192, 192, 192, 0.2);
       max-width: 900px;
+      transition: all 0.3s;
+    }
+
+    body.light-theme .home-content {
+      background: rgba(255, 255, 255, 0.9);
+      border: 2px solid rgba(30, 144, 255, 0.3);
     }
 
     .home-title {
@@ -151,10 +196,20 @@
       -webkit-text-fill-color: transparent;
     }
 
+    body.light-theme .home-title {
+      background: linear-gradient(135deg, #1e90ff, #00bfff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
     .tagline {
       color: var(--silver);
       font-size: 1.2rem;
       margin-bottom: 20px;
+    }
+
+    body.light-theme .tagline {
+      color: #1e90ff;
     }
 
     .home-subtitle {
@@ -162,6 +217,10 @@
       font-size: 1.1rem;
       margin-bottom: 40px;
       line-height: 1.6;
+    }
+
+    body.light-theme .home-subtitle {
+      color: #072340;
     }
 
     /* Кнопки */
@@ -198,6 +257,12 @@
       border: 2px solid var(--accent);
     }
 
+    body.light-theme .btn-secondary {
+      background: linear-gradient(135deg, #e6f3ff, #b0e0e6);
+      color: #072340;
+      border: 2px solid #1e90ff;
+    }
+
     .btn:hover {
       transform: translateY(-5px);
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
@@ -220,6 +285,11 @@
       transition: transform 0.3s;
     }
 
+    body.light-theme .feature-card {
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(30, 144, 255, 0.3);
+    }
+
     .feature-card:hover {
       transform: translateY(-5px);
     }
@@ -228,6 +298,10 @@
       font-size: 2.5rem;
       color: var(--accent);
       margin-bottom: 15px;
+    }
+
+    body.light-theme .feature-icon {
+      color: #1e90ff;
     }
 
     /* Страница тренировок */
@@ -252,15 +326,28 @@
       transition: all 0.4s;
     }
 
+    body.light-theme .program-card {
+      background: rgba(255, 255, 255, 0.9);
+      border: 2px solid rgba(30, 144, 255, 0.3);
+    }
+
     .program-card:hover {
       transform: translateY(-10px);
       border-color: var(--accent);
+    }
+
+    body.light-theme .program-card:hover {
+      border-color: #1e90ff;
     }
 
     .program-icon {
       font-size: 3rem;
       color: var(--accent);
       margin-bottom: 20px;
+    }
+
+    body.light-theme .program-icon {
+      color: #1e90ff;
     }
 
     /* Страница питания */
@@ -278,7 +365,12 @@
       border-left: 5px solid var(--accent);
     }
 
-    /* Таймер тренировки */
+    body.light-theme .tip-card {
+      background: rgba(255, 255, 255, 0.9);
+      border-left: 5px solid #1e90ff;
+    }
+
+    /* Таймер */
     .timer-container {
       background: rgba(7, 35, 64, 0.8);
       padding: 40px;
@@ -289,12 +381,21 @@
       max-width: 600px;
     }
 
+    body.light-theme .timer-container {
+      background: rgba(255, 255, 255, 0.9);
+      border: 2px solid #1e90ff;
+    }
+
     .timer-display {
       font-size: 4rem;
       font-weight: 800;
       color: var(--light);
       margin: 30px 0;
       font-family: 'Courier New', monospace;
+    }
+
+    body.light-theme .timer-display {
+      color: #072340;
     }
 
     .timer-controls {
@@ -314,21 +415,19 @@
       align-items: center;
       gap: 10px;
       min-width: 140px;
+      color: white;
     }
 
     .timer-btn-start {
       background: var(--success);
-      color: white;
     }
 
     .timer-btn-pause {
-      background: #ffa500;
-      color: white;
+      background: var(--warning);
     }
 
     .timer-btn-reset {
-      background: #ff4500;
-      color: white;
+      background: var(--danger);
     }
 
     /* Страница настроек */
@@ -345,13 +444,18 @@
       border: 1px solid rgba(192, 192, 192, 0.2);
     }
 
+    body.light-theme .setting-group {
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(30, 144, 255, 0.3);
+    }
+
     .language-selector {
       display: flex;
       gap: 15px;
       margin-top: 15px;
     }
 
-    .lang-btn {
+    .lang-btn, .theme-btn {
       flex: 1;
       padding: 12px;
       border-radius: 10px;
@@ -360,11 +464,25 @@
       color: var(--ice);
       cursor: pointer;
       transition: all 0.3s;
+      font-weight: 600;
     }
 
-    .lang-btn.active {
+    body.light-theme .lang-btn,
+    body.light-theme .theme-btn {
+      color: #072340;
+      border: 2px solid #1e90ff;
+    }
+
+    .lang-btn.active,
+    .theme-btn.active {
       background: var(--accent);
       color: var(--dark);
+    }
+
+    body.light-theme .lang-btn.active,
+    body.light-theme .theme-btn.active {
+      background: #1e90ff;
+      color: white;
     }
 
     /* Footer */
@@ -374,6 +492,11 @@
       border-top: 2px solid var(--silver);
       text-align: center;
       margin-top: 80px;
+    }
+
+    body.light-theme footer {
+      background: rgba(230, 243, 255, 0.95);
+      border-top: 2px solid #1e90ff;
     }
 
     /* Мобильная адаптация */
@@ -389,6 +512,11 @@
         border: 2px solid var(--silver);
         flex-direction: column;
         min-width: 200px;
+      }
+      
+      body.light-theme .nav-menu {
+        background: rgba(255, 255, 255, 0.95);
+        border: 2px solid #1e90ff;
       }
       
       .nav-menu.show {
@@ -454,22 +582,22 @@
       <!-- Навигация -->
       <div class="nav-menu" id="navMenu">
         <div class="nav-item" onclick="showHome()">
-          <i class="fas fa-home"></i> Главная
+          <i class="fas fa-home"></i> <span id="navHome">Главная</span>
         </div>
         <div class="nav-item" onclick="showPrograms()">
-          <i class="fas fa-dumbbell"></i> Программы
+          <i class="fas fa-dumbbell"></i> <span id="navPrograms">Программы</span>
         </div>
         <div class="nav-item" onclick="showWorkout()">
-          <i class="fas fa-running"></i> Тренировка
+          <i class="fas fa-running"></i> <span id="navWorkout">Тренировка</span>
         </div>
         <div class="nav-item" onclick="showNutrition()">
-          <i class="fas fa-apple-alt"></i> Питание
+          <i class="fas fa-apple-alt"></i> <span id="navNutrition">Питание</span>
         </div>
         <div class="nav-item" onclick="showSettings()">
-          <i class="fas fa-cog"></i> Настройки
+          <i class="fas fa-cog"></i> <span id="navSettings">Настройки</span>
         </div>
-        <div class="nav-item" onclick="showLogin()">
-          <i class="fas fa-user"></i> Войти
+        <div class="nav-item" id="authNavItem" onclick="checkAuth()">
+          <i class="fas fa-user"></i> <span id="navAuth">Войти</span>
         </div>
       </div>
       
@@ -492,7 +620,7 @@
         <div class="logo-icon"></div>
         <div class="logo-text">SILVER SURFER STRENGTH</div>
       </div>
-      <p style="color: var(--ice); margin-bottom: 20px;">
+      <p style="color: var(--ice); margin-bottom: 20px;" id="footerText">
         Бесплатные онлайн тренировки с собственным весом и калистеникой
       </p>
       <p style="color: var(--silver); font-size: 0.9rem;">
@@ -502,10 +630,216 @@
   </footer>
 
   <script>
-    // ================ СИСТЕМА ПОЛЬЗОВАТЕЛЕЙ ================
+    // ================ ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ ================
     let currentUser = null;
     let usersDB = JSON.parse(localStorage.getItem('silverSurferUsers')) || {};
-    
+    let currentLanguage = localStorage.getItem('silverSurferLanguage') || 'ru';
+    let currentTheme = localStorage.getItem('silverSurferTheme') || 'dark';
+    let timerSeconds = 0;
+    let timerInterval = null;
+    let isTimerRunning = false;
+
+    // ================ ПЕРЕВОДЫ ================
+    const translations = {
+      ru: {
+        navHome: "Главная",
+        navPrograms: "Программы",
+        navWorkout: "Тренировка",
+        navNutrition: "Питание",
+        navSettings: "Настройки",
+        navAuth: "Войти",
+        navLogout: "Выйти",
+        footerText: "Бесплатные онлайн тренировки с собственным весом и калистеникой",
+        homeTitle: "SILVER SURFER STRENGTH",
+        tagline: "Покори Волну Силы • Бесплатно • 90 дней",
+        homeSubtitle: "Профессиональные онлайн тренировки с собственным весом. Преобразуй свое тело без оборудования и абонементов в зал.",
+        startFree: "НАЧАТЬ БЕСПЛАТНО",
+        login: "ВОЙТИ В АККАУНТ",
+        registerTitle: "Регистрация",
+        loginTitle: "Вход в аккаунт",
+        username: "Имя пользователя",
+        password: "Пароль",
+        chooseProgram: "Выберите программу",
+        registerBtn: "Зарегистрироваться",
+        loginBtn: "Войти",
+        back: "Назад",
+        welcome: "Добро пожаловать",
+        currentStreak: "Серия",
+        workoutsCompleted: "Тренировок",
+        totalMinutes: "Минут",
+        level: "Уровень",
+        todaysWorkout: "Сегодняшняя тренировка",
+        startWorkout: "Начать тренировку",
+        allPrograms: "Все программы",
+        logout: "Выйти",
+        workoutTimer: "Таймер тренировки",
+        start: "Старт",
+        pause: "Пауза",
+        reset: "Сброс",
+        completeWorkout: "Завершить тренировку",
+        nutritionTips: "Питание для роста мышц",
+        nutritionSubtitle: "Советы по питанию для лучших результатов",
+        protein: "Белок",
+        carbs: "Углеводы",
+        water: "Вода",
+        vegetables: "Овощи",
+        settings: "Настройки",
+        language: "Язык",
+        theme: "Тема",
+        notifications: "Уведомления",
+        account: "Аккаунт",
+        myProfile: "Мой кабинет",
+        russian: "Русский",
+        english: "English",
+        darkTheme: "Темная",
+        lightTheme: "Светлая",
+        workoutReminders: "Напоминания о тренировках",
+        achievements: "Достижения",
+        backToHome: "Назад на главную",
+        backToProfile: "Вернуться в кабинет",
+        day: "День",
+        minutes: "минут",
+        exercises: "Упражнения",
+        sets: "подхода",
+        reps: "повторений",
+        rest: "сек отдых",
+        streetProgram: "Street Surfer (уличные)",
+        homeProgram: "Home Surfer (домашние)",
+        hybridProgram: "Hybrid Surfer (гибрид)",
+        streetDesc: "Уличные тренировки с использованием турников и брусьев. Для продвинутых спортсменов.",
+        homeDesc: "Домашние тренировки без оборудования. Идеально для новичков и занятых людей.",
+        hybridDesc: "Гибридная программа сочетает уличные и домашние тренировки. Максимальная эффективность.",
+        programDuration: "90 дней"
+      },
+      en: {
+        navHome: "Home",
+        navPrograms: "Programs",
+        navWorkout: "Workout",
+        navNutrition: "Nutrition",
+        navSettings: "Settings",
+        navAuth: "Login",
+        navLogout: "Logout",
+        footerText: "Free online bodyweight and calisthenics workouts",
+        homeTitle: "SILVER SURFER STRENGTH",
+        tagline: "Ride the Wave of Strength • Free • 90 days",
+        homeSubtitle: "Professional online bodyweight workouts. Transform your body without equipment or gym memberships.",
+        startFree: "START FREE",
+        login: "LOG IN",
+        registerTitle: "Registration",
+        loginTitle: "Login",
+        username: "Username",
+        password: "Password",
+        chooseProgram: "Choose program",
+        registerBtn: "Register",
+        loginBtn: "Login",
+        back: "Back",
+        welcome: "Welcome",
+        currentStreak: "Streak",
+        workoutsCompleted: "Workouts",
+        totalMinutes: "Minutes",
+        level: "Level",
+        todaysWorkout: "Today's workout",
+        startWorkout: "Start workout",
+        allPrograms: "All programs",
+        logout: "Logout",
+        workoutTimer: "Workout timer",
+        start: "Start",
+        pause: "Pause",
+        reset: "Reset",
+        completeWorkout: "Complete workout",
+        nutritionTips: "Nutrition for muscle growth",
+        nutritionSubtitle: "Nutrition tips for better results",
+        protein: "Protein",
+        carbs: "Carbs",
+        water: "Water",
+        vegetables: "Vegetables",
+        settings: "Settings",
+        language: "Language",
+        theme: "Theme",
+        notifications: "Notifications",
+        account: "Account",
+        myProfile: "My profile",
+        russian: "Русский",
+        english: "English",
+        darkTheme: "Dark",
+        lightTheme: "Light",
+        workoutReminders: "Workout reminders",
+        achievements: "Achievements",
+        backToHome: "Back to home",
+        backToProfile: "Back to profile",
+        day: "Day",
+        minutes: "minutes",
+        exercises: "Exercises",
+        sets: "sets",
+        reps: "reps",
+        rest: "sec rest",
+        streetProgram: "Street Surfer (street)",
+        homeProgram: "Home Surfer (home)",
+        hybridProgram: "Hybrid Surfer (hybrid)",
+        streetDesc: "Street workouts using pull-up bars and parallel bars. For advanced athletes.",
+        homeDesc: "Home workouts without equipment. Perfect for beginners and busy people.",
+        hybridDesc: "Hybrid program combines street and home workouts. Maximum effectiveness.",
+        programDuration: "90 days"
+      }
+    };
+
+    // ================ ФУНКЦИИ ================
+    function t(key) {
+      return translations[currentLanguage][key] || key;
+    }
+
+    function updateLanguage(lang) {
+      currentLanguage = lang;
+      localStorage.setItem('silverSurferLanguage', lang);
+      updatePageContent();
+      updateNavigation();
+    }
+
+    function updateTheme(theme) {
+      currentTheme = theme;
+      localStorage.setItem('silverSurferTheme', theme);
+      if (theme === 'light') {
+        document.body.classList.add('light-theme');
+      } else {
+        document.body.classList.remove('light-theme');
+      }
+      updateNavigation();
+    }
+
+    function updateNavigation() {
+      const authNavItem = document.getElementById('authNavItem');
+      const navAuth = document.getElementById('navAuth');
+      
+      if (currentUser) {
+        navAuth.textContent = t('navLogout');
+        authNavItem.onclick = logout;
+      } else {
+        navAuth.textContent = t('navAuth');
+        authNavItem.onclick = checkAuth;
+      }
+      
+      // Обновляем все тексты навигации
+      document.getElementById('navHome').textContent = t('navHome');
+      document.getElementById('navPrograms').textContent = t('navPrograms');
+      document.getElementById('navWorkout').textContent = t('navWorkout');
+      document.getElementById('navNutrition').textContent = t('navNutrition');
+      document.getElementById('navSettings').textContent = t('navSettings');
+      document.getElementById('footerText').textContent = t('footerText');
+    }
+
+    function updatePageContent() {
+      const currentPage = document.getElementById('mainContent').innerHTML;
+      if (currentPage.includes('home-screen')) showHome();
+      else if (currentPage.includes('Добро пожаловать') || currentPage.includes('Welcome')) showDashboard();
+      else if (currentPage.includes('Регистрация') || currentPage.includes('Registration')) showRegister();
+      else if (currentPage.includes('Вход') || currentPage.includes('Login')) showLogin();
+      else if (currentPage.includes('Программы') || currentPage.includes('Programs')) showPrograms();
+      else if (currentPage.includes('Тренировка') || currentPage.includes('Workout')) showWorkout();
+      else if (currentPage.includes('Питание') || currentPage.includes('Nutrition')) showNutrition();
+      else if (currentPage.includes('Настройки') || currentPage.includes('Settings')) showSettings();
+    }
+
+    // ================ СИСТЕМА ПОЛЬЗОВАТЕЛЕЙ ================
     function registerUser(username, password, program) {
       const userId = Date.now().toString();
       const user = {
@@ -526,7 +860,7 @@
       localStorage.setItem('silverSurferUsers', JSON.stringify(usersDB));
       return user;
     }
-    
+
     function loginUser(username, password) {
       for (const userId in usersDB) {
         const user = usersDB[userId];
@@ -536,43 +870,54 @@
       }
       return null;
     }
-    
+
     // ================ ТРЕНИРОВКИ ================
     const workouts = {
-      street: [
-        { day: 1, name: "Подтягивания + Отжимания", duration: 30, exercises: [
-          { name: "Подтягивания", sets: 3, reps: "8-10", rest: 60 },
-          { name: "Отжимания", sets: 3, reps: "15-20", rest: 60 }
-        ]},
-        { day: 2, name: "Ноги и Пресс", duration: 25, exercises: [
-          { name: "Приседания", sets: 4, reps: "20-25", rest: 45 },
-          { name: "Подъем ног в висе", sets: 3, reps: "12-15", rest: 60 }
-        ]}
-      ],
-      home: [
-        { day: 1, name: "Домашний комплекс", duration: 20, exercises: [
-          { name: "Отжимания", sets: 4, reps: "15-20", rest: 45 },
-          { name: "Приседания", sets: 4, reps: "20-25", rest: 45 }
-        ]},
-        { day: 2, name: "Кардио + Пресс", duration: 25, exercises: [
-          { name: "Берпи", sets: 3, reps: "10-12", rest: 60 },
-          { name: "Планка", sets: 3, reps: "30-45 сек", rest: 45 }
-        ]}
-      ],
-      hybrid: [
-        { day: 1, name: "Гибридная тренировка", duration: 35, exercises: [
-          { name: "Подтягивания", sets: 3, reps: "8-10", rest: 60 },
-          { name: "Отжимания", sets: 3, reps: "15-20", rest: 60 },
-          { name: "Приседания", sets: 3, reps: "20-25", rest: 45 }
-        ]}
-      ]
+      street: [],
+      home: [],
+      hybrid: []
     };
-    
+
+    // Генерируем 90-дневные программы
+    for (let day = 1; day <= 90; day++) {
+      // Street Surfer
+      workouts.street.push({
+        day: day,
+        name: currentLanguage === 'ru' ? `День ${day}: Уличная тренировка` : `Day ${day}: Street workout`,
+        duration: day % 7 === 0 ? 0 : 45 + (day % 3),
+        exercises: day % 7 === 0 ? [] : [
+          { name: currentLanguage === 'ru' ? "Подтягивания" : "Pull-ups", sets: 3 + Math.floor(day/30), reps: "8-12", rest: 60 },
+          { name: currentLanguage === 'ru' ? "Отжимания на брусьях" : "Parallel bar dips", sets: 3 + Math.floor(day/30), reps: "10-15", rest: 60 },
+          { name: currentLanguage === 'ru' ? "Подъемы ног в висе" : "Hanging leg raises", sets: 3, reps: "12-15", rest: 45 }
+        ]
+      });
+
+      // Home Surfer
+      workouts.home.push({
+        day: day,
+        name: currentLanguage === 'ru' ? `День ${day}: Домашняя тренировка` : `Day ${day}: Home workout`,
+        duration: day % 7 === 0 ? 0 : 35 + (day % 2),
+        exercises: day % 7 === 0 ? [] : [
+          { name: currentLanguage === 'ru' ? "Отжимания" : "Push-ups", sets: 4 + Math.floor(day/30), reps: "15-20", rest: 45 },
+          { name: currentLanguage === 'ru' ? "Приседания" : "Squats", sets: 4 + Math.floor(day/30), reps: "20-25", rest: 45 },
+          { name: currentLanguage === 'ru' ? "Планка" : "Plank", sets: 3, reps: currentLanguage === 'ru' ? "30-45 сек" : "30-45 sec", rest: 30 }
+        ]
+      });
+
+      // Hybrid Surfer
+      workouts.hybrid.push({
+        day: day,
+        name: currentLanguage === 'ru' ? `День ${day}: Гибридная тренировка` : `Day ${day}: Hybrid workout`,
+        duration: day % 7 === 0 ? 0 : 40,
+        exercises: day % 7 === 0 ? [] : [
+          { name: currentLanguage === 'ru' ? "Подтягивания/Отжимания" : "Pull-ups/Push-ups", sets: 3 + Math.floor(day/45), reps: "8-15", rest: 60 },
+          { name: currentLanguage === 'ru' ? "Приседания" : "Squats", sets: 3 + Math.floor(day/45), reps: "20-25", rest: 45 },
+          { name: currentLanguage === 'ru' ? "Берпи" : "Burpees", sets: 2 + Math.floor(day/60), reps: "10-12", rest: 60 }
+        ]
+      });
+    }
+
     // ================ ТАЙМЕР ================
-    let timerSeconds = 0;
-    let timerInterval = null;
-    let isTimerRunning = false;
-    
     function startTimer() {
       if (!isTimerRunning) {
         isTimerRunning = true;
@@ -582,19 +927,19 @@
         }, 1000);
       }
     }
-    
+
     function pauseTimer() {
       isTimerRunning = false;
       clearInterval(timerInterval);
     }
-    
+
     function resetTimer() {
       isTimerRunning = false;
       clearInterval(timerInterval);
       timerSeconds = 0;
       updateTimerDisplay();
     }
-    
+
     function updateTimerDisplay() {
       const display = document.getElementById('timerDisplay');
       if (display) {
@@ -604,30 +949,36 @@
         display.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
       }
     }
-    
+
     // ================ НАВИГАЦИЯ ================
     function toggleMenu() {
       const menu = document.getElementById('navMenu');
       menu.classList.toggle('show');
     }
-    
+
+    function checkAuth() {
+      if (currentUser) {
+        showDashboard();
+      } else {
+        showLogin();
+      }
+      toggleMenu();
+    }
+
     function showHome() {
       document.getElementById('mainContent').innerHTML = `
         <div class="home-screen">
           <div class="home-content">
-            <h1 class="home-title">SILVER SURFER STRENGTH</h1>
-            <p class="tagline">Покори Волну Силы • Бесплатно • 90 дней</p>
-            <p class="home-subtitle">
-              Профессиональные онлайн тренировки с собственным весом. 
-              Преобразуй свое тело без оборудования и абонементов в зал.
-            </p>
+            <h1 class="home-title">${t('homeTitle')}</h1>
+            <p class="tagline">${t('tagline')}</p>
+            <p class="home-subtitle">${t('homeSubtitle')}</p>
             
             <div class="home-buttons">
               <button class="btn btn-primary" onclick="showRegister()">
-                <i class="fas fa-user-plus"></i> НАЧАТЬ БЕСПЛАТНО
+                <i class="fas fa-user-plus"></i> ${t('startFree')}
               </button>
               <button class="btn btn-secondary" onclick="showLogin()">
-                <i class="fas fa-sign-in-alt"></i> ВОЙТИ В АККАУНТ
+                <i class="fas fa-sign-in-alt"></i> ${t('login')}
               </button>
             </div>
             
@@ -636,32 +987,32 @@
                 <div class="feature-icon">
                   <i class="fas fa-dumbbell"></i>
                 </div>
-                <h3>3 Программы</h3>
-                <p>Street, Home и Hybrid программы на 90 дней</p>
+                <h3>3 ${t('navPrograms')}</h3>
+                <p>${t('programDuration')}</p>
               </div>
               
               <div class="feature-card">
                 <div class="feature-icon">
                   <i class="fas fa-chart-line"></i>
                 </div>
-                <h3>Отслеживание прогресса</h3>
-                <p>Статистика, уровни и достижения</p>
+                <h3>${t('achievements')}</h3>
+                <p>${t('workoutsCompleted')}, ${t('level')}</p>
               </div>
               
               <div class="feature-card">
                 <div class="feature-icon">
                   <i class="fas fa-clock"></i>
                 </div>
-                <h3>Таймер тренировок</h3>
-                <p>Встроенный таймер для тренировок</p>
+                <h3>${t('workoutTimer')}</h3>
+                <p>${t('start')}, ${t('pause')}, ${t('reset')}</p>
               </div>
               
               <div class="feature-card">
                 <div class="feature-icon">
                   <i class="fas fa-mobile-alt"></i>
                 </div>
-                <h3>Для телефона</h3>
-                <p>Адаптивный дизайн для мобильных</p>
+                <h3>Mobile</h3>
+                <p>${t('lightTheme')}/${t('darkTheme')}</p>
               </div>
             </div>
           </div>
@@ -669,131 +1020,134 @@
       `;
       toggleMenu();
     }
-    
+
     function showRegister() {
       document.getElementById('mainContent').innerHTML = `
         <div class="home-screen">
           <div class="home-content">
-            <h2>Регистрация</h2>
+            <h2>${t('registerTitle')}</h2>
             <div style="max-width: 400px; margin: 30px auto;">
-              <input type="text" id="regUsername" placeholder="Имя пользователя" style="width: 100%; padding: 15px; margin: 10px 0; border-radius: 10px; border: 2px solid var(--accent); background: rgba(0,0,0,0.2); color: white; font-size: 1rem;">
-              <input type="password" id="regPassword" placeholder="Пароль" style="width: 100%; padding: 15px; margin: 10px 0; border-radius: 10px; border: 2px solid var(--accent); background: rgba(0,0,0,0.2); color: white; font-size: 1rem;">
+              <input type="text" id="regUsername" placeholder="${t('username')}" style="width: 100%; padding: 15px; margin: 10px 0; border-radius: 10px; border: 2px solid var(--accent); background: rgba(0,0,0,0.2); color: var(--light); font-size: 1rem;">
+              <input type="password" id="regPassword" placeholder="${t('password')}" style="width: 100%; padding: 15px; margin: 10px 0; border-radius: 10px; border: 2px solid var(--accent); background: rgba(0,0,0,0.2); color: var(--light); font-size: 1rem;">
               
               <div style="margin: 20px 0;">
-                <p style="color: var(--ice); margin-bottom: 10px;">Выберите программу:</p>
-                <select id="regProgram" style="width: 100%; padding: 15px; border-radius: 10px; border: 2px solid var(--accent); background: rgba(0,0,0,0.2); color: white; font-size: 1rem;">
-                  <option value="street">Street Surfer (уличные)</option>
-                  <option value="home">Home Surfer (домашние)</option>
-                  <option value="hybrid">Hybrid Surfer (гибрид)</option>
+                <p style="color: var(--ice); margin-bottom: 10px;">${t('chooseProgram')}:</p>
+                <select id="regProgram" style="width: 100%; padding: 15px; border-radius: 10px; border: 2px solid var(--accent); background: rgba(0,0,0,0.2); color: var(--light); font-size: 1rem;">
+                  <option value="street">${t('streetProgram')}</option>
+                  <option value="home">${t('homeProgram')}</option>
+                  <option value="hybrid">${t('hybridProgram')}</option>
                 </select>
               </div>
               
               <button class="btn btn-primary" onclick="performRegister()" style="width: 100%; margin-top: 20px;">
-                <i class="fas fa-check"></i> Зарегистрироваться
+                <i class="fas fa-check"></i> ${t('registerBtn')}
               </button>
             </div>
             <button class="btn btn-secondary" onclick="showHome()">
-              <i class="fas fa-arrow-left"></i> Назад
+              <i class="fas fa-arrow-left"></i> ${t('back')}
             </button>
           </div>
         </div>
       `;
       toggleMenu();
     }
-    
+
     function showLogin() {
       document.getElementById('mainContent').innerHTML = `
         <div class="home-screen">
           <div class="home-content">
-            <h2>Вход в аккаунт</h2>
+            <h2>${t('loginTitle')}</h2>
             <div style="max-width: 400px; margin: 30px auto;">
-              <input type="text" id="loginUsername" placeholder="Имя пользователя" style="width: 100%; padding: 15px; margin: 10px 0; border-radius: 10px; border: 2px solid var(--accent); background: rgba(0,0,0,0.2); color: white; font-size: 1rem;">
-              <input type="password" id="loginPassword" placeholder="Пароль" style="width: 100%; padding: 15px; margin: 10px 0; border-radius: 10px; border: 2px solid var(--accent); background: rgba(0,0,0,0.2); color: white; font-size: 1rem;">
+              <input type="text" id="loginUsername" placeholder="${t('username')}" style="width: 100%; padding: 15px; margin: 10px 0; border-radius: 10px; border: 2px solid var(--accent); background: rgba(0,0,0,0.2); color: var(--light); font-size: 1rem;">
+              <input type="password" id="loginPassword" placeholder="${t('password')}" style="width: 100%; padding: 15px; margin: 10px 0; border-radius: 10px; border: 2px solid var(--accent); background: rgba(0,0,0,0.2); color: var(--light); font-size: 1rem;">
               
               <button class="btn btn-primary" onclick="performLogin()" style="width: 100%; margin-top: 20px;">
-                <i class="fas fa-sign-in-alt"></i> Войти
+                <i class="fas fa-sign-in-alt"></i> ${t('loginBtn')}
               </button>
             </div>
             <button class="btn btn-secondary" onclick="showHome()">
-              <i class="fas fa-arrow-left"></i> Назад
+              <i class="fas fa-arrow-left"></i> ${t('back')}
             </button>
           </div>
         </div>
       `;
       toggleMenu();
     }
-    
+
     function performRegister() {
       const username = document.getElementById('regUsername').value;
       const password = document.getElementById('regPassword').value;
       const program = document.getElementById('regProgram').value;
       
       if (!username || !password) {
-        alert('Пожалуйста, заполните все поля');
+        alert(currentLanguage === 'ru' ? 'Пожалуйста, заполните все поля' : 'Please fill all fields');
         return;
       }
       
       if (username.length < 3) {
-        alert('Имя пользователя должно быть не менее 3 символов');
+        alert(currentLanguage === 'ru' ? 'Имя пользователя должно быть не менее 3 символов' : 'Username must be at least 3 characters');
         return;
       }
       
       if (password.length < 6) {
-        alert('Пароль должен быть не менее 6 символов');
+        alert(currentLanguage === 'ru' ? 'Пароль должен быть не менее 6 символов' : 'Password must be at least 6 characters');
         return;
       }
       
       // Проверяем, нет ли уже такого пользователя
       for (const userId in usersDB) {
         if (usersDB[userId].username === username) {
-          alert('Это имя пользователя уже занято');
+          alert(currentLanguage === 'ru' ? 'Это имя пользователя уже занято' : 'This username is already taken');
           return;
         }
       }
       
       currentUser = registerUser(username, password, program);
-      alert('Регистрация успешна!');
+      alert(currentLanguage === 'ru' ? 'Регистрация успешна!' : 'Registration successful!');
       showDashboard();
     }
-    
+
     function performLogin() {
       const username = document.getElementById('loginUsername').value;
       const password = document.getElementById('loginPassword').value;
       
       if (!username || !password) {
-        alert('Пожалуйста, заполните все поля');
+        alert(currentLanguage === 'ru' ? 'Пожалуйста, заполните все поля' : 'Please fill all fields');
         return;
       }
       
       const user = loginUser(username, password);
       if (user) {
         currentUser = user;
-        alert('Вход выполнен успешно!');
+        alert(currentLanguage === 'ru' ? 'Вход выполнен успешно!' : 'Login successful!');
         showDashboard();
       } else {
-        alert('Неверное имя пользователя или пароль');
+        alert(currentLanguage === 'ru' ? 'Неверное имя пользователя или пароль' : 'Invalid username or password');
       }
     }
-    
+
     function logout() {
       currentUser = null;
-      alert('Вы вышли из системы');
+      alert(currentLanguage === 'ru' ? 'Вы вышли из системы' : 'You have logged out');
       showHome();
     }
-    
+
     function showDashboard() {
       if (!currentUser) {
         showLogin();
         return;
       }
       
+      const workout = workouts[currentUser.program][currentUser.currentDay - 1];
+      const programName = currentUser.program === 'street' ? t('streetProgram') : 
+                         currentUser.program === 'home' ? t('homeProgram') : t('hybridProgram');
+      
       document.getElementById('mainContent').innerHTML = `
         <div class="home-screen">
           <div class="home-content">
-            <h2>Добро пожаловать, ${currentUser.username}!</h2>
+            <h2>${t('welcome')}, ${currentUser.username}!</h2>
             <p style="color: var(--ice); margin: 20px 0;">
-              Ваша программа: <strong>${currentUser.program === 'street' ? 'Street Surfer' : 
-                                     currentUser.program === 'home' ? 'Home Surfer' : 'Hybrid Surfer'}</strong>
+              ${t('todaysWorkout')}: <strong>${programName}</strong>
             </p>
             
             <div class="features-grid">
@@ -801,52 +1155,54 @@
                 <div class="feature-icon">
                   <i class="fas fa-fire"></i>
                 </div>
-                <h3>Серирия</h3>
-                <p>${currentUser.streak} дней</p>
+                <h3>${t('currentStreak')}</h3>
+                <p>${currentUser.streak} ${t('day')}</p>
               </div>
               
               <div class="feature-card">
                 <div class="feature-icon">
                   <i class="fas fa-dumbbell"></i>
                 </div>
-                <h3>Тренировок</h3>
-                <p>${currentUser.workoutsCompleted} выполнено</p>
+                <h3>${t('workoutsCompleted')}</h3>
+                <p>${currentUser.workoutsCompleted}</p>
               </div>
               
               <div class="feature-card">
                 <div class="feature-icon">
                   <i class="fas fa-clock"></i>
                 </div>
-                <h3>Минут</h3>
-                <p>${currentUser.totalMinutes} всего</p>
+                <h3>${t('totalMinutes')}</h3>
+                <p>${currentUser.totalMinutes}</p>
               </div>
               
               <div class="feature-card">
                 <div class="feature-icon">
                   <i class="fas fa-star"></i>
                 </div>
-                <h3>Уровень</h3>
+                <h3>${t('level')}</h3>
                 <p>${currentUser.level}</p>
               </div>
             </div>
             
             <div style="margin: 40px 0;">
-              <h3 style="color: var(--accent); margin-bottom: 20px;">Сегодняшняя тренировка</h3>
+              <h3 style="color: var(--accent); margin-bottom: 20px;">${t('todaysWorkout')}</h3>
               <div style="background: rgba(30, 144, 255, 0.1); padding: 20px; border-radius: 15px; border: 2px solid var(--accent);">
-                <h4 style="color: var(--light); margin-bottom: 10px;">День ${currentUser.currentDay}</h4>
-                <p style="color: var(--ice);">${workouts[currentUser.program][0].name}</p>
+                <h4 style="color: var(--light); margin-bottom: 10px;">${t('day')} ${currentUser.currentDay}: ${workout.name}</h4>
+                <p style="color: var(--ice); margin-bottom: 15px;">
+                  ${workout.duration > 0 ? workout.duration + ' ' + t('minutes') : t('day') + ' ' + t('rest')}
+                </p>
                 <button class="btn btn-primary" onclick="startWorkoutSession()" style="margin-top: 15px;">
-                  <i class="fas fa-play"></i> Начать тренировку
+                  <i class="fas fa-play"></i> ${t('startWorkout')}
                 </button>
               </div>
             </div>
             
             <div class="home-buttons">
               <button class="btn btn-primary" onclick="showPrograms()">
-                <i class="fas fa-dumbbell"></i> Все программы
+                <i class="fas fa-dumbbell"></i> ${t('allPrograms')}
               </button>
               <button class="btn btn-secondary" onclick="logout()">
-                <i class="fas fa-sign-out-alt"></i> Выйти
+                <i class="fas fa-sign-out-alt"></i> ${t('logout')}
               </button>
             </div>
           </div>
@@ -854,25 +1210,22 @@
       `;
       toggleMenu();
     }
-    
+
     function showPrograms() {
       document.getElementById('mainContent').innerHTML = `
         <div class="workout-screen">
-          <h2 style="color: var(--light); text-align: center; margin-bottom: 10px;">Программы тренировок</h2>
-          <p style="color: var(--ice); text-align: center; margin-bottom: 30px;">Выберите программу для старта</p>
+          <h2 style="color: var(--light); text-align: center; margin-bottom: 10px;">${t('navPrograms')}</h2>
+          <p style="color: var(--ice); text-align: center; margin-bottom: 30px;">${t('chooseProgram')}</p>
           
           <div class="program-cards">
             <div class="program-card" onclick="selectProgram('street')">
               <div class="program-icon">
                 <i class="fas fa-tree"></i>
               </div>
-              <h3 style="color: var(--light); margin-bottom: 15px;">STREET SURFER</h3>
-              <p style="color: var(--ice); margin-bottom: 20px;">
-                Уличные тренировки с использованием турников и брусьев. 
-                Для продвинутых спортсменов.
-              </p>
+              <h3 style="color: var(--light); margin-bottom: 15px;">${t('streetProgram')}</h3>
+              <p style="color: var(--ice); margin-bottom: 20px;">${t('streetDesc')}</p>
               <div style="color: var(--accent); font-weight: 600;">
-                <i class="fas fa-clock"></i> 90 дней • <i class="fas fa-dumbbell"></i> С оборудованием
+                <i class="fas fa-clock"></i> ${t('programDuration')} • <i class="fas fa-dumbbell"></i> ${t('exercises')}
               </div>
             </div>
             
@@ -880,13 +1233,10 @@
               <div class="program-icon">
                 <i class="fas fa-home"></i>
               </div>
-              <h3 style="color: var(--light); margin-bottom: 15px;">HOME SURFER</h3>
-              <p style="color: var(--ice); margin-bottom: 20px;">
-                Домашние тренировки без оборудования. 
-                Идеально для новичков и занятых людей.
-              </p>
+              <h3 style="color: var(--light); margin-bottom: 15px;">${t('homeProgram')}</h3>
+              <p style="color: var(--ice); margin-bottom: 20px;">${t('homeDesc')}</p>
               <div style="color: var(--accent); font-weight: 600;">
-                <i class="fas fa-clock"></i> 90 дней • <i class="fas fa-couch"></i> Без оборудования
+                <i class="fas fa-clock"></i> ${t('programDuration')} • <i class="fas fa-couch"></i> ${t('exercises')}
               </div>
             </div>
             
@@ -894,30 +1244,27 @@
               <div class="program-icon">
                 <i class="fas fa-sync-alt"></i>
               </div>
-              <h3 style="color: var(--light); margin-bottom: 15px;">HYBRID SURFER</h3>
-              <p style="color: var(--ice); margin-bottom: 20px;">
-                Гибридная программа сочетает уличные и домашние тренировки. 
-                Максимальная эффективность.
-              </p>
+              <h3 style="color: var(--light); margin-bottom: 15px;">${t('hybridProgram')}</h3>
+              <p style="color: var(--ice); margin-bottom: 20px;">${t('hybridDesc')}</p>
               <div style="color: var(--accent); font-weight: 600;">
-                <i class="fas fa-clock"></i> 90 дней • <i class="fas fa-balance-scale"></i> Смешанная
+                <i class="fas fa-clock"></i> ${t('programDuration')} • <i class="fas fa-balance-scale"></i> ${t('exercises')}
               </div>
             </div>
           </div>
           
           <div style="text-align: center; margin-top: 40px;">
             <button class="btn btn-secondary" onclick="showHome()">
-              <i class="fas fa-arrow-left"></i> Назад на главную
+              <i class="fas fa-arrow-left"></i> ${t('backToHome')}
             </button>
           </div>
         </div>
       `;
       toggleMenu();
     }
-    
+
     function selectProgram(program) {
       if (!currentUser) {
-        alert('Пожалуйста, войдите в систему чтобы выбрать программу');
+        alert(currentLanguage === 'ru' ? 'Пожалуйста, войдите в систему чтобы выбрать программу' : 'Please login to choose a program');
         showLogin();
         return;
       }
@@ -925,15 +1272,16 @@
       currentUser.program = program;
       currentUser.currentDay = 1;
       
-      // Обновляем в базе
       usersDB[currentUser.id] = currentUser;
       localStorage.setItem('silverSurferUsers', JSON.stringify(usersDB));
       
-      alert(`Программа "${program === 'street' ? 'Street Surfer' : 
-                              program === 'home' ? 'Home Surfer' : 'Hybrid Surfer'}" выбрана!`);
+      alert(currentLanguage === 'ru' ? 
+        `Программа "${program === 'street' ? t('streetProgram') : program === 'home' ? t('homeProgram') : t('hybridProgram')}" выбрана!` :
+        `Program "${program === 'street' ? t('streetProgram') : program === 'home' ? t('homeProgram') : t('hybridProgram')}" selected!`
+      );
       showDashboard();
     }
-    
+
     function showWorkout() {
       if (!currentUser) {
         showLogin();
@@ -942,27 +1290,30 @@
       
       document.getElementById('mainContent').innerHTML = `
         <div class="workout-screen">
-          <h2 style="color: var(--light); text-align: center; margin-bottom: 30px;">Тренировка</h2>
+          <h2 style="color: var(--light); text-align: center; margin-bottom: 30px;">${t('navWorkout')}</h2>
           
           <div class="timer-container">
-            <h3 style="color: var(--accent); margin-bottom: 10px;">Таймер тренировки</h3>
+            <h3 style="color: var(--accent); margin-bottom: 10px;">${t('workoutTimer')}</h3>
             <div class="timer-display" id="timerDisplay">00:00:00</div>
             <div class="timer-controls">
               <button class="timer-btn timer-btn-start" onclick="startTimer()">
-                <i class="fas fa-play"></i> Старт
+                <i class="fas fa-play"></i> ${t('start')}
               </button>
               <button class="timer-btn timer-btn-pause" onclick="pauseTimer()">
-                <i class="fas fa-pause"></i> Пауза
+                <i class="fas fa-pause"></i> ${t('pause')}
               </button>
               <button class="timer-btn timer-btn-reset" onclick="resetTimer()">
-                <i class="fas fa-redo"></i> Сброс
+                <i class="fas fa-redo"></i> ${t('reset')}
               </button>
             </div>
           </div>
           
           <div style="text-align: center; margin-top: 40px;">
-            <button class="btn btn-primary" onclick="showDashboard()">
-              <i class="fas fa-arrow-left"></i> Вернуться в кабинет
+            <button class="btn btn-primary" onclick="startWorkoutSession()">
+              <i class="fas fa-running"></i> ${t('startWorkout')}
+            </button>
+            <button class="btn btn-secondary" onclick="showDashboard()" style="margin-top: 15px;">
+              <i class="fas fa-arrow-left"></i> ${t('backToProfile')}
             </button>
           </div>
         </div>
@@ -970,57 +1321,62 @@
       updateTimerDisplay();
       toggleMenu();
     }
-    
+
     function startWorkoutSession() {
       if (!currentUser) {
         showLogin();
         return;
       }
       
-      const workout = workouts[currentUser.program][0];
+      const workout = workouts[currentUser.program][currentUser.currentDay - 1];
       document.getElementById('mainContent').innerHTML = `
         <div class="workout-screen">
           <h2 style="color: var(--light); text-align: center; margin-bottom: 10px;">${workout.name}</h2>
           <p style="color: var(--ice); text-align: center; margin-bottom: 30px;">
-            День ${currentUser.currentDay} • ${workout.duration} минут
+            ${t('day')} ${currentUser.currentDay} • ${workout.duration > 0 ? workout.duration + ' ' + t('minutes') : t('rest') + ' ' + t('day')}
           </p>
           
           <div class="timer-container">
-            <h3 style="color: var(--accent); margin-bottom: 10px;">Таймер тренировки</h3>
+            <h3 style="color: var(--accent); margin-bottom: 10px;">${t('workoutTimer')}</h3>
             <div class="timer-display" id="timerDisplay">00:00:00</div>
             <div class="timer-controls">
               <button class="timer-btn timer-btn-start" onclick="startTimer()">
-                <i class="fas fa-play"></i> Старт
+                <i class="fas fa-play"></i> ${t('start')}
               </button>
               <button class="timer-btn timer-btn-pause" onclick="pauseTimer()">
-                <i class="fas fa-pause"></i> Пауза
+                <i class="fas fa-pause"></i> ${t('pause')}
               </button>
               <button class="timer-btn timer-btn-reset" onclick="resetTimer()">
-                <i class="fas fa-redo"></i> Сброс
+                <i class="fas fa-redo"></i> ${t('reset')}
               </button>
             </div>
           </div>
           
           <div style="margin: 40px 0;">
-            <h3 style="color: var(--accent); margin-bottom: 20px;">Упражнения:</h3>
-            ${workout.exercises.map((ex, index) => `
+            <h3 style="color: var(--accent); margin-bottom: 20px;">${t('exercises')}:</h3>
+            ${workout.exercises.length > 0 ? workout.exercises.map((ex, index) => `
               <div style="background: rgba(30, 144, 255, 0.1); padding: 20px; border-radius: 15px; margin-bottom: 15px; border-left: 5px solid var(--accent);">
                 <h4 style="color: var(--light); margin-bottom: 10px;">${ex.name}</h4>
-                <div style="display: flex; gap: 20px; color: var(--ice);">
-                  <span><i class="fas fa-redo"></i> ${ex.sets} подхода</span>
-                  <span><i class="fas fa-fire"></i> ${ex.reps} повторений</span>
-                  <span><i class="fas fa-clock"></i> ${ex.rest} сек отдых</span>
+                <div style="display: flex; gap: 20px; color: var(--ice); flex-wrap: wrap;">
+                  <span><i class="fas fa-redo"></i> ${ex.sets} ${t('sets')}</span>
+                  <span><i class="fas fa-fire"></i> ${ex.reps} ${t('reps')}</span>
+                  <span><i class="fas fa-clock"></i> ${ex.rest} ${t('rest')}</span>
                 </div>
               </div>
-            `).join('')}
+            `).join('') : `
+              <div style="background: rgba(30, 144, 255, 0.1); padding: 30px; border-radius: 15px; text-align: center; border: 2px dashed var(--accent);">
+                <h4 style="color: var(--light); margin-bottom: 10px;">${t('rest')} ${t('day')}</h4>
+                <p style="color: var(--ice);">${currentLanguage === 'ru' ? 'День отдыха. Восстановление важно для прогресса!' : 'Rest day. Recovery is important for progress!'}</p>
+              </div>
+            `}
           </div>
           
           <div style="text-align: center; margin-top: 30px;">
             <button class="btn btn-primary" onclick="completeWorkout()" style="padding: 18px 45px; font-size: 1.2rem;">
-              <i class="fas fa-check-circle"></i> Завершить тренировку
+              <i class="fas fa-check-circle"></i> ${t('completeWorkout')}
             </button>
             <button class="btn btn-secondary" onclick="showDashboard()" style="margin-top: 15px;">
-              <i class="fas fa-arrow-left"></i> Вернуться
+              <i class="fas fa-arrow-left"></i> ${t('backToProfile')}
             </button>
           </div>
         </div>
@@ -1028,117 +1384,157 @@
       updateTimerDisplay();
       toggleMenu();
     }
-    
+
     function completeWorkout() {
       if (!currentUser) return;
       
-      // Обновляем статистику
-      const workout = workouts[currentUser.program][0];
-      currentUser.workoutsCompleted++;
-      currentUser.totalMinutes += Math.floor(timerSeconds / 60);
-      currentUser.streak++;
-      currentUser.currentDay++;
+      const workout = workouts[currentUser.program][currentUser.currentDay - 1];
       
-      // Проверяем уровень
-      if (currentUser.workoutsCompleted % 5 === 0) {
-        currentUser.level++;
-        alert(`Поздравляем! Вы достигли ${currentUser.level} уровня!`);
+      if (workout.duration > 0) {
+        // Обновляем статистику только если это не день отдыха
+        currentUser.workoutsCompleted++;
+        currentUser.totalMinutes += Math.floor(timerSeconds / 60);
+        currentUser.streak++;
+        currentUser.currentDay++;
+        
+        if (currentUser.currentDay > 90) {
+          currentUser.currentDay = 1;
+          currentUser.level++;
+          alert(currentLanguage === 'ru' ? 
+            'Поздравляем! Вы завершили 90-дневную программу! Уровень повышен!' : 
+            'Congratulations! You completed the 90-day program! Level increased!'
+          );
+        }
+        
+        // Проверяем уровень каждые 10 тренировок
+        if (currentUser.workoutsCompleted % 10 === 0) {
+          currentUser.level++;
+          alert(currentLanguage === 'ru' ? 
+            `Поздравляем! Вы достигли ${currentUser.level} уровня!` : 
+            `Congratulations! You reached level ${currentUser.level}!`
+          );
+        }
+        
+        // Сохраняем
+        usersDB[currentUser.id] = currentUser;
+        localStorage.setItem('silverSurferUsers', JSON.stringify(usersDB));
+      } else {
+        // День отдыха - просто переходим к следующему дню
+        currentUser.currentDay++;
+        if (currentUser.currentDay > 90) currentUser.currentDay = 1;
+        usersDB[currentUser.id] = currentUser;
+        localStorage.setItem('silverSurferUsers', JSON.stringify(usersDB));
       }
-      
-      // Сохраняем
-      usersDB[currentUser.id] = currentUser;
-      localStorage.setItem('silverSurferUsers', JSON.stringify(usersDB));
       
       // Сбрасываем таймер
       resetTimer();
       
       // Показываем сообщение
-      alert(`Отличная работа! Вы завершили тренировку за ${Math.floor(timerSeconds / 60)}:${(timerSeconds % 60).toString().padStart(2, '0')}`);
+      if (workout.duration > 0) {
+        const minutes = Math.floor(timerSeconds / 60);
+        const seconds = timerSeconds % 60;
+        alert(currentLanguage === 'ru' ? 
+          `Отличная работа! Вы завершили тренировку за ${minutes}:${seconds.toString().padStart(2, '0')}` :
+          `Great job! You completed the workout in ${minutes}:${seconds.toString().padStart(2, '0')}`
+        );
+      } else {
+        alert(currentLanguage === 'ru' ? 
+          'День отдыха завершен. Хорошего восстановления!' :
+          'Rest day completed. Have a good recovery!'
+        );
+      }
       
-      // Возвращаем в кабинет
       showDashboard();
     }
-    
+
     function showNutrition() {
       document.getElementById('mainContent').innerHTML = `
         <div class="workout-screen">
-          <h2 style="color: var(--light); text-align: center; margin-bottom: 10px;">Питание для роста мышц</h2>
-          <p style="color: var(--ice); text-align: center; margin-bottom: 30px;">Советы по питанию для лучших результатов</p>
+          <h2 style="color: var(--light); text-align: center; margin-bottom: 10px;">${t('nutritionTips')}</h2>
+          <p style="color: var(--ice); text-align: center; margin-bottom: 30px;">${t('nutritionSubtitle')}</p>
           
           <div class="nutrition-tips">
             <div class="tip-card">
-              <h3 style="color: var(--accent); margin-bottom: 10px;"><i class="fas fa-drumstick-bite"></i> Белок</h3>
-              <p style="color: var(--ice);">1.6-2.2г белка на кг веса тела в день. Курица, рыба, яйца, творог.</p>
+              <h3 style="color: var(--accent); margin-bottom: 10px;"><i class="fas fa-drumstick-bite"></i> ${t('protein')}</h3>
+              <p style="color: var(--ice);">${currentLanguage === 'ru' ? '1.6-2.2г белка на кг веса тела в день. Курица, рыба, яйца, творог.' : '1.6-2.2g protein per kg body weight daily. Chicken, fish, eggs, cottage cheese.'}</p>
             </div>
             
             <div class="tip-card">
-              <h3 style="color: var(--accent); margin-bottom: 10px;"><i class="fas fa-bread-slice"></i> Углеводы</h3>
-              <p style="color: var(--ice);">Сложные углеводы: рис, гречка, овсянка. За 2 часа до тренировки.</p>
+              <h3 style="color: var(--accent); margin-bottom: 10px;"><i class="fas fa-bread-slice"></i> ${t('carbs')}</h3>
+              <p style="color: var(--ice);">${currentLanguage === 'ru' ? 'Сложные углеводы: рис, гречка, овсянка. За 2 часа до тренировки.' : 'Complex carbs: rice, buckwheat, oatmeal. 2 hours before workout.'}</p>
             </div>
             
             <div class="tip-card">
-              <h3 style="color: var(--accent); margin-bottom: 10px;"><i class="fas fa-tint"></i> Вода</h3>
-              <p style="color: var(--ice);">3-4 литра воды в день. Пейте до, во время и после тренировки.</p>
+              <h3 style="color: var(--accent); margin-bottom: 10px;"><i class="fas fa-tint"></i> ${t('water')}</h3>
+              <p style="color: var(--ice);">${currentLanguage === 'ru' ? '3-4 литра воды в день. Пейте до, во время и после тренировки.' : '3-4 liters of water daily. Drink before, during, and after workout.'}</p>
             </div>
             
             <div class="tip-card">
-              <h3 style="color: var(--accent); margin-bottom: 10px;"><i class="fas fa-apple-alt"></i> Овощи</h3>
-              <p style="color: var(--ice);">500г овощей в день для витаминов и пищеварения.</p>
+              <h3 style="color: var(--accent); margin-bottom: 10px;"><i class="fas fa-apple-alt"></i> ${t('vegetables')}</h3>
+              <p style="color: var(--ice);">${currentLanguage === 'ru' ? '500г овощей в день для витаминов и пищеварения.' : '500g vegetables daily for vitamins and digestion.'}</p>
             </div>
           </div>
           
           <div style="text-align: center; margin-top: 40px;">
             <button class="btn btn-secondary" onclick="showHome()">
-              <i class="fas fa-arrow-left"></i> Назад на главную
+              <i class="fas fa-arrow-left"></i> ${t('backToHome')}
             </button>
           </div>
         </div>
       `;
       toggleMenu();
     }
-    
+
     function showSettings() {
       document.getElementById('mainContent').innerHTML = `
         <div class="workout-screen">
-          <h2 style="color: var(--light); text-align: center; margin-bottom: 30px;">Настройки</h2>
+          <h2 style="color: var(--light); text-align: center; margin-bottom: 30px;">${t('settings')}</h2>
           
           <div class="settings-options">
             <div class="setting-group">
-              <h3 style="color: var(--accent); margin-bottom: 15px;"><i class="fas fa-language"></i> Язык</h3>
+              <h3 style="color: var(--accent); margin-bottom: 15px;"><i class="fas fa-language"></i> ${t('language')}</h3>
               <div class="language-selector">
-                <button class="lang-btn active">Русский</button>
-                <button class="lang-btn">English</button>
+                <button class="lang-btn ${currentLanguage === 'ru' ? 'active' : ''}" onclick="updateLanguage('ru')">
+                  ${t('russian')}
+                </button>
+                <button class="lang-btn ${currentLanguage === 'en' ? 'active' : ''}" onclick="updateLanguage('en')">
+                  ${t('english')}
+                </button>
               </div>
             </div>
             
             <div class="setting-group">
-              <h3 style="color: var(--accent); margin-bottom: 15px;"><i class="fas fa-palette"></i> Тема</h3>
+              <h3 style="color: var(--accent); margin-bottom: 15px;"><i class="fas fa-palette"></i> ${t('theme')}</h3>
               <div class="language-selector">
-                <button class="lang-btn active">Темная</button>
-                <button class="lang-btn">Светлая</button>
+                <button class="theme-btn ${currentTheme === 'dark' ? 'active' : ''}" onclick="updateTheme('dark')">
+                  ${t('darkTheme')}
+                </button>
+                <button class="theme-btn ${currentTheme === 'light' ? 'active' : ''}" onclick="updateTheme('light')">
+                  ${t('lightTheme')}
+                </button>
               </div>
             </div>
             
             <div class="setting-group">
-              <h3 style="color: var(--accent); margin-bottom: 15px;"><i class="fas fa-bell"></i> Уведомления</h3>
+              <h3 style="color: var(--accent); margin-bottom: 15px;"><i class="fas fa-bell"></i> ${t('notifications')}</h3>
               <div style="color: var(--ice);">
                 <label style="display: flex; align-items: center; gap: 10px; margin: 10px 0;">
-                  <input type="checkbox" checked> Напоминания о тренировках
+                  <input type="checkbox" id="workoutReminders" checked> ${t('workoutReminders')}
                 </label>
                 <label style="display: flex; align-items: center; gap: 10px; margin: 10px 0;">
-                  <input type="checkbox" checked> Достижения
+                  <input type="checkbox" id="achievements" checked> ${t('achievements')}
                 </label>
               </div>
             </div>
             
             ${currentUser ? `
             <div class="setting-group">
-              <h3 style="color: var(--accent); margin-bottom: 15px;"><i class="fas fa-user"></i> Аккаунт</h3>
+              <h3 style="color: var(--accent); margin-bottom: 15px;"><i class="fas fa-user"></i> ${t('account')}</h3>
               <button class="btn btn-primary" onclick="logout()" style="width: 100%; margin: 5px 0;">
-                <i class="fas fa-sign-out-alt"></i> Выйти
+                <i class="fas fa-sign-out-alt"></i> ${t('logout')}
               </button>
               <button class="btn btn-secondary" onclick="showDashboard()" style="width: 100%; margin: 5px 0;">
-                <i class="fas fa-user-circle"></i> Мой кабинет
+                <i class="fas fa-user-circle"></i> ${t('myProfile')}
               </button>
             </div>
             ` : ''}
@@ -1146,25 +1542,35 @@
           
           <div style="text-align: center; margin-top: 40px;">
             <button class="btn btn-secondary" onclick="showHome()">
-              <i class="fas fa-arrow-left"></i> Назад на главную
+              <i class="fas fa-arrow-left"></i> ${t('backToHome')}
             </button>
           </div>
         </div>
       `;
       toggleMenu();
     }
-    
-    // Инициализация
+
+    // ================ ИНИЦИАЛИЗАЦИЯ ================
     window.onload = function() {
+      // Применяем сохраненные настройки
+      updateTheme(currentTheme);
+      updateNavigation();
       showHome();
       
       // Проверяем сохраненного пользователя
       const savedUser = localStorage.getItem('currentUser');
       if (savedUser) {
         try {
-          currentUser = JSON.parse(savedUser);
+          const userData = JSON.parse(savedUser);
+          // Ищем пользователя в базе
+          for (const userId in usersDB) {
+            if (usersDB[userId].username === userData.username) {
+              currentUser = usersDB[userId];
+              break;
+            }
+          }
         } catch (e) {
-          console.error('Ошибка загрузки пользователя:', e);
+          console.error('Error loading user:', e);
         }
       }
     };
