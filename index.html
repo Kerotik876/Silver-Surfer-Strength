@@ -758,24 +758,7 @@
   <!-- Мобильное меню -->
   <div class="mobile-menu-overlay" id="mobileOverlay" onclick="toggleMobileMenu()"></div>
   <div class="mobile-menu-container" id="mobileMenu">
-    <div class="nav-item" onclick="showHome(); toggleMobileMenu()">
-      <i class="fas fa-home"></i> <span id="mobileNavHome">Home</span>
-    </div>
-    <div class="nav-item" onclick="showPrograms(); toggleMobileMenu()">
-      <i class="fas fa-dumbbell"></i> <span id="mobileNavPrograms">Programs</span>
-    </div>
-    <div class="nav-item" onclick="showWorkout(); toggleMobileMenu()">
-      <i class="fas fa-running"></i> <span id="mobileNavWorkout">Workout</span>
-    </div>
-    <div class="nav-item" onclick="showNutrition(); toggleMobileMenu()">
-      <i class="fas fa-apple-alt"></i> <span id="mobileNavNutrition">Nutrition</span>
-    </div>
-    <div class="nav-item" onclick="showSettings(); toggleMobileMenu()">
-      <i class="fas fa-cog"></i> <span id="mobileNavSettings">Settings</span>
-    </div>
-    <div class="nav-item" id="mobileAuthNavItem" onclick="checkAuth(); toggleMobileMenu()">
-      <i class="fas fa-user"></i> <span id="mobileNavAuth">Login</span>
-    </div>
+    <!-- Мобильные элементы меню будут созданы динамически -->
   </div>
 
   <!-- Основной контент -->
@@ -1267,36 +1250,55 @@
         }
       });
       
-      // Обновляем навигацию в мобильном меню
-      const mobileNavItems = ['mobileNavHome', 'mobileNavPrograms', 'mobileNavWorkout', 'mobileNavNutrition', 'mobileNavSettings', 'mobileNavAuth'];
-      mobileNavItems.forEach(id => {
-        const element = document.getElementById(id);
-        if (element) {
-          element.textContent = t(id.replace('mobile', 'nav'));
-        }
-      });
+      // Обновляем мобильное меню
+      updateMobileMenu();
       
       // Обновляем кнопку входа/выхода
       const authNavItem = document.getElementById('authNavItem');
-      const mobileAuthNavItem = document.getElementById('mobileAuthNavItem');
       
       if (currentUser) {
         document.getElementById('navAuth').textContent = t('navLogout');
-        document.getElementById('mobileNavAuth').textContent = t('navLogout');
         authNavItem.onclick = showLogoutConfirm;
-        mobileAuthNavItem.onclick = () => {
-          showLogoutConfirm();
-          toggleMobileMenu();
-        };
       } else {
         document.getElementById('navAuth').textContent = t('navAuth');
-        document.getElementById('mobileNavAuth').textContent = t('navAuth');
         authNavItem.onclick = checkAuth;
-        mobileAuthNavItem.onclick = () => {
-          checkAuth();
-          toggleMobileMenu();
-        };
       }
+    }
+
+    // ВАЖНОЕ ИСПРАВЛЕНИЕ: Создаем мобильное меню динамически
+    function updateMobileMenu() {
+      const mobileMenu = document.getElementById('mobileMenu');
+      
+      // Очищаем мобильное меню
+      mobileMenu.innerHTML = '';
+      
+      // Создаем элементы мобильного меню
+      const menuItems = [
+        { id: 'mobileNavHome', icon: 'fa-home', text: t('navHome'), onClick: () => { showHome(); toggleMobileMenu(); } },
+        { id: 'mobileNavPrograms', icon: 'fa-dumbbell', text: t('navPrograms'), onClick: () => { showPrograms(); toggleMobileMenu(); } },
+        { id: 'mobileNavWorkout', icon: 'fa-running', text: t('navWorkout'), onClick: () => { showWorkout(); toggleMobileMenu(); } },
+        { id: 'mobileNavNutrition', icon: 'fa-apple-alt', text: t('navNutrition'), onClick: () => { showNutrition(); toggleMobileMenu(); } },
+        { id: 'mobileNavSettings', icon: 'fa-cog', text: t('navSettings'), onClick: () => { showSettings(); toggleMobileMenu(); } },
+        { id: 'mobileNavAuth', icon: 'fa-user', text: currentUser ? t('navLogout') : t('navAuth'), onClick: () => { 
+          if (currentUser) {
+            showLogoutConfirm();
+          } else {
+            checkAuth();
+          }
+          toggleMobileMenu();
+        } }
+      ];
+      
+      // Добавляем элементы в меню
+      menuItems.forEach(item => {
+        const navItem = document.createElement('div');
+        navItem.className = 'nav-item';
+        navItem.onclick = item.onClick;
+        navItem.innerHTML = `
+          <i class="fas ${item.icon}"></i> <span id="${item.id}">${item.text}</span>
+        `;
+        mobileMenu.appendChild(navItem);
+      });
     }
 
     function updateFooter() {
@@ -1312,18 +1314,8 @@
     }
 
     function updatePageContent() {
-      const currentPage = document.getElementById('mainContent').innerHTML;
-      if (currentPage.includes('home-screen')) showHome();
-      else if (currentPage.includes('Добро пожаловать') || currentPage.includes('Welcome')) showDashboard();
-      else if (currentPage.includes('Регистрация') || currentPage.includes('Registration')) showRegister();
-      else if (currentPage.includes('Вход') || currentPage.includes('Login')) showLogin();
-      else if (currentPage.includes('Программы') || currentPage.includes('Programs')) showPrograms();
-      else if (currentPage.includes('Тренировка') || currentPage.includes('Workout')) showWorkout();
-      else if (currentPage.includes('Питание') || currentPage.includes('Nutrition')) showNutrition();
-      else if (currentPage.includes('Настройки') || currentPage.includes('Settings')) showSettings();
-      else if (currentPage.includes('Отслеживание прогресса') || currentPage.includes('Progress tracking')) showProgressTracking();
-      else if (currentPage.includes('Достижения') || currentPage.includes('Achievements')) showAchievements();
-      else if (currentPage.includes('Статистика') || currentPage.includes('Statistics')) showStats();
+      // Просто показываем главную страницу при обновлении
+      showHome();
     }
 
     // ================ ГЕНЕРАЦИЯ ТРЕНИРОВОК С ПЕРЕВОДАМИ ================
@@ -2069,10 +2061,9 @@
     function logoutUser() {
       currentUser = null;
       localStorage.removeItem('currentUser');
-      // ВАЖНОЕ ИСПРАВЛЕНИЕ: Сначала очищаем currentUser, потом показываем главную
       updateNavigation();
       updateFooter();
-      showHome(true); // Передаем true - принудительно показываем главную
+      showHome();
     }
 
     // ================ ТАЙМЕР ================
@@ -2124,10 +2115,9 @@
       }
     }
 
-    // ВАЖНОЕ ИСПРАВЛЕНИЕ: Изменяем функцию showHome
-    function showHome(forceShow = false) {
-      // Если forceShow = true, показываем главную независимо от наличия пользователя
-      if (currentUser && !forceShow) {
+    function showHome() {
+      // Если есть пользователь, показываем его кабинет
+      if (currentUser) {
         showDashboard();
         return;
       }
@@ -2967,15 +2957,15 @@
       // Применяем сохраненные настройки
       updateTheme(currentTheme);
       
-      // Проверяем сохраненного пользователя
+      // ВАЖНОЕ ИСПРАВЛЕНИЕ: Исправляем загрузку пользователя
       const savedUser = localStorage.getItem('currentUser');
       if (savedUser) {
         try {
           const userData = JSON.parse(savedUser);
-          // Ищем пользователя в базе
+          // Проверяем пароль в базе данных
           for (const userId in usersDB) {
-            if (usersDB[userId].username === userData.username && 
-                usersDB[userId].password === userData.password) {
+            if (usersDB[userId].username === userData.username) {
+              // Если нашли пользователя с таким именем, используем его
               currentUser = usersDB[userId];
               // Восстанавливаем язык пользователя
               if (currentUser.language) {
@@ -2986,12 +2976,16 @@
           }
         } catch (e) {
           console.error('Error loading user:', e);
+          // Если ошибка, очищаем битые данные
+          localStorage.removeItem('currentUser');
         }
       }
       
+      // Обновляем навигацию и мобильное меню
       updateNavigation();
       updateFooter();
       
+      // Показываем нужную страницу
       if (currentUser) {
         showDashboard();
       } else {
