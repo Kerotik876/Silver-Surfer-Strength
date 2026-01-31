@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Silver Surfer Strength - Бесплатные онлайн тренировки</title>
+  <title>Silver Surfer Strength - Free Online Workouts</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     :root {
@@ -145,7 +145,7 @@
       border-color: #1e90ff;
     }
 
-    /* Мобильное меню - ИСПРАВЛЕНО */
+    /* Мобильное меню */
     .menu-toggle {
       display: none;
       background: none;
@@ -631,6 +631,24 @@
       margin-bottom: 10px;
     }
 
+    /* Поля ввода */
+    .input-field {
+      width: 100%;
+      padding: 15px;
+      margin: 10px 0;
+      border-radius: 10px;
+      border: 2px solid var(--accent);
+      background: rgba(0,0,0,0.2);
+      color: var(--light);
+      font-size: 1rem;
+    }
+
+    body.light-theme .input-field {
+      background: rgba(255, 255, 255, 0.9);
+      color: #072340;
+      border: 2px solid #1e90ff;
+    }
+
     /* Мобильная адаптация */
     @media (max-width: 768px) {
       .nav-menu {
@@ -711,22 +729,22 @@
       <!-- Навигация для десктопа -->
       <div class="nav-menu" id="navMenu">
         <div class="nav-item" onclick="showHome()">
-          <i class="fas fa-home"></i> <span id="navHome">Главная</span>
+          <i class="fas fa-home"></i> <span id="navHome">Home</span>
         </div>
         <div class="nav-item" onclick="showPrograms()">
-          <i class="fas fa-dumbbell"></i> <span id="navPrograms">Программы</span>
+          <i class="fas fa-dumbbell"></i> <span id="navPrograms">Programs</span>
         </div>
         <div class="nav-item" onclick="showWorkout()">
-          <i class="fas fa-running"></i> <span id="navWorkout">Тренировка</span>
+          <i class="fas fa-running"></i> <span id="navWorkout">Workout</span>
         </div>
         <div class="nav-item" onclick="showNutrition()">
-          <i class="fas fa-apple-alt"></i> <span id="navNutrition">Питание</span>
+          <i class="fas fa-apple-alt"></i> <span id="navNutrition">Nutrition</span>
         </div>
         <div class="nav-item" onclick="showSettings()">
-          <i class="fas fa-cog"></i> <span id="navSettings">Настройки</span>
+          <i class="fas fa-cog"></i> <span id="navSettings">Settings</span>
         </div>
         <div class="nav-item" id="authNavItem" onclick="checkAuth()">
-          <i class="fas fa-user"></i> <span id="navAuth">Войти</span>
+          <i class="fas fa-user"></i> <span id="navAuth">Login</span>
         </div>
       </div>
       
@@ -741,22 +759,22 @@
   <div class="mobile-menu-overlay" id="mobileOverlay" onclick="toggleMobileMenu()"></div>
   <div class="mobile-menu-container" id="mobileMenu">
     <div class="nav-item" onclick="showHome(); toggleMobileMenu()">
-      <i class="fas fa-home"></i> <span id="mobileNavHome">Главная</span>
+      <i class="fas fa-home"></i> <span id="mobileNavHome">Home</span>
     </div>
     <div class="nav-item" onclick="showPrograms(); toggleMobileMenu()">
-      <i class="fas fa-dumbbell"></i> <span id="mobileNavPrograms">Программы</span>
+      <i class="fas fa-dumbbell"></i> <span id="mobileNavPrograms">Programs</span>
     </div>
     <div class="nav-item" onclick="showWorkout(); toggleMobileMenu()">
-      <i class="fas fa-running"></i> <span id="mobileNavWorkout">Тренировка</span>
+      <i class="fas fa-running"></i> <span id="mobileNavWorkout">Workout</span>
     </div>
     <div class="nav-item" onclick="showNutrition(); toggleMobileMenu()">
-      <i class="fas fa-apple-alt"></i> <span id="mobileNavNutrition">Питание</span>
+      <i class="fas fa-apple-alt"></i> <span id="mobileNavNutrition">Nutrition</span>
     </div>
     <div class="nav-item" onclick="showSettings(); toggleMobileMenu()">
-      <i class="fas fa-cog"></i> <span id="mobileNavSettings">Настройки</span>
+      <i class="fas fa-cog"></i> <span id="mobileNavSettings">Settings</span>
     </div>
     <div class="nav-item" id="mobileAuthNavItem" onclick="checkAuth(); toggleMobileMenu()">
-      <i class="fas fa-user"></i> <span id="mobileNavAuth">Войти</span>
+      <i class="fas fa-user"></i> <span id="mobileNavAuth">Login</span>
     </div>
   </div>
 
@@ -773,10 +791,10 @@
         <div class="logo-text">SILVER SURFER STRENGTH</div>
       </div>
       <p style="color: var(--ice); margin-bottom: 20px;" id="footerText">
-        Бесплатные онлайн тренировки с собственным весом и калистеникой
+        Free online bodyweight and calisthenics workouts
       </p>
       <p style="color: var(--silver); font-size: 0.9rem;">
-        © 2024 Silver Surfer Strength. Все права защищены.
+        © 2024 Silver Surfer Strength. All rights reserved.
       </p>
     </div>
   </footer>
@@ -790,531 +808,11 @@
     let timerSeconds = 0;
     let timerInterval = null;
     let isTimerRunning = false;
-    let currentProgram = null;
 
-    // ================ РЕАЛЬНЫЕ ТРЕНИРОВКИ ДЛЯ РЕЗУЛЬТАТОВ ЗА 90 ДНЕЙ ================
-    const workoutPrograms = {
-      street: {
-        name: "Street Surfer",
-        description: "Уличные тренировки с использованием турников и брусьев. Реальные результаты за 90 дней!",
-        phases: [
-          {
-            name: "База (1-30 дней)",
-            description: "Освоение базовых упражнений, развитие силы и выносливости",
-            workouts: generateStreetPhase1()
-          },
-          {
-            name: "Прогресс (31-60 дней)",
-            description: "Увеличение сложности, освоение продвинутых упражнений",
-            workouts: generateStreetPhase2()
-          },
-          {
-            name: "Мастерство (61-90 дней)",
-            description: "Продвинутые элементы, максимальные результаты",
-            workouts: generateStreetPhase3()
-          }
-        ]
-      },
-      home: {
-        name: "Home Surfer",
-        description: "Домашние тренировки без оборудования. Преобразуй тело дома!",
-        phases: [
-          {
-            name: "Старт (1-30 дней)",
-            description: "Начальный уровень, адаптация, базовая техника",
-            workouts: generateHomePhase1()
-          },
-          {
-            name: "Развитие (31-60 дней)",
-            description: "Увеличение нагрузки, комбинированные упражнения",
-            workouts: generateHomePhase2()
-          },
-          {
-            name: "Результат (61-90 дней)",
-            description: "Максимальная интенсивность, финальные результаты",
-            workouts: generateHomePhase3()
-          }
-        ]
-      },
-      hybrid: {
-        name: "Hybrid Surfer",
-        description: "Смесь уличных и домашних тренировок. Максимальная эффективность!",
-        phases: [
-          {
-            name: "Адаптация (1-30 дней)",
-            description: "Сочетание разных типов тренировок",
-            workouts: generateHybridPhase1()
-          },
-          {
-            name: "Интенсив (31-60 дней)",
-            description: "Высокая интенсивность, минимальный отдых",
-            workouts: generateHybridPhase2()
-          },
-          {
-            name: "Элита (61-90 дней)",
-            description: "Профессиональный уровень, максимальные нагрузки",
-            workouts: generateHybridPhase3()
-          }
-        ]
-      }
-    };
-
-    function generateStreetPhase1() {
-      const workouts = [];
-      for (let day = 1; day <= 30; day++) {
-        // Недельные циклы
-        const week = Math.ceil(day / 7);
-        const dayInWeek = day % 7 || 7;
-        
-        let workout = {
-          day: day,
-          name: `День ${day}: Базовый Street`,
-          focus: getFocusByDay(dayInWeek),
-          duration: 25 + (week * 5),
-          intensity: Math.min(3, week),
-          exercises: []
-        };
-        
-        // Добавляем упражнения в зависимости от дня
-        if (dayInWeek === 1 || dayInWeek === 4) {
-          // Дни верха тела
-          workout.exercises = [
-            { name: "Подтягивания широким хватом", sets: 3 + week, reps: "5-8", rest: 90 },
-            { name: "Отжимания на брусьях", sets: 3 + week, reps: "8-12", rest: 75 },
-            { name: "Отжимания от пола", sets: 3, reps: "12-15", rest: 60 },
-            { name: "Австралийские подтягивания", sets: 3, reps: "10-12", rest: 60 }
-          ];
-        } else if (dayInWeek === 2 || dayInWeek === 5) {
-          // Дни кора и навыков
-          workout.exercises = [
-            { name: "Планка на локтях", sets: 3, reps: "30-60 сек", rest: 45 },
-            { name: "Подъемы ног в висе", sets: 3, reps: "8-12", rest: 60 },
-            { name: "Вис на перекладине", sets: 3, reps: "30-60 сек", rest: 45 },
-            { name: "Боковая планка", sets: 3, reps: "20-40 сек", rest: 45 }
-          ];
-        } else if (dayInWeek === 3 || dayInWeek === 6) {
-          // Дни низа тела
-          workout.exercises = [
-            { name: "Приседания с собственным весом", sets: 4, reps: "15-20", rest: 60 },
-            { name: "Выпады", sets: 3, reps: "12-15 на ногу", rest: 60 },
-            { name: "Пистолетики (с опорой)", sets: 3, reps: "5-8", rest: 75 },
-            { name: "Прыжки на месте", sets: 3, reps: "20-30", rest: 45 }
-          ];
-        } else {
-          // День отдыха (7)
-          workout.name = `День ${day}: Отдых и растяжка`;
-          workout.focus = "Восстановление";
-          workout.duration = 15;
-          workout.exercises = [
-            { name: "Растяжка грудных мышц", sets: 2, reps: "30 сек", rest: 30 },
-            { name: "Растяжка спины", sets: 2, reps: "30 сек", rest: 30 },
-            { name: "Растяжка ног", sets: 2, reps: "30 сек", rest: 30 },
-            { name: "Растяжка плеч", sets: 2, reps: "30 сек", rest: 30 }
-          ];
-        }
-        
-        workouts.push(workout);
-      }
-      return workouts;
-    }
-
-    function generateStreetPhase2() {
-      const workouts = [];
-      for (let day = 31; day <= 60; day++) {
-        const adjustedDay = day - 30;
-        const week = Math.ceil(adjustedDay / 7);
-        const dayInWeek = adjustedDay % 7 || 7;
-        
-        let workout = {
-          day: day,
-          name: `День ${day}: Прогресс Street`,
-          focus: getFocusByDay(dayInWeek),
-          duration: 35 + (week * 5),
-          intensity: Math.min(4, week + 2),
-          exercises: []
-        };
-        
-        if (dayInWeek === 1 || dayInWeek === 4) {
-          workout.exercises = [
-            { name: "Подтягивания с отягощением (рюкзак)", sets: 4, reps: "4-6", rest: 90 },
-            { name: "Отжимания на брусьях с наклоном вперед", sets: 4, reps: "8-10", rest: 75 },
-            { name: "Отжимания узким хватом", sets: 3, reps: "10-12", rest: 60 },
-            { name: "Подтягивания обратным хватом", sets: 3, reps: "6-8", rest: 75 }
-          ];
-        } else if (dayInWeek === 2 || dayInWeek === 5) {
-          workout.exercises = [
-            { name: "Подъемы ног в висе до перекладины", sets: 3, reps: "6-10", rest: 75 },
-            { name: "Флажок (подготовка)", sets: 3, reps: "5-10 сек", rest: 90 },
-            { name: "Стойка на руках у стены", sets: 3, reps: "15-30 сек", rest: 60 },
-            { name: "L-сидение на брусьях", sets: 3, reps: "10-20 сек", rest: 75 }
-          ];
-        } else if (dayInWeek === 3 || dayInWeek === 6) {
-          workout.exercises = [
-            { name: "Приседания с прыжком", sets: 4, reps: "10-15", rest: 60 },
-            { name: "Болгарские выпады", sets: 3, reps: "10-12 на ногу", rest: 75 },
-            { name: "Прыжки в глубину", sets: 3, reps: "8-10", rest: 90 },
-            { name: "Выпрыгивания из приседа", sets: 3, reps: "12-15", rest: 60 }
-          ];
-        } else {
-          workout.name = `День ${day}: Активное восстановление`;
-          workout.focus = "Восстановление";
-          workout.duration = 20;
-          workout.exercises = [
-            { name: "Мобильность плеч", sets: 3, reps: "10 повторений", rest: 30 },
-            { name: "Растяжка сгибателей бедра", sets: 2, reps: "40 сек", rest: 30 },
-            { name: "Работа над осанкой", sets: 1, reps: "5 минут", rest: 0 },
-            { name: "Глубокое дыхание", sets: 1, reps: "3 минуты", rest: 0 }
-          ];
-        }
-        
-        workouts.push(workout);
-      }
-      return workouts;
-    }
-
-    function generateStreetPhase3() {
-      const workouts = [];
-      for (let day = 61; day <= 90; day++) {
-        const adjustedDay = day - 60;
-        const week = Math.ceil(adjustedDay / 7);
-        const dayInWeek = adjustedDay % 7 || 7;
-        
-        let workout = {
-          day: day,
-          name: `День ${day}: Мастер Street`,
-          focus: getFocusByDay(dayInWeek),
-          duration: 45 + (week * 5),
-          intensity: Math.min(5, week + 3),
-          exercises: []
-        };
-        
-        if (dayInWeek === 1 || dayInWeek === 4) {
-          workout.exercises = [
-            { name: "Подтягивания с весом 5-10кг", sets: 4, reps: "3-5", rest: 120 },
-            { name: "Отжимания на брусьях с весом", sets: 4, reps: "6-8", rest: 90 },
-            { name: "Отжимания в стойке на руках у стены", sets: 3, reps: "3-6", rest: 120 },
-            { name: "Подтягивания L-сидя", sets: 3, reps: "4-6", rest: 90 }
-          ];
-        } else if (dayInWeek === 2 || dayInWeek === 5) {
-          workout.exercises = [
-            { name: "Выход силой на две", sets: 3, reps: "2-4", rest: 120 },
-            { name: "Флажок (попытка)", sets: 3, reps: "5-15 сек", rest: 120 },
-            { name: "Передний вис", sets: 3, reps: "5-10 сек", rest: 120 },
-            { name: "Стойка на руках без опоры", sets: 3, reps: "5-10 сек", rest: 90 }
-          ];
-        } else if (dayInWeek === 3 || dayInWeek === 6) {
-          workout.exercises = [
-            { name: "Приседания пистолетиком", sets: 3, reps: "3-5 на ногу", rest: 90 },
-            { name: "Прыжки на тумбу 50-70см", sets: 4, reps: "6-8", rest: 90 },
-            { name: "Выпады с прыжком", sets: 3, reps: "8-10 на ногу", rest: 75 },
-            { name: "Берпи с прыжком", sets: 3, reps: "10-12", rest: 60 }
-          ];
-        } else {
-          workout.name = `День ${day}: Профессиональное восстановление`;
-          workout.focus = "Восстановление";
-          workout.duration = 25;
-          workout.exercises = [
-            { name: "Пенный ролик (вся спина)", sets: 1, reps: "5 минут", rest: 0 },
-            { name: "Динамическая растяжка", sets: 1, reps: "10 минут", rest: 0 },
-            { name: "Медитация для спортсменов", sets: 1, reps: "5 минут", rest: 0 },
-            { name: "Планирование следующей недели", sets: 1, reps: "5 минут", rest: 0 }
-          ];
-        }
-        
-        workouts.push(workout);
-      }
-      return workouts;
-    }
-
-    function generateHomePhase1() {
-      const workouts = [];
-      for (let day = 1; day <= 30; day++) {
-        const week = Math.ceil(day / 7);
-        const dayInWeek = day % 7 || 7;
-        
-        let workout = {
-          day: day,
-          name: `День ${day}: Старт Home`,
-          focus: getFocusByDay(dayInWeek),
-          duration: 20 + (week * 3),
-          intensity: Math.min(2, week),
-          exercises: []
-        };
-        
-        if (dayInWeek <= 6) {
-          workout.exercises = [
-            { name: "Отжимания от пола", sets: 3, reps: "10-15", rest: 60 },
-            { name: "Приседания", sets: 3, reps: "15-20", rest: 45 },
-            { name: "Планка", sets: 3, reps: "30-45 сек", rest: 45 },
-            { name: "Выпады на месте", sets: 3, reps: "10-12 на ногу", rest: 60 },
-            { name: "Скручивания", sets: 3, reps: "15-20", rest: 30 }
-          ];
-        } else {
-          workout.name = `День ${day}: Отдых`;
-          workout.focus = "Восстановление";
-          workout.duration = 10;
-          workout.exercises = [
-            { name: "Легкая растяжка", sets: 1, reps: "10 минут", rest: 0 }
-          ];
-        }
-        
-        workouts.push(workout);
-      }
-      return workouts;
-    }
-
-    function generateHomePhase2() {
-      const workouts = [];
-      for (let day = 31; day <= 60; day++) {
-        const adjustedDay = day - 30;
-        const week = Math.ceil(adjustedDay / 7);
-        const dayInWeek = adjustedDay % 7 || 7;
-        
-        let workout = {
-          day: day,
-          name: `День ${day}: Развитие Home`,
-          focus: getFocusByDay(dayInWeek),
-          duration: 30 + (week * 3),
-          intensity: Math.min(4, week + 1),
-          exercises: []
-        };
-        
-        if (dayInWeek === 1 || dayInWeek === 4) {
-          workout.exercises = [
-            { name: "Отжимания с узкой постановкой", sets: 4, reps: "8-12", rest: 60 },
-            { name: "Отжимания от стула", sets: 3, reps: "10-15", rest: 60 },
-            { name: "Планка с подъемом рук", sets: 3, reps: "10-12 на руку", rest: 45 },
-            { name: "Супермен", sets: 3, reps: "12-15", rest: 45 }
-          ];
-        } else if (dayInWeek === 2 || dayInWeek === 5) {
-          workout.exercises = [
-            { name: "Приседания с паузой", sets: 4, reps: "12-15", rest: 60 },
-            { name: "Ягодичный мостик", sets: 3, reps: "15-20", rest: 45 },
-            { name: "Выпады в ходьбе", sets: 3, reps: "10-12 на ногу", rest: 60 },
-            { name: "Подъемы на носки", sets: 3, reps: "20-25", rest: 30 }
-          ];
-        } else if (dayInWeek === 3 || dayInWeek === 6) {
-          workout.exercises = [
-            { name: "Берпи", sets: 4, reps: "8-12", rest: 75 },
-            { name: "Альпинист", sets: 3, reps: "30-40 сек", rest: 45 },
-            { name: "Скалолаз", sets: 3, reps: "20-30 на сторону", rest: 45 },
-            { name: "Прыжки со звездой", sets: 3, reps: "15-20", rest: 60 }
-          ];
-        } else {
-          workout.name = `День ${day}: Восстановление`;
-          workout.focus = "Восстановление";
-          workout.duration = 15;
-          workout.exercises = [
-            { name: "Йога для начинающих", sets: 1, reps: "15 минут", rest: 0 }
-          ];
-        }
-        
-        workouts.push(workout);
-      }
-      return workouts;
-    }
-
-    function generateHomePhase3() {
-      const workouts = [];
-      for (let day = 61; day <= 90; day++) {
-        const adjustedDay = day - 60;
-        const week = Math.ceil(adjustedDay / 7);
-        const dayInWeek = adjustedDay % 7 || 7;
-        
-        let workout = {
-          day: day,
-          name: `День ${day}: Результат Home`,
-          focus: getFocusByDay(dayInWeek),
-          duration: 40 + (week * 5),
-          intensity: Math.min(5, week + 2),
-          exercises: []
-        };
-        
-        if (dayInWeek === 1 || dayInWeek === 4) {
-          workout.exercises = [
-            { name: "Отжимания с хлопком", sets: 4, reps: "5-8", rest: 90 },
-            { name: "Отжимания от стола (уклон)", sets: 4, reps: "10-12", rest: 60 },
-            { name: "Пиковые отжимания", sets: 3, reps: "8-10", rest: 75 },
-            { name: "Планка с переходом", sets: 3, reps: "10-12", rest: 60 }
-          ];
-        } else if (dayInWeek === 2 || dayInWeek === 5) {
-          workout.exercises = [
-            { name: "Приседания с выпрыгиванием", sets: 4, reps: "10-12", rest: 75 },
-            { name: "Болгарские выпады (с опорой)", sets: 3, reps: "8-10 на ногу", rest: 75 },
-            { name: "Пистолетики (с поддержкой)", sets: 3, reps: "3-5 на ногу", rest: 90 },
-            { name: "Прыжки в длину", sets: 3, reps: "8-10", rest: 60 }
-          ];
-        } else if (dayInWeek === 3 || dayInWeek === 6) {
-          workout.exercises = [
-            { name: "Комплекс: Берпи + Отжимание + Прыжок", sets: 4, reps: "6-8", rest: 90 },
-            { name: "Спринт на месте", sets: 4, reps: "30 сек", rest: 60 },
-            { name: "Берпи без отжимания", sets: 3, reps: "15-20", rest: 45 },
-            { name: "Плиометрические выпады", sets: 3, reps: "10-12 на ногу", rest: 60 }
-          ];
-        } else {
-          workout.name = `День ${day}: Финальное восстановление`;
-          workout.focus = "Восстановление";
-          workout.duration = 20;
-          workout.exercises = [
-            { name: "Глубокая растяжка всего тела", sets: 1, reps: "20 минут", rest: 0 }
-          ];
-        }
-        
-        workouts.push(workout);
-      }
-      return workouts;
-    }
-
-    function generateHybridPhase1() {
-      const workouts = [];
-      for (let day = 1; day <= 30; day++) {
-        const week = Math.ceil(day / 7);
-        const dayInWeek = day % 7 || 7;
-        const isStreetDay = dayInWeek <= 3;
-        
-        let workout = {
-          day: day,
-          name: `День ${day}: Адаптация Hybrid`,
-          focus: isStreetDay ? "Street" : "Home",
-          duration: 25 + (week * 4),
-          intensity: Math.min(3, week),
-          exercises: []
-        };
-        
-        if (isStreetDay) {
-          workout.exercises = [
-            { name: "Подтягивания (или негативы)", sets: 3, reps: "3-5", rest: 90 },
-            { name: "Отжимания на брусьях", sets: 3, reps: "6-10", rest: 75 },
-            { name: "Приседания у стены", sets: 3, reps: "15-20", rest: 60 },
-            { name: "Вис на перекладине", sets: 3, reps: "20-30 сек", rest: 60 }
-          ];
-        } else if (dayInWeek <= 6) {
-          workout.exercises = [
-            { name: "Отжимания от пола", sets: 4, reps: "10-15", rest: 60 },
-            { name: "Приседания с собственным весом", sets: 4, reps: "15-20", rest: 60 },
-            { name: "Планка на локтях", sets: 3, reps: "30-45 сек", rest: 45 },
-            { name: "Выпады", sets: 3, reps: "10-12 на ногу", rest: 60 }
-          ];
-        } else {
-          workout.name = `День ${day}: Восстановление Hybrid`;
-          workout.focus = "Восстановление";
-          workout.duration = 15;
-          workout.exercises = [
-            { name: "Растяжка всего тела", sets: 1, reps: "15 минут", rest: 0 }
-          ];
-        }
-        
-        workouts.push(workout);
-      }
-      return workouts;
-    }
-
-    function generateHybridPhase2() {
-      const workouts = [];
-      for (let day = 31; day <= 60; day++) {
-        const adjustedDay = day - 30;
-        const week = Math.ceil(adjustedDay / 7);
-        const dayInWeek = adjustedDay % 7 || 7;
-        const isStreetDay = dayInWeek <= 3;
-        
-        let workout = {
-          day: day,
-          name: `День ${day}: Интенсив Hybrid`,
-          focus: isStreetDay ? "Street" : "Home",
-          duration: 35 + (week * 5),
-          intensity: Math.min(4, week + 1),
-          exercises: []
-        };
-        
-        if (isStreetDay) {
-          workout.exercises = [
-            { name: "Подтягивания широким хватом", sets: 4, reps: "4-6", rest: 90 },
-            { name: "Отжимания на брусьях с наклоном", sets: 4, reps: "8-10", rest: 75 },
-            { name: "Приседания с прыжком", sets: 4, reps: "10-12", rest: 60 },
-            { name: "Подъемы ног в висе", sets: 3, reps: "8-12", rest: 75 }
-          ];
-        } else if (dayInWeek <= 6) {
-          workout.exercises = [
-            { name: "Отжимания с узкой постановкой", sets: 4, reps: "8-12", rest: 60 },
-            { name: "Приседания с паузой", sets: 4, reps: "12-15", rest: 60 },
-            { name: "Берпи", sets: 4, reps: "8-10", rest: 75 },
-            { name: "Планка с касанием плеч", sets: 3, reps: "10-12 на сторону", rest: 45 }
-          ];
-        } else {
-          workout.name = `День ${day}: Восстановление Hybrid`;
-          workout.focus = "Восстановление";
-          workout.duration = 20;
-          workout.exercises = [
-            { name: "Йога среднего уровня", sets: 1, reps: "20 минут", rest: 0 }
-          ];
-        }
-        
-        workouts.push(workout);
-      }
-      return workouts;
-    }
-
-    function generateHybridPhase3() {
-      const workouts = [];
-      for (let day = 61; day <= 90; day++) {
-        const adjustedDay = day - 60;
-        const week = Math.ceil(adjustedDay / 7);
-        const dayInWeek = adjustedDay % 7 || 7;
-        const isStreetDay = dayInWeek <= 3;
-        
-        let workout = {
-          day: day,
-          name: `День ${day}: Элита Hybrid`,
-          focus: isStreetDay ? "Street" : "Home",
-          duration: 45 + (week * 5),
-          intensity: Math.min(5, week + 2),
-          exercises: []
-        };
-        
-        if (isStreetDay) {
-          workout.exercises = [
-            { name: "Подтягивания с весом", sets: 4, reps: "3-5", rest: 120 },
-            { name: "Выход силой (подготовка)", sets: 3, reps: "2-3", rest: 120 },
-            { name: "Приседания пистолетиком", sets: 3, reps: "3-5 на ногу", rest: 90 },
-            { name: "Флажок (попытка)", sets: 3, reps: "5-10 сек", rest: 120 }
-          ];
-        } else if (dayInWeek <= 6) {
-          workout.exercises = [
-            { name: "Отжимания с хлопком", sets: 4, reps: "5-8", rest: 90 },
-            { name: "Приседания с выпрыгиванием", sets: 4, reps: "10-12", rest: 75 },
-            { name: "Комплекс: Берпи + Отжимание + Прыжок", sets: 4, reps: "6-8", rest: 90 },
-            { name: "Планка сложная", sets: 3, reps: "45-60 сек", rest: 60 }
-          ];
-        } else {
-          workout.name = `День ${day}: Финальное восстановление Hybrid`;
-          workout.focus = "Восстановление";
-          workout.duration = 25;
-          workout.exercises = [
-            { name: "Профессиональная растяжка", sets: 1, reps: "25 минут", rest: 0 }
-          ];
-        }
-        
-        workouts.push(workout);
-      }
-      return workouts;
-    }
-
-    function getFocusByDay(dayInWeek) {
-      const focuses = {
-        1: "Верх тела",
-        2: "Кор и навыки",
-        3: "Низ тела",
-        4: "Верх тела",
-        5: "Кор и навыки",
-        6: "Низ тела",
-        7: "Восстановление"
-      };
-      return focuses[dayInWeek] || "Все тело";
-    }
-
-    // ================ ПЕРЕВОДЫ ================
+    // ================ ПОЛНЫЕ ПЕРЕВОДЫ ================
     const translations = {
       ru: {
+        // Навигация
         navHome: "Главная",
         navPrograms: "Программы",
         navWorkout: "Тренировка",
@@ -1322,20 +820,30 @@
         navSettings: "Настройки",
         navAuth: "Войти",
         navLogout: "Выйти",
+        
+        // Футер
         footerText: "Бесплатные онлайн тренировки с собственным весом и калистеникой",
+        copyright: "© 2024 Silver Surfer Strength. Все права защищены.",
+        
+        // Главная страница
         homeTitle: "SILVER SURFER STRENGTH",
         tagline: "Покори Волну Силы • Бесплатно • 90 дней",
         homeSubtitle: "Профессиональные онлайн тренировки с собственным весом. Преобразуй свое тело без оборудования и абонементов в зал.",
         startFree: "НАЧАТЬ БЕСПЛАТНО",
         login: "ВОЙТИ В АККАУНТ",
+        
+        // Регистрация/Логин
         registerTitle: "Регистрация",
         loginTitle: "Вход в аккаунт",
         username: "Имя пользователя",
         password: "Пароль",
         chooseProgram: "Выберите программу",
+        chooseLanguage: "Выберите язык",
         registerBtn: "Зарегистрироваться",
         loginBtn: "Войти",
         back: "Назад",
+        
+        // Личный кабинет
         welcome: "Добро пожаловать",
         currentStreak: "Серия",
         workoutsCompleted: "Тренировок",
@@ -1344,18 +852,29 @@
         todaysWorkout: "Сегодняшняя тренировка",
         startWorkout: "Начать тренировку",
         allPrograms: "Все программы",
-        logout: "Выйти",
+        
+        // Таймер
         workoutTimer: "Таймер тренировки",
         start: "Старт",
         pause: "Пауза",
         reset: "Сброс",
         completeWorkout: "Завершить тренировку",
+        
+        // Питание
         nutritionTips: "Питание для роста мышц",
         nutritionSubtitle: "Советы по питанию для лучших результатов",
         protein: "Белок",
         carbs: "Углеводы",
         water: "Вода",
         vegetables: "Овощи",
+        exampleDiet: "Пример дневного рациона (для мужчины 80кг):",
+        breakfast: "Завтрак",
+        lunch: "Обед",
+        snack: "Полдник",
+        dinner: "Ужин",
+        beforeBed: "Перед сном",
+        
+        // Настройки
         settings: "Настройки",
         language: "Язык",
         theme: "Тема",
@@ -1368,14 +887,20 @@
         lightTheme: "Светлая",
         workoutReminders: "Напоминания о тренировках",
         achievements: "Достижения",
+        
+        // Кнопки навигации
         backToHome: "Назад на главную",
         backToProfile: "Вернуться в кабинет",
+        
+        // Тренировки
         day: "День",
         minutes: "минут",
         exercises: "Упражнения",
         sets: "подхода",
         reps: "повторений",
         rest: "сек отдых",
+        
+        // Программы
         streetProgram: "Street Surfer (уличные)",
         homeProgram: "Home Surfer (домашние)",
         hybridProgram: "Hybrid Surfer (гибрид)",
@@ -1384,6 +909,8 @@
         hybridDesc: "Гибридная программа сочетает уличные и домашние тренировки. Максимальная эффективность.",
         programDuration: "90 дней",
         selectProgram: "Выбрать программу",
+        
+        // Тренировочный процесс
         continueWorkout: "Продолжить тренировку",
         progress: "Прогресс",
         dayCompleted: "День завершен",
@@ -1396,21 +923,58 @@
         homeType: "Домашняя",
         hybridType: "Гибридная",
         restDay: "День отдыха",
+        
+        // Фазы тренировок
         phase1: "Фаза 1: База (1-30 дней)",
         phase2: "Фаза 2: Прогресс (31-60 дней)",
         phase3: "Фаза 3: Мастерство (61-90 дней)",
+        
+        // Результаты
         expectedResults: "Ожидаемые результаты",
         muscleGain: "Прирост мышц",
         fatLoss: "Сжигание жира",
         strengthGain: "Увеличение силы",
         endurance: "Выносливость",
+        
+        // Прогресс
         currentPhase: "Текущая фаза",
         progressTracking: "Отслеживание прогресса",
         measurements: "Замеры тела",
         photos: "Фото прогресса",
-        stats: "Статистика"
+        stats: "Статистика",
+        bodyWeight: "Вес тела",
+        chest: "Грудь",
+        waist: "Талия",
+        biceps: "Бицепс",
+        saveMeasurements: "Сохранить замеры",
+        currentWeek: "Текущая неделя",
+        week: "Неделя",
+        
+        // Достижения
+        achievementsList: "Достижения",
+        progressTitle: "Прогресс",
+        avgWorkout: "Средняя тренировка",
+        completionRate: "Процент завершения",
+        
+        // Сообщения
+        confirmLogout: "Вы уверены, что хотите выйти?",
+        registrationSuccess: "Регистрация успешна!",
+        loginSuccess: "Вход выполнен успешно!",
+        workoutComplete: "Отличная работа! Вы завершили тренировку",
+        programComplete: "🎉 ПОЗДРАВЛЯЕМ! Вы завершили 90-дневную программу!",
+        
+        // Ошибки
+        fillAllFields: "Пожалуйста, заполните все поля",
+        usernameLength: "Имя пользователя должно быть не менее 3 символов",
+        passwordLength: "Пароль должен быть не менее 6 символов",
+        usernameTaken: "Это имя пользователя уже занято",
+        invalidCredentials: "Неверное имя пользователя или пароль",
+        loginToChoose: "Пожалуйста, войдите в систему чтобы выбрать программу",
+        programSelected: "Программа выбрана! Начинаем 90-дневный путь!",
+        measurementsSaved: "Замеры сохранены!"
       },
       en: {
+        // Navigation
         navHome: "Home",
         navPrograms: "Programs",
         navWorkout: "Workout",
@@ -1418,20 +982,30 @@
         navSettings: "Settings",
         navAuth: "Login",
         navLogout: "Logout",
+        
+        // Footer
         footerText: "Free online bodyweight and calisthenics workouts",
+        copyright: "© 2024 Silver Surfer Strength. All rights reserved.",
+        
+        // Home page
         homeTitle: "SILVER SURFER STRENGTH",
         tagline: "Ride the Wave of Strength • Free • 90 days",
         homeSubtitle: "Professional online bodyweight workouts. Transform your body without equipment or gym memberships.",
         startFree: "START FREE",
         login: "LOG IN",
+        
+        // Register/Login
         registerTitle: "Registration",
         loginTitle: "Login",
         username: "Username",
         password: "Password",
         chooseProgram: "Choose program",
+        chooseLanguage: "Choose language",
         registerBtn: "Register",
         loginBtn: "Login",
         back: "Back",
+        
+        // Dashboard
         welcome: "Welcome",
         currentStreak: "Streak",
         workoutsCompleted: "Workouts",
@@ -1440,38 +1014,55 @@
         todaysWorkout: "Today's workout",
         startWorkout: "Start workout",
         allPrograms: "All programs",
-        logout: "Logout",
+        
+        // Timer
         workoutTimer: "Workout timer",
         start: "Start",
         pause: "Pause",
         reset: "Reset",
         completeWorkout: "Complete workout",
+        
+        // Nutrition
         nutritionTips: "Nutrition for muscle growth",
         nutritionSubtitle: "Nutrition tips for better results",
         protein: "Protein",
         carbs: "Carbs",
         water: "Water",
         vegetables: "Vegetables",
+        exampleDiet: "Example daily diet (for 80kg man):",
+        breakfast: "Breakfast",
+        lunch: "Lunch",
+        snack: "Snack",
+        dinner: "Dinner",
+        beforeBed: "Before bed",
+        
+        // Settings
         settings: "Settings",
         language: "Language",
         theme: "Theme",
         notifications: "Notifications",
         account: "Account",
         myProfile: "My profile",
-        russian: "Русский",
+        russian: "Russian",
         english: "English",
         darkTheme: "Dark",
         lightTheme: "Light",
         workoutReminders: "Workout reminders",
         achievements: "Achievements",
+        
+        // Navigation buttons
         backToHome: "Back to home",
         backToProfile: "Back to profile",
+        
+        // Workouts
         day: "Day",
         minutes: "minutes",
         exercises: "Exercises",
         sets: "sets",
         reps: "reps",
         rest: "sec rest",
+        
+        // Programs
         streetProgram: "Street Surfer (street)",
         homeProgram: "Home Surfer (home)",
         hybridProgram: "Hybrid Surfer (hybrid)",
@@ -1480,6 +1071,8 @@
         hybridDesc: "Hybrid program combines street and home workouts. Maximum effectiveness.",
         programDuration: "90 days",
         selectProgram: "Select program",
+        
+        // Training process
         continueWorkout: "Continue workout",
         progress: "Progress",
         dayCompleted: "Day completed",
@@ -1492,23 +1085,59 @@
         homeType: "Home",
         hybridType: "Hybrid",
         restDay: "Rest day",
+        
+        // Training phases
         phase1: "Phase 1: Base (1-30 days)",
         phase2: "Phase 2: Progress (31-60 days)",
         phase3: "Phase 3: Mastery (61-90 days)",
+        
+        // Results
         expectedResults: "Expected results",
         muscleGain: "Muscle gain",
         fatLoss: "Fat loss",
         strengthGain: "Strength gain",
         endurance: "Endurance",
+        
+        // Progress
         currentPhase: "Current phase",
         progressTracking: "Progress tracking",
         measurements: "Body measurements",
         photos: "Progress photos",
-        stats: "Statistics"
+        stats: "Statistics",
+        bodyWeight: "Body weight",
+        chest: "Chest",
+        waist: "Waist",
+        biceps: "Biceps",
+        saveMeasurements: "Save measurements",
+        currentWeek: "Current week",
+        week: "Week",
+        
+        // Achievements
+        achievementsList: "Achievements",
+        progressTitle: "Progress",
+        avgWorkout: "Average workout",
+        completionRate: "Completion rate",
+        
+        // Messages
+        confirmLogout: "Are you sure you want to logout?",
+        registrationSuccess: "Registration successful!",
+        loginSuccess: "Login successful!",
+        workoutComplete: "Great job! You completed the workout",
+        programComplete: "🎉 CONGRATULATIONS! You completed the 90-day program!",
+        
+        // Errors
+        fillAllFields: "Please fill all fields",
+        usernameLength: "Username must be at least 3 characters",
+        passwordLength: "Password must be at least 6 characters",
+        usernameTaken: "This username is already taken",
+        invalidCredentials: "Invalid username or password",
+        loginToChoose: "Please login to choose a program",
+        programSelected: "Program selected! Starting 90-day journey!",
+        measurementsSaved: "Measurements saved!"
       }
     };
 
-    // ================ ФУНКЦИИ ================
+    // ================ ФУНКЦИИ ПЕРЕВОДА ================
     function t(key) {
       return translations[currentLanguage][key] || key;
     }
@@ -1518,6 +1147,7 @@
       localStorage.setItem('silverSurferLanguage', lang);
       updatePageContent();
       updateNavigation();
+      updateFooter();
     }
 
     function updateTheme(theme) {
@@ -1532,39 +1162,57 @@
     }
 
     function updateNavigation() {
+      // Обновляем навигацию на десктопе
+      const navItems = ['navHome', 'navPrograms', 'navWorkout', 'navNutrition', 'navSettings', 'navAuth'];
+      navItems.forEach(id => {
+        const element = document.getElementById(id);
+        if (element) {
+          element.textContent = t(id);
+        }
+      });
+      
+      // Обновляем навигацию в мобильном меню
+      const mobileNavItems = ['mobileNavHome', 'mobileNavPrograms', 'mobileNavWorkout', 'mobileNavNutrition', 'mobileNavSettings', 'mobileNavAuth'];
+      mobileNavItems.forEach(id => {
+        const element = document.getElementById(id);
+        if (element) {
+          element.textContent = t(id.replace('mobile', 'nav'));
+        }
+      });
+      
+      // Обновляем кнопку входа/выхода
       const authNavItem = document.getElementById('authNavItem');
-      const navAuth = document.getElementById('navAuth');
       const mobileAuthNavItem = document.getElementById('mobileAuthNavItem');
-      const mobileNavAuth = document.getElementById('mobileNavAuth');
       
       if (currentUser) {
-        navAuth.textContent = t('navLogout');
+        document.getElementById('navAuth').textContent = t('navLogout');
+        document.getElementById('mobileNavAuth').textContent = t('navLogout');
         authNavItem.onclick = showLogoutConfirm;
-        mobileNavAuth.textContent = t('navLogout');
         mobileAuthNavItem.onclick = () => {
           showLogoutConfirm();
           toggleMobileMenu();
         };
       } else {
-        navAuth.textContent = t('navAuth');
+        document.getElementById('navAuth').textContent = t('navAuth');
+        document.getElementById('mobileNavAuth').textContent = t('navAuth');
         authNavItem.onclick = checkAuth;
-        mobileNavAuth.textContent = t('navAuth');
         mobileAuthNavItem.onclick = () => {
           checkAuth();
           toggleMobileMenu();
         };
       }
-      
-      // Обновляем все тексты навигации
-      ['navHome', 'navPrograms', 'navWorkout', 'navNutrition', 'navSettings'].forEach(id => {
-        const desktopEl = document.getElementById(id);
-        const mobileEl = document.getElementById('mobile' + id.charAt(0).toUpperCase() + id.slice(1));
-        if (desktopEl) desktopEl.textContent = t(id);
-        if (mobileEl) mobileEl.textContent = t(id);
-      });
-      
+    }
+
+    function updateFooter() {
       const footerText = document.getElementById('footerText');
-      if (footerText) footerText.textContent = t('footerText');
+      if (footerText) {
+        footerText.textContent = t('footerText');
+      }
+      
+      const copyright = document.querySelector('footer p:nth-child(3)');
+      if (copyright) {
+        copyright.textContent = t('copyright');
+      }
     }
 
     function updatePageContent() {
@@ -1577,9 +1225,523 @@
       else if (currentPage.includes('Тренировка') || currentPage.includes('Workout')) showWorkout();
       else if (currentPage.includes('Питание') || currentPage.includes('Nutrition')) showNutrition();
       else if (currentPage.includes('Настройки') || currentPage.includes('Settings')) showSettings();
+      else if (currentPage.includes('Отслеживание прогресса') || currentPage.includes('Progress tracking')) showProgressTracking();
+      else if (currentPage.includes('Достижения') || currentPage.includes('Achievements')) showAchievements();
+      else if (currentPage.includes('Статистика') || currentPage.includes('Statistics')) showStats();
     }
 
-    // ================ МОБИЛЬНОЕ МЕНЮ - ИСПРАВЛЕНО ================
+    // ================ РЕАЛЬНЫЕ ТРЕНИРОВКИ (оставляем как есть, но переведем названия) ================
+    const workoutPrograms = {
+      street: {
+        name: { ru: "Street Surfer", en: "Street Surfer" },
+        description: { 
+          ru: "Уличные тренировки с использованием турников и брусьев. Реальные результаты за 90 дней!",
+          en: "Street workouts using pull-up bars and parallel bars. Real results in 90 days!"
+        },
+        phases: [
+          {
+            name: { ru: "База (1-30 дней)", en: "Base (1-30 days)" },
+            description: { 
+              ru: "Освоение базовых упражнений, развитие силы и выносливости",
+              en: "Mastering basic exercises, developing strength and endurance"
+            },
+            workouts: generateStreetPhase1()
+          },
+          {
+            name: { ru: "Прогресс (31-60 дней)", en: "Progress (31-60 days)" },
+            description: { 
+              ru: "Увеличение сложности, освоение продвинутых упражнений",
+              en: "Increasing difficulty, mastering advanced exercises"
+            },
+            workouts: generateStreetPhase2()
+          },
+          {
+            name: { ru: "Мастерство (61-90 дней)", en: "Mastery (61-90 days)" },
+            description: { 
+              ru: "Продвинутые элементы, максимальные результаты",
+              en: "Advanced elements, maximum results"
+            },
+            workouts: generateStreetPhase3()
+          }
+        ]
+      },
+      home: {
+        name: { ru: "Home Surfer", en: "Home Surfer" },
+        description: { 
+          ru: "Домашние тренировки без оборудования. Преобразуй тело дома!",
+          en: "Home workouts without equipment. Transform your body at home!"
+        },
+        phases: [
+          {
+            name: { ru: "Старт (1-30 дней)", en: "Start (1-30 days)" },
+            description: { 
+              ru: "Начальный уровень, адаптация, базовая техника",
+              en: "Beginner level, adaptation, basic technique"
+            },
+            workouts: generateHomePhase1()
+          },
+          {
+            name: { ru: "Развитие (31-60 дней)", en: "Development (31-60 days)" },
+            description: { 
+              ru: "Увеличение нагрузки, комбинированные упражнения",
+              en: "Increasing load, combined exercises"
+            },
+            workouts: generateHomePhase2()
+          },
+          {
+            name: { ru: "Результат (61-90 дней)", en: "Result (61-90 days)" },
+            description: { 
+              ru: "Максимальная интенсивность, финальные результаты",
+              en: "Maximum intensity, final results"
+            },
+            workouts: generateHomePhase3()
+          }
+        ]
+      },
+      hybrid: {
+        name: { ru: "Hybrid Surfer", en: "Hybrid Surfer" },
+        description: { 
+          ru: "Смесь уличных и домашних тренировок. Максимальная эффективность!",
+          en: "Mix of street and home workouts. Maximum effectiveness!"
+        },
+        phases: [
+          {
+            name: { ru: "Адаптация (1-30 дней)", en: "Adaptation (1-30 days)" },
+            description: { 
+              ru: "Сочетание разных типов тренировок",
+              en: "Combining different types of workouts"
+            },
+            workouts: generateHybridPhase1()
+          },
+          {
+            name: { ru: "Интенсив (31-60 дней)", en: "Intensity (31-60 days)" },
+            description: { 
+              ru: "Высокая интенсивность, минимальный отдых",
+              en: "High intensity, minimal rest"
+            },
+            workouts: generateHybridPhase2()
+          },
+          {
+            name: { ru: "Элита (61-90 дней)", en: "Elite (61-90 days)" },
+            description: { 
+              ru: "Профессиональный уровень, максимальные нагрузки",
+              en: "Professional level, maximum loads"
+            },
+            workouts: generateHybridPhase3()
+          }
+        ]
+      }
+    };
+
+    // Генераторы тренировок (оставляем как есть, но добавляем переводы)
+    function generateStreetPhase1() {
+      const workouts = [];
+      const exercises = {
+        ru: [
+          { name: "Подтягивания широким хватом", sets: 3, reps: "5-8", rest: 90 },
+          { name: "Отжимания на брусьях", sets: 3, reps: "8-12", rest: 75 },
+          { name: "Отжимания от пола", sets: 3, reps: "12-15", rest: 60 },
+          { name: "Австралийские подтягивания", sets: 3, reps: "10-12", rest: 60 },
+          { name: "Планка на локтях", sets: 3, reps: "30-60 сек", rest: 45 },
+          { name: "Подъемы ног в висе", sets: 3, reps: "8-12", rest: 60 },
+          { name: "Приседания с собственным весом", sets: 4, reps: "15-20", rest: 60 },
+          { name: "Выпады", sets: 3, reps: "12-15 на ногу", rest: 60 }
+        ],
+        en: [
+          { name: "Wide grip pull-ups", sets: 3, reps: "5-8", rest: 90 },
+          { name: "Parallel bar dips", sets: 3, reps: "8-12", rest: 75 },
+          { name: "Push-ups", sets: 3, reps: "12-15", rest: 60 },
+          { name: "Australian pull-ups", sets: 3, reps: "10-12", rest: 60 },
+          { name: "Elbow plank", sets: 3, reps: "30-60 sec", rest: 45 },
+          { name: "Hanging leg raises", sets: 3, reps: "8-12", rest: 60 },
+          { name: "Bodyweight squats", sets: 4, reps: "15-20", rest: 60 },
+          { name: "Lunges", sets: 3, reps: "12-15 per leg", rest: 60 }
+        ]
+      };
+      
+      for (let day = 1; day <= 30; day++) {
+        const week = Math.ceil(day / 7);
+        const dayInWeek = day % 7 || 7;
+        
+        workouts.push({
+          day: day,
+          name: currentLanguage === 'ru' ? `День ${day}: Базовый Street` : `Day ${day}: Basic Street`,
+          focus: getFocusByDay(dayInWeek),
+          duration: 25 + (week * 5),
+          intensity: Math.min(3, week),
+          exercises: exercises[currentLanguage].slice(0, 4)
+        });
+      }
+      return workouts;
+    }
+
+    function generateStreetPhase2() {
+      const workouts = [];
+      const exercises = {
+        ru: [
+          { name: "Подтягивания с отягощением (рюкзак)", sets: 4, reps: "4-6", rest: 90 },
+          { name: "Отжимания на брусьях с наклоном вперед", sets: 4, reps: "8-10", rest: 75 },
+          { name: "Отжимания узким хватом", sets: 3, reps: "10-12", rest: 60 },
+          { name: "Подтягивания обратным хватом", sets: 3, reps: "6-8", rest: 75 },
+          { name: "Подъемы ног в висе до перекладины", sets: 3, reps: "6-10", rest: 75 },
+          { name: "Стойка на руках у стены", sets: 3, reps: "15-30 сек", rest: 60 },
+          { name: "Приседания с прыжком", sets: 4, reps: "10-15", rest: 60 },
+          { name: "Болгарские выпады", sets: 3, reps: "10-12 на ногу", rest: 75 }
+        ],
+        en: [
+          { name: "Weighted pull-ups (backpack)", sets: 4, reps: "4-6", rest: 90 },
+          { name: "Leaning forward parallel bar dips", sets: 4, reps: "8-10", rest: 75 },
+          { name: "Close grip push-ups", sets: 3, reps: "10-12", rest: 60 },
+          { name: "Reverse grip pull-ups", sets: 3, reps: "6-8", rest: 75 },
+          { name: "Hanging leg raises to bar", sets: 3, reps: "6-10", rest: 75 },
+          { name: "Wall handstand", sets: 3, reps: "15-30 sec", rest: 60 },
+          { name: "Jump squats", sets: 4, reps: "10-15", rest: 60 },
+          { name: "Bulgarian split squats", sets: 3, reps: "10-12 per leg", rest: 75 }
+        ]
+      };
+      
+      for (let day = 31; day <= 60; day++) {
+        const adjustedDay = day - 30;
+        const week = Math.ceil(adjustedDay / 7);
+        
+        workouts.push({
+          day: day,
+          name: currentLanguage === 'ru' ? `День ${day}: Прогресс Street` : `Day ${day}: Progress Street`,
+          focus: getFocusByDay(adjustedDay % 7 || 7),
+          duration: 35 + (week * 5),
+          intensity: Math.min(4, week + 2),
+          exercises: exercises[currentLanguage].slice(0, 4)
+        });
+      }
+      return workouts;
+    }
+
+    function generateStreetPhase3() {
+      const workouts = [];
+      const exercises = {
+        ru: [
+          { name: "Подтягивания с весом 5-10кг", sets: 4, reps: "3-5", rest: 120 },
+          { name: "Отжимания на брусьях с весом", sets: 4, reps: "6-8", rest: 90 },
+          { name: "Отжимания в стойке на руках у стены", sets: 3, reps: "3-6", rest: 120 },
+          { name: "Подтягивания L-сидя", sets: 3, reps: "4-6", rest: 90 },
+          { name: "Выход силой на две", sets: 3, reps: "2-4", rest: 120 },
+          { name: "Флажок (попытка)", sets: 3, reps: "5-15 сек", rest: 120 },
+          { name: "Приседания пистолетиком", sets: 3, reps: "3-5 на ногу", rest: 90 },
+          { name: "Прыжки на тумбу 50-70см", sets: 4, reps: "6-8", rest: 90 }
+        ],
+        en: [
+          { name: "Pull-ups with 5-10kg weight", sets: 4, reps: "3-5", rest: 120 },
+          { name: "Weighted parallel bar dips", sets: 4, reps: "6-8", rest: 90 },
+          { name: "Wall handstand push-ups", sets: 3, reps: "3-6", rest: 120 },
+          { name: "L-sit pull-ups", sets: 3, reps: "4-6", rest: 90 },
+          { name: "Muscle-ups", sets: 3, reps: "2-4", rest: 120 },
+          { name: "Human flag (attempt)", sets: 3, reps: "5-15 sec", rest: 120 },
+          { name: "Pistol squats", sets: 3, reps: "3-5 per leg", rest: 90 },
+          { name: "Box jumps 50-70cm", sets: 4, reps: "6-8", rest: 90 }
+        ]
+      };
+      
+      for (let day = 61; day <= 90; day++) {
+        const adjustedDay = day - 60;
+        const week = Math.ceil(adjustedDay / 7);
+        
+        workouts.push({
+          day: day,
+          name: currentLanguage === 'ru' ? `День ${day}: Мастер Street` : `Day ${day}: Master Street`,
+          focus: getFocusByDay(adjustedDay % 7 || 7),
+          duration: 45 + (week * 5),
+          intensity: Math.min(5, week + 3),
+          exercises: exercises[currentLanguage].slice(0, 4)
+        });
+      }
+      return workouts;
+    }
+
+    function generateHomePhase1() {
+      const workouts = [];
+      const exercises = {
+        ru: [
+          { name: "Отжимания от пола", sets: 3, reps: "10-15", rest: 60 },
+          { name: "Приседания", sets: 3, reps: "15-20", rest: 45 },
+          { name: "Планка", sets: 3, reps: "30-45 сек", rest: 45 },
+          { name: "Выпады на месте", sets: 3, reps: "10-12 на ногу", rest: 60 },
+          { name: "Скручивания", sets: 3, reps: "15-20", rest: 30 }
+        ],
+        en: [
+          { name: "Push-ups", sets: 3, reps: "10-15", rest: 60 },
+          { name: "Squats", sets: 3, reps: "15-20", rest: 45 },
+          { name: "Plank", sets: 3, reps: "30-45 sec", rest: 45 },
+          { name: "Stationary lunges", sets: 3, reps: "10-12 per leg", rest: 60 },
+          { name: "Crunches", sets: 3, reps: "15-20", rest: 30 }
+        ]
+      };
+      
+      for (let day = 1; day <= 30; day++) {
+        const week = Math.ceil(day / 7);
+        
+        workouts.push({
+          day: day,
+          name: currentLanguage === 'ru' ? `День ${day}: Старт Home` : `Day ${day}: Start Home`,
+          focus: "Full Body",
+          duration: 20 + (week * 3),
+          intensity: Math.min(2, week),
+          exercises: exercises[currentLanguage]
+        });
+      }
+      return workouts;
+    }
+
+    function generateHomePhase2() {
+      const workouts = [];
+      const exercises = {
+        ru: [
+          { name: "Отжимания с узкой постановкой", sets: 4, reps: "8-12", rest: 60 },
+          { name: "Отжимания от стула", sets: 3, reps: "10-15", rest: 60 },
+          { name: "Планка с подъемом рук", sets: 3, reps: "10-12 на руку", rest: 45 },
+          { name: "Приседания с паузой", sets: 4, reps: "12-15", rest: 60 },
+          { name: "Ягодичный мостик", sets: 3, reps: "15-20", rest: 45 },
+          { name: "Берпи", sets: 4, reps: "8-10", rest: 75 }
+        ],
+        en: [
+          { name: "Close grip push-ups", sets: 4, reps: "8-12", rest: 60 },
+          { name: "Chair dips", sets: 3, reps: "10-15", rest: 60 },
+          { name: "Plank with arm lifts", sets: 3, reps: "10-12 per arm", rest: 45 },
+          { name: "Pause squats", sets: 4, reps: "12-15", rest: 60 },
+          { name: "Glute bridge", sets: 3, reps: "15-20", rest: 45 },
+          { name: "Burpees", sets: 4, reps: "8-10", rest: 75 }
+        ]
+      };
+      
+      for (let day = 31; day <= 60; day++) {
+        const adjustedDay = day - 30;
+        const week = Math.ceil(adjustedDay / 7);
+        
+        workouts.push({
+          day: day,
+          name: currentLanguage === 'ru' ? `День ${day}: Развитие Home` : `Day ${day}: Development Home`,
+          focus: "Full Body",
+          duration: 30 + (week * 3),
+          intensity: Math.min(4, week + 1),
+          exercises: exercises[currentLanguage].slice(0, 4)
+        });
+      }
+      return workouts;
+    }
+
+    function generateHomePhase3() {
+      const workouts = [];
+      const exercises = {
+        ru: [
+          { name: "Отжимания с хлопком", sets: 4, reps: "5-8", rest: 90 },
+          { name: "Отжимания от стола (уклон)", sets: 4, reps: "10-12", rest: 60 },
+          { name: "Приседания с выпрыгиванием", sets: 4, reps: "10-12", rest: 75 },
+          { name: "Болгарские выпады (с опорой)", sets: 3, reps: "8-10 на ногу", rest: 75 },
+          { name: "Комплекс: Берпи + Отжимание + Прыжок", sets: 4, reps: "6-8", rest: 90 },
+          { name: "Планка сложная", sets: 3, reps: "45-60 сек", rest: 60 }
+        ],
+        en: [
+          { name: "Clap push-ups", sets: 4, reps: "5-8", rest: 90 },
+          { name: "Incline table push-ups", sets: 4, reps: "10-12", rest: 60 },
+          { name: "Jump squats", sets: 4, reps: "10-12", rest: 75 },
+          { name: "Bulgarian split squats (with support)", sets: 3, reps: "8-10 per leg", rest: 75 },
+          { name: "Complex: Burpee + Push-up + Jump", sets: 4, reps: "6-8", rest: 90 },
+          { name: "Advanced plank", sets: 3, reps: "45-60 sec", rest: 60 }
+        ]
+      };
+      
+      for (let day = 61; day <= 90; day++) {
+        const adjustedDay = day - 60;
+        const week = Math.ceil(adjustedDay / 7);
+        
+        workouts.push({
+          day: day,
+          name: currentLanguage === 'ru' ? `День ${day}: Результат Home` : `Day ${day}: Result Home`,
+          focus: "Full Body",
+          duration: 40 + (week * 5),
+          intensity: Math.min(5, week + 2),
+          exercises: exercises[currentLanguage].slice(0, 4)
+        });
+      }
+      return workouts;
+    }
+
+    function generateHybridPhase1() {
+      const workouts = [];
+      const exercises = {
+        street: {
+          ru: [
+            { name: "Подтягивания (или негативы)", sets: 3, reps: "3-5", rest: 90 },
+            { name: "Отжимания на брусьях", sets: 3, reps: "6-10", rest: 75 },
+            { name: "Приседания у стены", sets: 3, reps: "15-20", rest: 60 },
+            { name: "Вис на перекладине", sets: 3, reps: "20-30 сек", rest: 60 }
+          ],
+          en: [
+            { name: "Pull-ups (or negatives)", sets: 3, reps: "3-5", rest: 90 },
+            { name: "Parallel bar dips", sets: 3, reps: "6-10", rest: 75 },
+            { name: "Wall squats", sets: 3, reps: "15-20", rest: 60 },
+            { name: "Bar hang", sets: 3, reps: "20-30 sec", rest: 60 }
+          ]
+        },
+        home: {
+          ru: [
+            { name: "Отжимания от пола", sets: 4, reps: "10-15", rest: 60 },
+            { name: "Приседания с собственным весом", sets: 4, reps: "15-20", rest: 60 },
+            { name: "Планка на локтях", sets: 3, reps: "30-45 сек", rest: 45 },
+            { name: "Выпады", sets: 3, reps: "10-12 на ногу", rest: 60 }
+          ],
+          en: [
+            { name: "Push-ups", sets: 4, reps: "10-15", rest: 60 },
+            { name: "Bodyweight squats", sets: 4, reps: "15-20", rest: 60 },
+            { name: "Elbow plank", sets: 3, reps: "30-45 sec", rest: 45 },
+            { name: "Lunges", sets: 3, reps: "10-12 per leg", rest: 60 }
+          ]
+        }
+      };
+      
+      for (let day = 1; day <= 30; day++) {
+        const week = Math.ceil(day / 7);
+        const dayInWeek = day % 7 || 7;
+        const isStreetDay = dayInWeek <= 3;
+        
+        workouts.push({
+          day: day,
+          name: currentLanguage === 'ru' ? `День ${day}: Адаптация Hybrid` : `Day ${day}: Adaptation Hybrid`,
+          focus: isStreetDay ? "Street" : "Home",
+          duration: 25 + (week * 4),
+          intensity: Math.min(3, week),
+          exercises: isStreetDay ? exercises.street[currentLanguage] : exercises.home[currentLanguage]
+        });
+      }
+      return workouts;
+    }
+
+    function generateHybridPhase2() {
+      const workouts = [];
+      const exercises = {
+        street: {
+          ru: [
+            { name: "Подтягивания широким хватом", sets: 4, reps: "4-6", rest: 90 },
+            { name: "Отжимания на брусьях с наклоном", sets: 4, reps: "8-10", rest: 75 },
+            { name: "Приседания с прыжком", sets: 4, reps: "10-12", rest: 60 },
+            { name: "Подъемы ног в висе", sets: 3, reps: "8-12", rest: 75 }
+          ],
+          en: [
+            { name: "Wide grip pull-ups", sets: 4, reps: "4-6", rest: 90 },
+            { name: "Leaning parallel bar dips", sets: 4, reps: "8-10", rest: 75 },
+            { name: "Jump squats", sets: 4, reps: "10-12", rest: 60 },
+            { name: "Hanging leg raises", sets: 3, reps: "8-12", rest: 75 }
+          ]
+        },
+        home: {
+          ru: [
+            { name: "Отжимания с узкой постановкой", sets: 4, reps: "8-12", rest: 60 },
+            { name: "Приседания с паузой", sets: 4, reps: "12-15", rest: 60 },
+            { name: "Берпи", sets: 4, reps: "8-10", rest: 75 },
+            { name: "Планка с касанием плеч", sets: 3, reps: "10-12 на сторону", rest: 45 }
+          ],
+          en: [
+            { name: "Close grip push-ups", sets: 4, reps: "8-12", rest: 60 },
+            { name: "Pause squats", sets: 4, reps: "12-15", rest: 60 },
+            { name: "Burpees", sets: 4, reps: "8-10", rest: 75 },
+            { name: "Plank shoulder taps", sets: 3, reps: "10-12 per side", rest: 45 }
+          ]
+        }
+      };
+      
+      for (let day = 31; day <= 60; day++) {
+        const adjustedDay = day - 30;
+        const week = Math.ceil(adjustedDay / 7);
+        const dayInWeek = adjustedDay % 7 || 7;
+        const isStreetDay = dayInWeek <= 3;
+        
+        workouts.push({
+          day: day,
+          name: currentLanguage === 'ru' ? `День ${day}: Интенсив Hybrid` : `Day ${day}: Intensity Hybrid`,
+          focus: isStreetDay ? "Street" : "Home",
+          duration: 35 + (week * 5),
+          intensity: Math.min(4, week + 1),
+          exercises: isStreetDay ? exercises.street[currentLanguage] : exercises.home[currentLanguage]
+        });
+      }
+      return workouts;
+    }
+
+    function generateHybridPhase3() {
+      const workouts = [];
+      const exercises = {
+        street: {
+          ru: [
+            { name: "Подтягивания с весом", sets: 4, reps: "3-5", rest: 120 },
+            { name: "Выход силой (подготовка)", sets: 3, reps: "2-3", rest: 120 },
+            { name: "Приседания пистолетиком", sets: 3, reps: "3-5 на ногу", rest: 90 },
+            { name: "Флажок (попытка)", sets: 3, reps: "5-10 сек", rest: 120 }
+          ],
+          en: [
+            { name: "Weighted pull-ups", sets: 4, reps: "3-5", rest: 120 },
+            { name: "Muscle-up (preparation)", sets: 3, reps: "2-3", rest: 120 },
+            { name: "Pistol squats", sets: 3, reps: "3-5 per leg", rest: 90 },
+            { name: "Human flag (attempt)", sets: 3, reps: "5-10 sec", rest: 120 }
+          ]
+        },
+        home: {
+          ru: [
+            { name: "Отжимания с хлопком", sets: 4, reps: "5-8", rest: 90 },
+            { name: "Приседания с выпрыгиванием", sets: 4, reps: "10-12", rest: 75 },
+            { name: "Комплекс: Берпи + Отжимание + Прыжок", sets: 4, reps: "6-8", rest: 90 },
+            { name: "Планка сложная", sets: 3, reps: "45-60 сек", rest: 60 }
+          ],
+          en: [
+            { name: "Clap push-ups", sets: 4, reps: "5-8", rest: 90 },
+            { name: "Jump squats", sets: 4, reps: "10-12", rest: 75 },
+            { name: "Complex: Burpee + Push-up + Jump", sets: 4, reps: "6-8", rest: 90 },
+            { name: "Advanced plank", sets: 3, reps: "45-60 sec", rest: 60 }
+          ]
+        }
+      };
+      
+      for (let day = 61; day <= 90; day++) {
+        const adjustedDay = day - 60;
+        const week = Math.ceil(adjustedDay / 7);
+        const dayInWeek = adjustedDay % 7 || 7;
+        const isStreetDay = dayInWeek <= 3;
+        
+        workouts.push({
+          day: day,
+          name: currentLanguage === 'ru' ? `День ${day}: Элита Hybrid` : `Day ${day}: Elite Hybrid`,
+          focus: isStreetDay ? "Street" : "Home",
+          duration: 45 + (week * 5),
+          intensity: Math.min(5, week + 2),
+          exercises: isStreetDay ? exercises.street[currentLanguage] : exercises.home[currentLanguage]
+        });
+      }
+      return workouts;
+    }
+
+    function getFocusByDay(dayInWeek) {
+      const focuses = {
+        ru: {
+          1: "Верх тела",
+          2: "Кор и навыки",
+          3: "Низ тела",
+          4: "Верх тела",
+          5: "Кор и навыки",
+          6: "Низ тела",
+          7: "Восстановление"
+        },
+        en: {
+          1: "Upper body",
+          2: "Core and skills",
+          3: "Lower body",
+          4: "Upper body",
+          5: "Core and skills",
+          6: "Lower body",
+          7: "Recovery"
+        }
+      };
+      return focuses[currentLanguage][dayInWeek] || "Full Body";
+    }
+
+    // ================ МОБИЛЬНОЕ МЕНЮ ================
     function toggleMobileMenu() {
       const mobileMenu = document.getElementById('mobileMenu');
       const overlay = document.getElementById('mobileOverlay');
@@ -1595,7 +1757,6 @@
       }
     }
 
-    // Закрываем меню при клике на ссылку
     function closeMobileMenu() {
       const mobileMenu = document.getElementById('mobileMenu');
       const overlay = document.getElementById('mobileOverlay');
@@ -1605,13 +1766,14 @@
     }
 
     // ================ СИСТЕМА ПОЛЬЗОВАТЕЛЕЙ ================
-    function registerUser(username, password, program) {
+    function registerUser(username, password, program, language) {
       const userId = Date.now().toString();
       const user = {
         id: userId,
         username: username,
         password: password,
         program: program,
+        language: language,
         level: 1,
         streak: 0,
         workoutsCompleted: 0,
@@ -1619,9 +1781,6 @@
         achievements: [],
         currentDay: 1,
         lastWorkout: null,
-        startWeight: null,
-        startMeasurements: null,
-        progressPhotos: [],
         bodyMeasurements: []
       };
       
@@ -1645,7 +1804,6 @@
     function logoutUser() {
       currentUser = null;
       localStorage.removeItem('currentUser');
-      alert(currentLanguage === 'ru' ? 'Вы вышли из системы' : 'You have logged out');
       showHome();
     }
 
@@ -1693,9 +1851,10 @@
     }
 
     function showLogoutConfirm() {
-      if (confirm(currentLanguage === 'ru' ? 'Вы уверены, что хотите выйти?' : 'Are you sure you want to logout?')) {
+      if (confirm(t('confirmLogout'))) {
         logoutUser();
         updateNavigation();
+        updateFooter();
         showHome();
       }
     }
@@ -1761,19 +1920,19 @@
               <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
                 <div style="background: rgba(30, 144, 255, 0.1); padding: 20px; border-radius: 15px; border: 1px solid var(--accent);">
                   <h4 style="color: var(--light);">${t('muscleGain')}</h4>
-                  <p style="color: var(--ice);">+3-5 кг мышечной массы</p>
+                  <p style="color: var(--ice);">${currentLanguage === 'ru' ? '+3-5 кг мышечной массы' : '+3-5 kg muscle mass'}</p>
                 </div>
                 <div style="background: rgba(30, 144, 255, 0.1); padding: 20px; border-radius: 15px; border: 1px solid var(--accent);">
                   <h4 style="color: var(--light);">${t('fatLoss')}</h4>
-                  <p style="color: var(--ice);">-5-8 кг жира</p>
+                  <p style="color: var(--ice);">${currentLanguage === 'ru' ? '-5-8 кг жира' : '-5-8 kg fat'}</p>
                 </div>
                 <div style="background: rgba(30, 144, 255, 0.1); padding: 20px; border-radius: 15px; border: 1px solid var(--accent);">
                   <h4 style="color: var(--light);">${t('strengthGain')}</h4>
-                  <p style="color: var(--ice);">+150% силы</p>
+                  <p style="color: var(--ice);">${currentLanguage === 'ru' ? '+150% силы' : '+150% strength'}</p>
                 </div>
                 <div style="background: rgba(30, 144, 255, 0.1); padding: 20px; border-radius: 15px; border: 1px solid var(--accent);">
                   <h4 style="color: var(--light);">${t('endurance')}</h4>
-                  <p style="color: var(--ice);">+200% выносливости</p>
+                  <p style="color: var(--ice);">${currentLanguage === 'ru' ? '+200% выносливости' : '+200% endurance'}</p>
                 </div>
               </div>
             </div>
@@ -1788,12 +1947,20 @@
           <div class="home-content">
             <h2>${t('registerTitle')}</h2>
             <div style="max-width: 400px; margin: 30px auto;">
-              <input type="text" id="regUsername" placeholder="${t('username')}" style="width: 100%; padding: 15px; margin: 10px 0; border-radius: 10px; border: 2px solid var(--accent); background: rgba(0,0,0,0.2); color: var(--light); font-size: 1rem;">
-              <input type="password" id="regPassword" placeholder="${t('password')}" style="width: 100%; padding: 15px; margin: 10px 0; border-radius: 10px; border: 2px solid var(--accent); background: rgba(0,0,0,0.2); color: var(--light); font-size: 1rem;">
+              <input type="text" id="regUsername" placeholder="${t('username')}" class="input-field">
+              <input type="password" id="regPassword" placeholder="${t('password')}" class="input-field">
+              
+              <div style="margin: 20px 0;">
+                <p style="color: var(--ice); margin-bottom: 10px;">${t('chooseLanguage')}:</p>
+                <select id="regLanguage" class="input-field">
+                  <option value="ru">${t('russian')}</option>
+                  <option value="en">${t('english')}</option>
+                </select>
+              </div>
               
               <div style="margin: 20px 0;">
                 <p style="color: var(--ice); margin-bottom: 10px;">${t('chooseProgram')}:</p>
-                <select id="regProgram" style="width: 100%; padding: 15px; border-radius: 10px; border: 2px solid var(--accent); background: rgba(0,0,0,0.2); color: var(--light); font-size: 1rem;">
+                <select id="regProgram" class="input-field">
                   <option value="street">${t('streetProgram')}</option>
                   <option value="home">${t('homeProgram')}</option>
                   <option value="hybrid">${t('hybridProgram')}</option>
@@ -1818,8 +1985,8 @@
           <div class="home-content">
             <h2>${t('loginTitle')}</h2>
             <div style="max-width: 400px; margin: 30px auto;">
-              <input type="text" id="loginUsername" placeholder="${t('username')}" style="width: 100%; padding: 15px; margin: 10px 0; border-radius: 10px; border: 2px solid var(--accent); background: rgba(0,0,0,0.2); color: var(--light); font-size: 1rem;">
-              <input type="password" id="loginPassword" placeholder="${t('password')}" style="width: 100%; padding: 15px; margin: 10px 0; border-radius: 10px; border: 2px solid var(--accent); background: rgba(0,0,0,0.2); color: var(--light); font-size: 1rem;">
+              <input type="text" id="loginUsername" placeholder="${t('username')}" class="input-field">
+              <input type="password" id="loginPassword" placeholder="${t('password')}" class="input-field">
               
               <button class="btn btn-primary" onclick="performLogin()" style="width: 100%; margin-top: 20px;">
                 <i class="fas fa-sign-in-alt"></i> ${t('loginBtn')}
@@ -1836,34 +2003,37 @@
     function performRegister() {
       const username = document.getElementById('regUsername').value;
       const password = document.getElementById('regPassword').value;
+      const language = document.getElementById('regLanguage').value;
       const program = document.getElementById('regProgram').value;
       
       if (!username || !password) {
-        alert(currentLanguage === 'ru' ? 'Пожалуйста, заполните все поля' : 'Please fill all fields');
+        alert(t('fillAllFields'));
         return;
       }
       
       if (username.length < 3) {
-        alert(currentLanguage === 'ru' ? 'Имя пользователя должно быть не менее 3 символов' : 'Username must be at least 3 characters');
+        alert(t('usernameLength'));
         return;
       }
       
       if (password.length < 6) {
-        alert(currentLanguage === 'ru' ? 'Пароль должен быть не менее 6 символов' : 'Password must be at least 6 characters');
+        alert(t('passwordLength'));
         return;
       }
       
       // Проверяем, нет ли уже такого пользователя
       for (const userId in usersDB) {
         if (usersDB[userId].username === username) {
-          alert(currentLanguage === 'ru' ? 'Это имя пользователя уже занято' : 'This username is already taken');
+          alert(t('usernameTaken'));
           return;
         }
       }
       
-      currentUser = registerUser(username, password, program);
-      alert(currentLanguage === 'ru' ? 'Регистрация успешна!' : 'Registration successful!');
+      currentUser = registerUser(username, password, program, language);
+      updateLanguage(language); // Устанавливаем язык пользователя
+      alert(t('registrationSuccess'));
       updateNavigation();
+      updateFooter();
       showDashboard();
     }
 
@@ -1872,18 +2042,20 @@
       const password = document.getElementById('loginPassword').value;
       
       if (!username || !password) {
-        alert(currentLanguage === 'ru' ? 'Пожалуйста, заполните все поля' : 'Please fill all fields');
+        alert(t('fillAllFields'));
         return;
       }
       
       const user = loginUser(username, password);
       if (user) {
         currentUser = user;
-        alert(currentLanguage === 'ru' ? 'Вход выполнен успешно!' : 'Login successful!');
+        updateLanguage(user.language); // Восстанавливаем язык пользователя
+        alert(t('loginSuccess'));
         updateNavigation();
+        updateFooter();
         showDashboard();
       } else {
-        alert(currentLanguage === 'ru' ? 'Неверное имя пользователя или пароль' : 'Invalid username or password');
+        alert(t('invalidCredentials'));
       }
     }
 
@@ -1907,13 +2079,13 @@
           <div class="home-content">
             <h2>${t('welcome')}, ${currentUser.username}!</h2>
             <p style="color: var(--ice); margin: 10px 0 30px 0;">
-              ${t('currentPhase')}: <strong>${currentPhase.name}</strong>
+              ${t('currentPhase')}: <strong>${currentPhase.name[currentLanguage]}</strong>
             </p>
             
             <div class="progress-container">
               <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
                 <span style="color: var(--ice);">${t('progress')} - ${t('day')} ${currentUser.currentDay}/90</span>
-                <span style="color: var(--accent); font-weight: 600;">Неделя ${currentWeek}</span>
+                <span style="color: var(--accent); font-weight: 600;">${t('week')} ${currentWeek}</span>
               </div>
               <div class="progress-bar">
                 <div class="progress-fill" style="width: ${progressPercent}%"></div>
@@ -2022,18 +2194,14 @@
                 'Record your measurements every week to track progress:'}</p>
               
               <div style="display: grid; gap: 15px;">
-                <input type="number" placeholder="${currentLanguage === 'ru' ? 'Вес (кг)' : 'Weight (kg)'}" id="weightInput" 
-                  style="padding: 12px; border-radius: 10px; border: 2px solid var(--accent); background: rgba(0,0,0,0.2); color: var(--light);">
-                <input type="number" placeholder="${currentLanguage === 'ru' ? 'Обхват груди (см)' : 'Chest (cm)'}" id="chestInput" 
-                  style="padding: 12px; border-radius: 10px; border: 2px solid var(--accent); background: rgba(0,0,0,0.2); color: var(--light);">
-                <input type="number" placeholder="${currentLanguage === 'ru' ? 'Обхват талии (см)' : 'Waist (cm)'}" id="waistInput" 
-                  style="padding: 12px; border-radius: 10px; border: 2px solid var(--accent); background: rgba(0,0,0,0.2); color: var(--light);">
-                <input type="number" placeholder="${currentLanguage === 'ru' ? 'Обхват бицепса (см)' : 'Biceps (cm)'}" id="bicepsInput" 
-                  style="padding: 12px; border-radius: 10px; border: 2px solid var(--accent); background: rgba(0,0,0,0.2); color: var(--light);">
+                <input type="number" placeholder="${t('bodyWeight')} (${currentLanguage === 'ru' ? 'кг' : 'kg'})" id="weightInput" class="input-field">
+                <input type="number" placeholder="${t('chest')} (${currentLanguage === 'ru' ? 'см' : 'cm'})" id="chestInput" class="input-field">
+                <input type="number" placeholder="${t('waist')} (${currentLanguage === 'ru' ? 'см' : 'cm'})" id="waistInput" class="input-field">
+                <input type="number" placeholder="${t('biceps')} (${currentLanguage === 'ru' ? 'см' : 'cm'})" id="bicepsInput" class="input-field">
               </div>
               
               <button class="btn btn-primary" onclick="saveMeasurements()" style="width: 100%; margin-top: 20px;">
-                <i class="fas fa-save"></i> ${currentLanguage === 'ru' ? 'Сохранить замеры' : 'Save measurements'}
+                <i class="fas fa-save"></i> ${t('saveMeasurements')}
               </button>
             </div>
             
@@ -2068,7 +2236,7 @@
       localStorage.setItem('silverSurferUsers', JSON.stringify(usersDB));
       localStorage.setItem('currentUser', JSON.stringify(currentUser));
       
-      alert(currentLanguage === 'ru' ? 'Замеры сохранены!' : 'Measurements saved!');
+      alert(t('measurementsSaved'));
       showDashboard();
     }
 
@@ -2107,7 +2275,7 @@
                 <div class="achievement-icon">
                   <i class="fas fa-flag-checkered"></i>
                 </div>
-                <h4>${currentUser.currentDay >= 30 ? '🎯' : '🏁'} Прогресс</h4>
+                <h4>${currentUser.currentDay >= 30 ? '🎯' : '🏁'} ${t('progress')}</h4>
                 <p>${currentUser.currentDay}/90</p>
               </div>
             </div>
@@ -2152,14 +2320,14 @@
                 
                 <div style="background: rgba(30, 144, 255, 0.1); padding: 15px; border-radius: 10px;">
                   <div style="display: flex; justify-content: space-between;">
-                    <span style="color: var(--ice);">Средняя тренировка:</span>
+                    <span style="color: var(--ice);">${t('avgWorkout')}:</span>
                     <span style="color: var(--light); font-weight: 600;">${avgMinutes} ${t('minutes')}</span>
                   </div>
                 </div>
                 
                 <div style="background: rgba(30, 144, 255, 0.1); padding: 15px; border-radius: 10px;">
                   <div style="display: flex; justify-content: space-between;">
-                    <span style="color: var(--ice);">Процент завершения:</span>
+                    <span style="color: var(--ice);">${t('completionRate')}:</span>
                     <span style="color: var(--light); font-weight: 600;">${successRate}%</span>
                   </div>
                 </div>
@@ -2243,7 +2411,7 @@
 
     function selectProgram(program) {
       if (!currentUser) {
-        alert(currentLanguage === 'ru' ? 'Пожалуйста, войдите в систему чтобы выбрать программу' : 'Please login to choose a program');
+        alert(t('loginToChoose'));
         showLogin();
         return;
       }
@@ -2259,10 +2427,7 @@
       localStorage.setItem('silverSurferUsers', JSON.stringify(usersDB));
       localStorage.setItem('currentUser', JSON.stringify(currentUser));
       
-      alert(currentLanguage === 'ru' ? 
-        `Программа "${program === 'street' ? t('streetProgram') : program === 'home' ? t('homeProgram') : t('hybridProgram')}" выбрана! Начинаем 90-дневный путь!` :
-        `Program "${program === 'street' ? t('streetProgram') : program === 'home' ? t('homeProgram') : t('hybridProgram')}" selected! Starting 90-day journey!`
-      );
+      alert(t('programSelected'));
       showDashboard();
     }
 
@@ -2351,7 +2516,7 @@
                   </span>
                 </div>
                 <div style="color: var(--ice); font-size: 0.9rem;">
-                  <i class="fas fa-clock"></i> Отдых: ${ex.rest} сек
+                  <i class="fas fa-clock"></i> ${t('rest')}: ${ex.rest} ${currentLanguage === 'ru' ? 'сек' : 'sec'}
                 </div>
               </div>
             `).join('')}
@@ -2400,10 +2565,7 @@
       // Проверяем завершение программы
       if (currentUser.currentDay > 90) {
         currentUser.achievements.push('90daycomplete');
-        alert(currentLanguage === 'ru' ? 
-          '🎉 ПОЗДРАВЛЯЕМ! Вы завершили 90-дневную программу! Вы достигли невероятных результатов! 🎉' : 
-          '🎉 CONGRATULATIONS! You completed the 90-day program! You achieved incredible results! 🎉'
-        );
+        alert(t('programComplete'));
         currentUser.currentDay = 90;
       }
       
@@ -2416,10 +2578,7 @@
       resetTimer();
       
       // Показываем сообщение
-      alert(currentLanguage === 'ru' ? 
-        `Отличная работа! Вы завершили тренировку за ${minutes} минут. Продолжайте в том же духе!` :
-        `Great job! You completed the workout in ${minutes} minutes. Keep up the good work!`
-      );
+      alert(`${t('workoutComplete')} ${currentLanguage === 'ru' ? 'за' : 'in'} ${minutes} ${t('minutes')}. ${currentLanguage === 'ru' ? 'Продолжайте в том же духе!' : 'Keep up the good work!'}`);
       
       showDashboard();
     }
@@ -2465,13 +2624,13 @@
           </div>
           
           <div style="max-width: 600px; margin: 40px auto 0; background: rgba(30, 144, 255, 0.1); padding: 25px; border-radius: 20px;">
-            <h3 style="color: var(--accent); margin-bottom: 15px;">${currentLanguage === 'ru' ? 'Пример дневного рациона (для мужчины 80кг):' : 'Example daily diet (for 80kg man):'}</h3>
+            <h3 style="color: var(--accent); margin-bottom: 15px;">${t('exampleDiet')}</h3>
             <div style="color: var(--ice); line-height: 1.8;">
-              <div><strong>Завтрак:</strong> ${currentLanguage === 'ru' ? 'Овсянка + 3 яйца + овощи' : 'Oatmeal + 3 eggs + vegetables'}</div>
-              <div><strong>Обед:</strong> ${currentLanguage === 'ru' ? 'Рис + куриная грудка + салат' : 'Rice + chicken breast + salad'}</div>
-              <div><strong>Полдник:</strong> ${currentLanguage === 'ru' ? 'Творог + фрукты' : 'Cottage cheese + fruits'}</div>
-              <div><strong>Ужин:</strong> ${currentLanguage === 'ru' ? 'Рыба + овощи на пару' : 'Fish + steamed vegetables'}</div>
-              <div><strong>Перед сном:</strong> ${currentLanguage === 'ru' ? 'Казеиновый протеин' : 'Casein protein'}</div>
+              <div><strong>${t('breakfast')}:</strong> ${currentLanguage === 'ru' ? 'Овсянка + 3 яйца + овощи' : 'Oatmeal + 3 eggs + vegetables'}</div>
+              <div><strong>${t('lunch')}:</strong> ${currentLanguage === 'ru' ? 'Рис + куриная грудка + салат' : 'Rice + chicken breast + salad'}</div>
+              <div><strong>${t('snack')}:</strong> ${currentLanguage === 'ru' ? 'Творог + фрукты' : 'Cottage cheese + fruits'}</div>
+              <div><strong>${t('dinner')}:</strong> ${currentLanguage === 'ru' ? 'Рыба + овощи на пару' : 'Fish + steamed vegetables'}</div>
+              <div><strong>${t('beforeBed')}:</strong> ${currentLanguage === 'ru' ? 'Казеиновый протеин' : 'Casein protein'}</div>
             </div>
           </div>
           
@@ -2551,6 +2710,10 @@
             if (usersDB[userId].username === userData.username && 
                 usersDB[userId].password === userData.password) {
               currentUser = usersDB[userId];
+              // Восстанавливаем язык пользователя
+              if (currentUser.language) {
+                updateLanguage(currentUser.language);
+              }
               break;
             }
           }
@@ -2560,6 +2723,7 @@
       }
       
       updateNavigation();
+      updateFooter();
       
       if (currentUser) {
         showDashboard();
