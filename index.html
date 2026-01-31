@@ -55,6 +55,7 @@
       top: 0;
       z-index: 1000;
       transition: all 0.3s;
+      backdrop-filter: blur(10px);
     }
 
     body.light-theme header {
@@ -126,6 +127,7 @@
       border: 1px solid transparent;
       cursor: pointer;
       transition: all 0.3s;
+      white-space: nowrap;
     }
 
     body.light-theme .nav-item {
@@ -143,7 +145,7 @@
       border-color: #1e90ff;
     }
 
-    /* Мобильное меню - исправлено */
+    /* Мобильное меню - ИСПРАВЛЕНО */
     .menu-toggle {
       display: none;
       background: none;
@@ -153,6 +155,7 @@
       cursor: pointer;
       padding: 8px;
       z-index: 1002;
+      position: relative;
     }
 
     body.light-theme .menu-toggle {
@@ -166,22 +169,27 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(0, 0, 0, 0.5);
-      z-index: 999;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 1000;
+      backdrop-filter: blur(5px);
+    }
+
+    .mobile-menu-overlay.active {
+      display: block;
     }
 
     .mobile-menu-container {
       display: none;
       position: fixed;
       top: 0;
-      right: -300px;
+      right: 0;
       width: 280px;
       height: 100vh;
       background: rgba(7, 35, 64, 0.98);
       backdrop-filter: blur(20px);
-      padding: 80px 20px 20px;
+      padding: 80px 25px 25px;
       z-index: 1001;
-      transition: right 0.3s ease;
+      box-shadow: -5px 0 30px rgba(0, 0, 0, 0.3);
       overflow-y: auto;
       border-left: 2px solid var(--silver);
     }
@@ -191,17 +199,31 @@
       border-left: 2px solid #1e90ff;
     }
 
-    .mobile-menu-container.show {
-      right: 0;
+    .mobile-menu-container.active {
+      display: block;
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from { transform: translateX(100%); }
+      to { transform: translateX(0); }
     }
 
     .mobile-menu-container .nav-item {
-      display: block;
+      display: flex;
       width: 100%;
       text-align: left;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
       padding: 15px;
       font-size: 1rem;
+      border: 1px solid rgba(192, 192, 192, 0.2);
+      border-radius: 12px;
+      background: rgba(30, 144, 255, 0.05);
+    }
+
+    .mobile-menu-container .nav-item i {
+      width: 24px;
+      text-align: center;
     }
 
     /* Основной контент */
@@ -228,6 +250,7 @@
       border: 2px solid rgba(192, 192, 192, 0.2);
       max-width: 900px;
       transition: all 0.3s;
+      backdrop-filter: blur(10px);
     }
 
     body.light-theme .home-content {
@@ -589,6 +612,25 @@
       transition: width 0.5s ease;
     }
 
+    /* Достижения */
+    .achievement-badge {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      background: rgba(30, 144, 255, 0.1);
+      padding: 15px;
+      border-radius: 15px;
+      margin: 10px;
+      min-width: 120px;
+      border: 2px solid var(--accent);
+    }
+
+    .achievement-icon {
+      font-size: 2rem;
+      color: gold;
+      margin-bottom: 10px;
+    }
+
     /* Мобильная адаптация */
     @media (max-width: 768px) {
       .nav-menu {
@@ -611,6 +653,7 @@
       .btn {
         width: 100%;
         max-width: 300px;
+        justify-content: center;
       }
       
       .timer-display {
@@ -622,8 +665,18 @@
         align-items: center;
       }
       
+      .timer-btn {
+        width: 100%;
+        max-width: 250px;
+        justify-content: center;
+      }
+      
       .program-cards {
         grid-template-columns: 1fr;
+      }
+      
+      .home-content {
+        padding: 25px 20px;
       }
     }
 
@@ -632,16 +685,16 @@
         font-size: 1.8rem;
       }
       
-      .home-content {
-        padding: 25px 20px;
-      }
-      
       .timer-display {
         font-size: 2.5rem;
       }
       
       .features-grid {
         grid-template-columns: 1fr;
+      }
+      
+      .mobile-menu-container {
+        width: 100%;
       }
     }
   </style>
@@ -685,24 +738,24 @@
   </header>
 
   <!-- Мобильное меню -->
-  <div class="mobile-menu-overlay" id="mobileOverlay" onclick="closeMobileMenu()"></div>
+  <div class="mobile-menu-overlay" id="mobileOverlay" onclick="toggleMobileMenu()"></div>
   <div class="mobile-menu-container" id="mobileMenu">
-    <div class="nav-item" onclick="showHome(); closeMobileMenu()">
+    <div class="nav-item" onclick="showHome(); toggleMobileMenu()">
       <i class="fas fa-home"></i> <span id="mobileNavHome">Главная</span>
     </div>
-    <div class="nav-item" onclick="showPrograms(); closeMobileMenu()">
+    <div class="nav-item" onclick="showPrograms(); toggleMobileMenu()">
       <i class="fas fa-dumbbell"></i> <span id="mobileNavPrograms">Программы</span>
     </div>
-    <div class="nav-item" onclick="showWorkout(); closeMobileMenu()">
+    <div class="nav-item" onclick="showWorkout(); toggleMobileMenu()">
       <i class="fas fa-running"></i> <span id="mobileNavWorkout">Тренировка</span>
     </div>
-    <div class="nav-item" onclick="showNutrition(); closeMobileMenu()">
+    <div class="nav-item" onclick="showNutrition(); toggleMobileMenu()">
       <i class="fas fa-apple-alt"></i> <span id="mobileNavNutrition">Питание</span>
     </div>
-    <div class="nav-item" onclick="showSettings(); closeMobileMenu()">
+    <div class="nav-item" onclick="showSettings(); toggleMobileMenu()">
       <i class="fas fa-cog"></i> <span id="mobileNavSettings">Настройки</span>
     </div>
-    <div class="nav-item" id="mobileAuthNavItem" onclick="checkAuthMobile()">
+    <div class="nav-item" id="mobileAuthNavItem" onclick="checkAuth(); toggleMobileMenu()">
       <i class="fas fa-user"></i> <span id="mobileNavAuth">Войти</span>
     </div>
   </div>
@@ -737,354 +790,527 @@
     let timerSeconds = 0;
     let timerInterval = null;
     let isTimerRunning = false;
+    let currentProgram = null;
 
-    // ================ БАЗА ДАННЫХ УПРАЖНЕНИЙ ================
-    const exerciseDatabase = {
-      // Упражнения для верхней части тела
-      upperBody: [
-        { name: {ru: "Отжимания", en: "Push-ups"}, difficulty: 1 },
-        { name: {ru: "Подтягивания", en: "Pull-ups"}, difficulty: 3 },
-        { name: {ru: "Отжимания на брусьях", en: "Parallel bar dips"}, difficulty: 2 },
-        { name: {ru: "Подъемы туловища", en: "Sit-ups"}, difficulty: 1 },
-        { name: {ru: "Планка", en: "Plank"}, difficulty: 1 },
-        { name: {ru: "Берпи", en: "Burpees"}, difficulty: 3 },
-        { name: {ru: "Альпинист", en: "Mountain climbers"}, difficulty: 2 },
-        { name: {ru: "Отжимания с хлопком", en: "Clap push-ups"}, difficulty: 3 },
-        { name: {ru: "Подтягивания широким хватом", en: "Wide grip pull-ups"}, difficulty: 3 },
-        { name: {ru: "Отжимания узким хватом", en: "Diamond push-ups"}, difficulty: 2 }
-      ],
-      
-      // Упражнения для нижней части тела
-      lowerBody: [
-        { name: {ru: "Приседания", en: "Squats"}, difficulty: 1 },
-        { name: {ru: "Выпады", en: "Lunges"}, difficulty: 2 },
-        { name: {ru: "Прыжки на месте", en: "Jumping jacks"}, difficulty: 1 },
-        { name: {ru: "Приседания с выпрыгиванием", en: "Jump squats"}, difficulty: 3 },
-        { name: {ru: "Болгарские выпады", en: "Bulgarian split squats"}, difficulty: 3 },
-        { name: {ru: "Подъемы на носки", en: "Calf raises"}, difficulty: 1 },
-        { name: {ru: "Ягодичный мостик", en: "Glute bridge"}, difficulty: 1 },
-        { name: {ru: "Приседания пистолетиком", en: "Pistol squats"}, difficulty: 4 },
-        { name: {ru: "Бег на месте с высоким подниманием бедра", en: "High knees"}, difficulty: 2 },
-        { name: {ru: "Зашагивания на возвышенность", en: "Step-ups"}, difficulty: 2 }
-      ],
-      
-      // Упражнения для кора
-      core: [
-        { name: {ru: "Скручивания", en: "Crunches"}, difficulty: 1 },
-        { name: {ru: "Велосипед", en: "Bicycle crunches"}, difficulty: 2 },
-        { name: {ru: "Русские скручивания", en: "Russian twists"}, difficulty: 2 },
-        { name: {ru: "Подъемы ног лежа", en: "Leg raises"}, difficulty: 2 },
-        { name: {ru: "Планка на локтях", en: "Elbow plank"}, difficulty: 2 },
-        { name: {ru: "Боковая планка", en: "Side plank"}, difficulty: 2 },
-        { name: {ru: "Супермен", en: "Superman"}, difficulty: 1 },
-        { name: {ru: "Вакуум живота", en: "Stomach vacuum"}, difficulty: 1 },
-        { name: {ru: "Скручивания с поднятыми ногами", en: "Reverse crunches"}, difficulty: 2 },
-        { name: {ru: "Дровосек", en: "Woodchoppers"}, difficulty: 3 }
-      ],
-      
-      // Упражнения для всего тела
-      fullBody: [
-        { name: {ru: "Берпи", en: "Burpees"}, difficulty: 3 },
-        { name: {ru: "Планка с переходом", en: "Plank to push-up"}, difficulty: 2 },
-        { name: {ru: "Трастеры", en: "Thrusters"}, difficulty: 3 },
-        { name: {ru: "Комплекс присед-отжимание-прыжок", en: "Squat-pushup-jump"}, difficulty: 3 },
-        { name: {ru: "Турецкий подъем", en: "Turkish get-up"}, difficulty: 4 },
-        { name: {ru: "Медведь-краб", en: "Bear crawl"}, difficulty: 2 },
-        { name: {ru: "Комплекс отжимание-подтягивание", en: "Push-pull complex"}, difficulty: 3 },
-        { name: {ru: "Прыжки со звездой", en: "Star jumps"}, difficulty: 2 },
-        { name: {ru: "Комплекс для взрывной силы", en: "Explosive complex"}, difficulty: 4 },
-        { name: {ru: "Кроссфит комплекс", en: "Crossfit complex"}, difficulty: 4 }
-      ],
-      
-      // Уличные упражнения (требуют оборудования)
-      street: [
-        { name: {ru: "Подтягивания", en: "Pull-ups"}, difficulty: 2 },
-        { name: {ru: "Выходы силой", en: "Muscle-ups"}, difficulty: 4 },
-        { name: {ru: "Флажок", en: "Human flag"}, difficulty: 5 },
-        { name: {ru: "Передний вис", en: "Front lever"}, difficulty: 4 },
-        { name: {ru: "Стойка на руках", en: "Handstand"}, difficulty: 3 },
-        { name: {ru: "Отжимания в стойке на руках", en: "Handstand push-ups"}, difficulty: 4 },
-        { name: {ru: "Подъемы с переворотом", en: "Skin the cat"}, difficulty: 3 },
-        { name: {ru: "Подтягивания L-сидя", en: "L-sit pull-ups"}, difficulty: 3 },
-        { name: {ru: "Отжимания на брусьях с весом", en: "Weighted dips"}, difficulty: 3 },
-        { name: {ru: "Подтягивания с отягощением", en: "Weighted pull-ups"}, difficulty: 3 }
-      ],
-      
-      // Домашние упражнения (без оборудования)
-      home: [
-        { name: {ru: "Отжимания от пола", en: "Floor push-ups"}, difficulty: 1 },
-        { name: {ru: "Приседания у стены", en: "Wall squats"}, difficulty: 1 },
-        { name: {ru: "Отжимания от стула", en: "Chair dips"}, difficulty: 2 },
-        { name: {ru: "Подтягивания на двери", en: "Door pull-ups"}, difficulty: 2 },
-        { name: {ru: "Планка с касанием плеч", en: "Plank shoulder taps"}, difficulty: 2 },
-        { name: {ru: "Отжимания с ногами на возвышенности", en: "Decline push-ups"}, difficulty: 2 },
-        { name: {ru: "Приседания с собственным весом", en: "Bodyweight squats"}, difficulty: 1 },
-        { name: {ru: "Выпады в помещении", en: "Indoor lunges"}, difficulty: 1 },
-        { name: {ru: "Планка с подъемом ног", en: "Plank leg lifts"}, difficulty: 2 },
-        { name: {ru: "Отжимания с паузой", en: "Pause push-ups"}, difficulty: 2 }
-      ]
+    // ================ РЕАЛЬНЫЕ ТРЕНИРОВКИ ДЛЯ РЕЗУЛЬТАТОВ ЗА 90 ДНЕЙ ================
+    const workoutPrograms = {
+      street: {
+        name: "Street Surfer",
+        description: "Уличные тренировки с использованием турников и брусьев. Реальные результаты за 90 дней!",
+        phases: [
+          {
+            name: "База (1-30 дней)",
+            description: "Освоение базовых упражнений, развитие силы и выносливости",
+            workouts: generateStreetPhase1()
+          },
+          {
+            name: "Прогресс (31-60 дней)",
+            description: "Увеличение сложности, освоение продвинутых упражнений",
+            workouts: generateStreetPhase2()
+          },
+          {
+            name: "Мастерство (61-90 дней)",
+            description: "Продвинутые элементы, максимальные результаты",
+            workouts: generateStreetPhase3()
+          }
+        ]
+      },
+      home: {
+        name: "Home Surfer",
+        description: "Домашние тренировки без оборудования. Преобразуй тело дома!",
+        phases: [
+          {
+            name: "Старт (1-30 дней)",
+            description: "Начальный уровень, адаптация, базовая техника",
+            workouts: generateHomePhase1()
+          },
+          {
+            name: "Развитие (31-60 дней)",
+            description: "Увеличение нагрузки, комбинированные упражнения",
+            workouts: generateHomePhase2()
+          },
+          {
+            name: "Результат (61-90 дней)",
+            description: "Максимальная интенсивность, финальные результаты",
+            workouts: generateHomePhase3()
+          }
+        ]
+      },
+      hybrid: {
+        name: "Hybrid Surfer",
+        description: "Смесь уличных и домашних тренировок. Максимальная эффективность!",
+        phases: [
+          {
+            name: "Адаптация (1-30 дней)",
+            description: "Сочетание разных типов тренировок",
+            workouts: generateHybridPhase1()
+          },
+          {
+            name: "Интенсив (31-60 дней)",
+            description: "Высокая интенсивность, минимальный отдых",
+            workouts: generateHybridPhase2()
+          },
+          {
+            name: "Элита (61-90 дней)",
+            description: "Профессиональный уровень, максимальные нагрузки",
+            workouts: generateHybridPhase3()
+          }
+        ]
+      }
     };
 
-    // ================ ГЕНЕРАЦИЯ ТРЕНИРОВОК ================
-    function generateWorkouts() {
-      const workouts = {
-        street: [],  // Уличные тренировки
-        home: [],    // Домашние тренировки
-        hybrid: []   // Гибридные тренировки
-      };
-
-      // Генерация 90 дней тренировок
-      for (let day = 1; day <= 90; day++) {
-        // Определяем тип дня (отдых или тренировка)
-        const isRestDay = day % 7 === 0;
+    function generateStreetPhase1() {
+      const workouts = [];
+      for (let day = 1; day <= 30; day++) {
+        // Недельные циклы
+        const week = Math.ceil(day / 7);
+        const dayInWeek = day % 7 || 7;
         
-        if (isRestDay) {
-          // День отдыха для всех программ
-          workouts.street.push(generateRestDay(day));
-          workouts.home.push(generateRestDay(day));
-          workouts.hybrid.push(generateRestDay(day));
+        let workout = {
+          day: day,
+          name: `День ${day}: Базовый Street`,
+          focus: getFocusByDay(dayInWeek),
+          duration: 25 + (week * 5),
+          intensity: Math.min(3, week),
+          exercises: []
+        };
+        
+        // Добавляем упражнения в зависимости от дня
+        if (dayInWeek === 1 || dayInWeek === 4) {
+          // Дни верха тела
+          workout.exercises = [
+            { name: "Подтягивания широким хватом", sets: 3 + week, reps: "5-8", rest: 90 },
+            { name: "Отжимания на брусьях", sets: 3 + week, reps: "8-12", rest: 75 },
+            { name: "Отжимания от пола", sets: 3, reps: "12-15", rest: 60 },
+            { name: "Австралийские подтягивания", sets: 3, reps: "10-12", rest: 60 }
+          ];
+        } else if (dayInWeek === 2 || dayInWeek === 5) {
+          // Дни кора и навыков
+          workout.exercises = [
+            { name: "Планка на локтях", sets: 3, reps: "30-60 сек", rest: 45 },
+            { name: "Подъемы ног в висе", sets: 3, reps: "8-12", rest: 60 },
+            { name: "Вис на перекладине", sets: 3, reps: "30-60 сек", rest: 45 },
+            { name: "Боковая планка", sets: 3, reps: "20-40 сек", rest: 45 }
+          ];
+        } else if (dayInWeek === 3 || dayInWeek === 6) {
+          // Дни низа тела
+          workout.exercises = [
+            { name: "Приседания с собственным весом", sets: 4, reps: "15-20", rest: 60 },
+            { name: "Выпады", sets: 3, reps: "12-15 на ногу", rest: 60 },
+            { name: "Пистолетики (с опорой)", sets: 3, reps: "5-8", rest: 75 },
+            { name: "Прыжки на месте", sets: 3, reps: "20-30", rest: 45 }
+          ];
         } else {
-          // Тренировочные дни
-          workouts.street.push(generateStreetWorkout(day));
-          workouts.home.push(generateHomeWorkout(day));
-          workouts.hybrid.push(generateHybridWorkout(day));
+          // День отдыха (7)
+          workout.name = `День ${day}: Отдых и растяжка`;
+          workout.focus = "Восстановление";
+          workout.duration = 15;
+          workout.exercises = [
+            { name: "Растяжка грудных мышц", sets: 2, reps: "30 сек", rest: 30 },
+            { name: "Растяжка спины", sets: 2, reps: "30 сек", rest: 30 },
+            { name: "Растяжка ног", sets: 2, reps: "30 сек", rest: 30 },
+            { name: "Растяжка плеч", sets: 2, reps: "30 сек", rest: 30 }
+          ];
         }
+        
+        workouts.push(workout);
       }
-
       return workouts;
     }
 
-    function generateRestDay(day) {
-      return {
-        day: day,
-        name: currentLanguage === 'ru' ? `День ${day}: Отдых` : `Day ${day}: Rest`,
-        duration: 0,
-        type: 'rest',
-        focus: 'recovery',
-        exercises: [],
-        description: currentLanguage === 'ru' 
-          ? 'День активного восстановления. Важно для прогресса и предотвращения травм.'
-          : 'Active recovery day. Important for progress and injury prevention.'
-      };
-    }
-
-    function generateStreetWorkout(day) {
-      const week = Math.ceil(day / 7);
-      const intensity = Math.min(5, Math.floor(week / 2) + 1);
-      
-      // Определяем фокус тренировки на основе дня
-      let focus, exercises;
-      const dayType = day % 6;
-      
-      if (dayType === 0) {
-        focus = 'upperBody';
-        exercises = getRandomExercises('upperBody', 3, intensity);
-      } else if (dayType === 1) {
-        focus = 'fullBody';
-        exercises = getRandomExercises('fullBody', 3, intensity);
-      } else if (dayType === 2) {
-        focus = 'street';
-        exercises = getRandomExercises('street', 3, intensity);
-      } else if (dayType === 3) {
-        focus = 'lowerBody';
-        exercises = getRandomExercises('lowerBody', 3, intensity);
-      } else if (dayType === 4) {
-        focus = 'upperBody';
-        exercises = getRandomExercises('upperBody', 4, intensity);
-      } else {
-        focus = 'skill';
-        exercises = getRandomExercises('street', 2, intensity)
-          .concat(getRandomExercises('core', 1, intensity));
-      }
-
-      const duration = 30 + (week * 5) + (intensity * 5);
-      
-      return {
-        day: day,
-        name: currentLanguage === 'ru' 
-          ? `День ${day}: Уличная тренировка (${getFocusName(focus)})` 
-          : `Day ${day}: Street workout (${getFocusName(focus)})`,
-        duration: Math.min(90, duration),
-        type: 'street',
-        focus: focus,
-        exercises: exercises,
-        description: currentLanguage === 'ru'
-          ? `Интенсивность: ${intensity}/5. Фокус: ${getFocusDescription(focus)}.`
-          : `Intensity: ${intensity}/5. Focus: ${getFocusDescription(focus)}.`
-      };
-    }
-
-    function generateHomeWorkout(day) {
-      const week = Math.ceil(day / 7);
-      const intensity = Math.min(4, Math.floor(week / 3) + 1);
-      
-      // Определяем фокус тренировки
-      let focus, exercises;
-      const dayType = day % 5;
-      
-      if (dayType === 0) {
-        focus = 'fullBody';
-        exercises = getRandomExercises('home', 4, intensity);
-      } else if (dayType === 1) {
-        focus = 'upperBody';
-        exercises = getRandomExercises('upperBody', 3, intensity)
-          .filter(ex => ex.difficulty <= 3);
-      } else if (dayType === 2) {
-        focus = 'core';
-        exercises = getRandomExercises('core', 4, intensity);
-      } else if (dayType === 3) {
-        focus = 'lowerBody';
-        exercises = getRandomExercises('lowerBody', 3, intensity)
-          .filter(ex => ex.difficulty <= 3);
-      } else {
-        focus = 'cardio';
-        exercises = getRandomExercises('fullBody', 3, intensity)
-          .concat(getRandomExercises('core', 1, intensity));
-      }
-
-      const duration = 25 + (week * 3) + (intensity * 3);
-      
-      return {
-        day: day,
-        name: currentLanguage === 'ru'
-          ? `День ${day}: Домашняя тренировка (${getFocusName(focus)})`
-          : `Day ${day}: Home workout (${getFocusName(focus)})`,
-        duration: Math.min(60, duration),
-        type: 'home',
-        focus: focus,
-        exercises: exercises,
-        description: currentLanguage === 'ru'
-          ? `Интенсивность: ${intensity}/4. Фокус: ${getFocusDescription(focus)}.`
-          : `Intensity: ${intensity}/4. Focus: ${getFocusDescription(focus)}.`
-      };
-    }
-
-    function generateHybridWorkout(day) {
-      const week = Math.ceil(day / 7);
-      const intensity = Math.min(5, Math.floor(week / 2) + 1);
-      
-      // Чередуем уличные и домашние тренировки
-      const isStreetDay = day % 2 === 0;
-      let focus, exercises;
-      
-      if (isStreetDay) {
-        focus = day % 3 === 0 ? 'street' : 'upperBody';
-        exercises = getRandomExercises(focus, 3, intensity);
-      } else {
-        focus = day % 3 === 0 ? 'home' : 'fullBody';
-        exercises = getRandomExercises(focus, 3, intensity);
-      }
-
-      const duration = 35 + (week * 4) + (intensity * 4);
-      
-      return {
-        day: day,
-        name: currentLanguage === 'ru'
-          ? `День ${day}: Гибридная тренировка (${isStreetDay ? 'улица' : 'дом'})`
-          : `Day ${day}: Hybrid workout (${isStreetDay ? 'street' : 'home'})`,
-        duration: Math.min(75, duration),
-        type: 'hybrid',
-        focus: focus,
-        exercises: exercises,
-        description: currentLanguage === 'ru'
-          ? `Интенсивность: ${intensity}/5. ${isStreetDay ? 'Уличные упражнения' : 'Домашние упражнения'}.`
-          : `Intensity: ${intensity}/5. ${isStreetDay ? 'Street exercises' : 'Home exercises'}.`
-      };
-    }
-
-    function getRandomExercises(type, count, intensity) {
-      const pool = exerciseDatabase[type] || exerciseDatabase.upperBody;
-      // Фильтруем по сложности в зависимости от интенсивности
-      const filtered = pool.filter(ex => ex.difficulty <= intensity + 1);
-      
-      // Если недостаточно упражнений, добавляем из других групп
-      if (filtered.length < count) {
-        const additional = Object.values(exerciseDatabase)
-          .flat()
-          .filter(ex => ex.difficulty <= intensity + 1);
-        filtered.push(...additional);
-      }
-      
-      // Перемешиваем и выбираем нужное количество
-      const shuffled = [...filtered].sort(() => Math.random() - 0.5);
-      const selected = shuffled.slice(0, count);
-      
-      // Преобразуем в формат для тренировки
-      return selected.map((exercise, index) => {
-        const sets = 3 + Math.floor(intensity / 2) + (index % 2);
-        const reps = 8 + (intensity * 2) + (index * 2);
-        const rest = 60 - (intensity * 5);
+    function generateStreetPhase2() {
+      const workouts = [];
+      for (let day = 31; day <= 60; day++) {
+        const adjustedDay = day - 30;
+        const week = Math.ceil(adjustedDay / 7);
+        const dayInWeek = adjustedDay % 7 || 7;
         
-        return {
-          name: exercise.name[currentLanguage] || exercise.name.en,
-          sets: sets,
-          reps: `${reps}-${reps + 4}`,
-          rest: Math.max(30, rest),
-          difficulty: exercise.difficulty
+        let workout = {
+          day: day,
+          name: `День ${day}: Прогресс Street`,
+          focus: getFocusByDay(dayInWeek),
+          duration: 35 + (week * 5),
+          intensity: Math.min(4, week + 2),
+          exercises: []
         };
-      });
-    }
-
-    function getFocusName(focus) {
-      const names = {
-        ru: {
-          upperBody: "Верх тела",
-          lowerBody: "Низ тела",
-          core: "Кор",
-          fullBody: "Все тело",
-          street: "Улица",
-          home: "Дом",
-          skill: "Навыки",
-          cardio: "Кардио",
-          recovery: "Восстановление"
-        },
-        en: {
-          upperBody: "Upper Body",
-          lowerBody: "Lower Body",
-          core: "Core",
-          fullBody: "Full Body",
-          street: "Street",
-          home: "Home",
-          skill: "Skills",
-          cardio: "Cardio",
-          recovery: "Recovery"
+        
+        if (dayInWeek === 1 || dayInWeek === 4) {
+          workout.exercises = [
+            { name: "Подтягивания с отягощением (рюкзак)", sets: 4, reps: "4-6", rest: 90 },
+            { name: "Отжимания на брусьях с наклоном вперед", sets: 4, reps: "8-10", rest: 75 },
+            { name: "Отжимания узким хватом", sets: 3, reps: "10-12", rest: 60 },
+            { name: "Подтягивания обратным хватом", sets: 3, reps: "6-8", rest: 75 }
+          ];
+        } else if (dayInWeek === 2 || dayInWeek === 5) {
+          workout.exercises = [
+            { name: "Подъемы ног в висе до перекладины", sets: 3, reps: "6-10", rest: 75 },
+            { name: "Флажок (подготовка)", sets: 3, reps: "5-10 сек", rest: 90 },
+            { name: "Стойка на руках у стены", sets: 3, reps: "15-30 сек", rest: 60 },
+            { name: "L-сидение на брусьях", sets: 3, reps: "10-20 сек", rest: 75 }
+          ];
+        } else if (dayInWeek === 3 || dayInWeek === 6) {
+          workout.exercises = [
+            { name: "Приседания с прыжком", sets: 4, reps: "10-15", rest: 60 },
+            { name: "Болгарские выпады", sets: 3, reps: "10-12 на ногу", rest: 75 },
+            { name: "Прыжки в глубину", sets: 3, reps: "8-10", rest: 90 },
+            { name: "Выпрыгивания из приседа", sets: 3, reps: "12-15", rest: 60 }
+          ];
+        } else {
+          workout.name = `День ${day}: Активное восстановление`;
+          workout.focus = "Восстановление";
+          workout.duration = 20;
+          workout.exercises = [
+            { name: "Мобильность плеч", sets: 3, reps: "10 повторений", rest: 30 },
+            { name: "Растяжка сгибателей бедра", sets: 2, reps: "40 сек", rest: 30 },
+            { name: "Работа над осанкой", sets: 1, reps: "5 минут", rest: 0 },
+            { name: "Глубокое дыхание", sets: 1, reps: "3 минуты", rest: 0 }
+          ];
         }
-      };
-      
-      return names[currentLanguage][focus] || focus;
+        
+        workouts.push(workout);
+      }
+      return workouts;
     }
 
-    function getFocusDescription(focus) {
-      const descriptions = {
-        ru: {
-          upperBody: "Упражнения для груди, спины, плеч и рук",
-          lowerBody: "Упражнения для ног и ягодиц",
-          core: "Упражнения для пресса и мышц кора",
-          fullBody: "Комплексные упражнения для всего тела",
-          street: "Продвинутые уличные упражнения",
-          home: "Домашние упражнения без оборудования",
-          skill: "Развитие спортивных навыков",
-          cardio: "Кардио и выносливость",
-          recovery: "Активное восстановление"
-        },
-        en: {
-          upperBody: "Exercises for chest, back, shoulders and arms",
-          lowerBody: "Exercises for legs and glutes",
-          core: "Exercises for abs and core muscles",
-          fullBody: "Full body compound exercises",
-          street: "Advanced street exercises",
-          home: "Home exercises without equipment",
-          skill: "Sports skills development",
-          cardio: "Cardio and endurance",
-          recovery: "Active recovery"
+    function generateStreetPhase3() {
+      const workouts = [];
+      for (let day = 61; day <= 90; day++) {
+        const adjustedDay = day - 60;
+        const week = Math.ceil(adjustedDay / 7);
+        const dayInWeek = adjustedDay % 7 || 7;
+        
+        let workout = {
+          day: day,
+          name: `День ${day}: Мастер Street`,
+          focus: getFocusByDay(dayInWeek),
+          duration: 45 + (week * 5),
+          intensity: Math.min(5, week + 3),
+          exercises: []
+        };
+        
+        if (dayInWeek === 1 || dayInWeek === 4) {
+          workout.exercises = [
+            { name: "Подтягивания с весом 5-10кг", sets: 4, reps: "3-5", rest: 120 },
+            { name: "Отжимания на брусьях с весом", sets: 4, reps: "6-8", rest: 90 },
+            { name: "Отжимания в стойке на руках у стены", sets: 3, reps: "3-6", rest: 120 },
+            { name: "Подтягивания L-сидя", sets: 3, reps: "4-6", rest: 90 }
+          ];
+        } else if (dayInWeek === 2 || dayInWeek === 5) {
+          workout.exercises = [
+            { name: "Выход силой на две", sets: 3, reps: "2-4", rest: 120 },
+            { name: "Флажок (попытка)", sets: 3, reps: "5-15 сек", rest: 120 },
+            { name: "Передний вис", sets: 3, reps: "5-10 сек", rest: 120 },
+            { name: "Стойка на руках без опоры", sets: 3, reps: "5-10 сек", rest: 90 }
+          ];
+        } else if (dayInWeek === 3 || dayInWeek === 6) {
+          workout.exercises = [
+            { name: "Приседания пистолетиком", sets: 3, reps: "3-5 на ногу", rest: 90 },
+            { name: "Прыжки на тумбу 50-70см", sets: 4, reps: "6-8", rest: 90 },
+            { name: "Выпады с прыжком", sets: 3, reps: "8-10 на ногу", rest: 75 },
+            { name: "Берпи с прыжком", sets: 3, reps: "10-12", rest: 60 }
+          ];
+        } else {
+          workout.name = `День ${day}: Профессиональное восстановление`;
+          workout.focus = "Восстановление";
+          workout.duration = 25;
+          workout.exercises = [
+            { name: "Пенный ролик (вся спина)", sets: 1, reps: "5 минут", rest: 0 },
+            { name: "Динамическая растяжка", sets: 1, reps: "10 минут", rest: 0 },
+            { name: "Медитация для спортсменов", sets: 1, reps: "5 минут", rest: 0 },
+            { name: "Планирование следующей недели", sets: 1, reps: "5 минут", rest: 0 }
+          ];
         }
-      };
-      
-      return descriptions[currentLanguage][focus] || focus;
+        
+        workouts.push(workout);
+      }
+      return workouts;
     }
 
-    // Генерируем тренировки один раз при загрузке
-    const workoutsDB = generateWorkouts();
+    function generateHomePhase1() {
+      const workouts = [];
+      for (let day = 1; day <= 30; day++) {
+        const week = Math.ceil(day / 7);
+        const dayInWeek = day % 7 || 7;
+        
+        let workout = {
+          day: day,
+          name: `День ${day}: Старт Home`,
+          focus: getFocusByDay(dayInWeek),
+          duration: 20 + (week * 3),
+          intensity: Math.min(2, week),
+          exercises: []
+        };
+        
+        if (dayInWeek <= 6) {
+          workout.exercises = [
+            { name: "Отжимания от пола", sets: 3, reps: "10-15", rest: 60 },
+            { name: "Приседания", sets: 3, reps: "15-20", rest: 45 },
+            { name: "Планка", sets: 3, reps: "30-45 сек", rest: 45 },
+            { name: "Выпады на месте", sets: 3, reps: "10-12 на ногу", rest: 60 },
+            { name: "Скручивания", sets: 3, reps: "15-20", rest: 30 }
+          ];
+        } else {
+          workout.name = `День ${day}: Отдых`;
+          workout.focus = "Восстановление";
+          workout.duration = 10;
+          workout.exercises = [
+            { name: "Легкая растяжка", sets: 1, reps: "10 минут", rest: 0 }
+          ];
+        }
+        
+        workouts.push(workout);
+      }
+      return workouts;
+    }
+
+    function generateHomePhase2() {
+      const workouts = [];
+      for (let day = 31; day <= 60; day++) {
+        const adjustedDay = day - 30;
+        const week = Math.ceil(adjustedDay / 7);
+        const dayInWeek = adjustedDay % 7 || 7;
+        
+        let workout = {
+          day: day,
+          name: `День ${day}: Развитие Home`,
+          focus: getFocusByDay(dayInWeek),
+          duration: 30 + (week * 3),
+          intensity: Math.min(4, week + 1),
+          exercises: []
+        };
+        
+        if (dayInWeek === 1 || dayInWeek === 4) {
+          workout.exercises = [
+            { name: "Отжимания с узкой постановкой", sets: 4, reps: "8-12", rest: 60 },
+            { name: "Отжимания от стула", sets: 3, reps: "10-15", rest: 60 },
+            { name: "Планка с подъемом рук", sets: 3, reps: "10-12 на руку", rest: 45 },
+            { name: "Супермен", sets: 3, reps: "12-15", rest: 45 }
+          ];
+        } else if (dayInWeek === 2 || dayInWeek === 5) {
+          workout.exercises = [
+            { name: "Приседания с паузой", sets: 4, reps: "12-15", rest: 60 },
+            { name: "Ягодичный мостик", sets: 3, reps: "15-20", rest: 45 },
+            { name: "Выпады в ходьбе", sets: 3, reps: "10-12 на ногу", rest: 60 },
+            { name: "Подъемы на носки", sets: 3, reps: "20-25", rest: 30 }
+          ];
+        } else if (dayInWeek === 3 || dayInWeek === 6) {
+          workout.exercises = [
+            { name: "Берпи", sets: 4, reps: "8-12", rest: 75 },
+            { name: "Альпинист", sets: 3, reps: "30-40 сек", rest: 45 },
+            { name: "Скалолаз", sets: 3, reps: "20-30 на сторону", rest: 45 },
+            { name: "Прыжки со звездой", sets: 3, reps: "15-20", rest: 60 }
+          ];
+        } else {
+          workout.name = `День ${day}: Восстановление`;
+          workout.focus = "Восстановление";
+          workout.duration = 15;
+          workout.exercises = [
+            { name: "Йога для начинающих", sets: 1, reps: "15 минут", rest: 0 }
+          ];
+        }
+        
+        workouts.push(workout);
+      }
+      return workouts;
+    }
+
+    function generateHomePhase3() {
+      const workouts = [];
+      for (let day = 61; day <= 90; day++) {
+        const adjustedDay = day - 60;
+        const week = Math.ceil(adjustedDay / 7);
+        const dayInWeek = adjustedDay % 7 || 7;
+        
+        let workout = {
+          day: day,
+          name: `День ${day}: Результат Home`,
+          focus: getFocusByDay(dayInWeek),
+          duration: 40 + (week * 5),
+          intensity: Math.min(5, week + 2),
+          exercises: []
+        };
+        
+        if (dayInWeek === 1 || dayInWeek === 4) {
+          workout.exercises = [
+            { name: "Отжимания с хлопком", sets: 4, reps: "5-8", rest: 90 },
+            { name: "Отжимания от стола (уклон)", sets: 4, reps: "10-12", rest: 60 },
+            { name: "Пиковые отжимания", sets: 3, reps: "8-10", rest: 75 },
+            { name: "Планка с переходом", sets: 3, reps: "10-12", rest: 60 }
+          ];
+        } else if (dayInWeek === 2 || dayInWeek === 5) {
+          workout.exercises = [
+            { name: "Приседания с выпрыгиванием", sets: 4, reps: "10-12", rest: 75 },
+            { name: "Болгарские выпады (с опорой)", sets: 3, reps: "8-10 на ногу", rest: 75 },
+            { name: "Пистолетики (с поддержкой)", sets: 3, reps: "3-5 на ногу", rest: 90 },
+            { name: "Прыжки в длину", sets: 3, reps: "8-10", rest: 60 }
+          ];
+        } else if (dayInWeek === 3 || dayInWeek === 6) {
+          workout.exercises = [
+            { name: "Комплекс: Берпи + Отжимание + Прыжок", sets: 4, reps: "6-8", rest: 90 },
+            { name: "Спринт на месте", sets: 4, reps: "30 сек", rest: 60 },
+            { name: "Берпи без отжимания", sets: 3, reps: "15-20", rest: 45 },
+            { name: "Плиометрические выпады", sets: 3, reps: "10-12 на ногу", rest: 60 }
+          ];
+        } else {
+          workout.name = `День ${day}: Финальное восстановление`;
+          workout.focus = "Восстановление";
+          workout.duration = 20;
+          workout.exercises = [
+            { name: "Глубокая растяжка всего тела", sets: 1, reps: "20 минут", rest: 0 }
+          ];
+        }
+        
+        workouts.push(workout);
+      }
+      return workouts;
+    }
+
+    function generateHybridPhase1() {
+      const workouts = [];
+      for (let day = 1; day <= 30; day++) {
+        const week = Math.ceil(day / 7);
+        const dayInWeek = day % 7 || 7;
+        const isStreetDay = dayInWeek <= 3;
+        
+        let workout = {
+          day: day,
+          name: `День ${day}: Адаптация Hybrid`,
+          focus: isStreetDay ? "Street" : "Home",
+          duration: 25 + (week * 4),
+          intensity: Math.min(3, week),
+          exercises: []
+        };
+        
+        if (isStreetDay) {
+          workout.exercises = [
+            { name: "Подтягивания (или негативы)", sets: 3, reps: "3-5", rest: 90 },
+            { name: "Отжимания на брусьях", sets: 3, reps: "6-10", rest: 75 },
+            { name: "Приседания у стены", sets: 3, reps: "15-20", rest: 60 },
+            { name: "Вис на перекладине", sets: 3, reps: "20-30 сек", rest: 60 }
+          ];
+        } else if (dayInWeek <= 6) {
+          workout.exercises = [
+            { name: "Отжимания от пола", sets: 4, reps: "10-15", rest: 60 },
+            { name: "Приседания с собственным весом", sets: 4, reps: "15-20", rest: 60 },
+            { name: "Планка на локтях", sets: 3, reps: "30-45 сек", rest: 45 },
+            { name: "Выпады", sets: 3, reps: "10-12 на ногу", rest: 60 }
+          ];
+        } else {
+          workout.name = `День ${day}: Восстановление Hybrid`;
+          workout.focus = "Восстановление";
+          workout.duration = 15;
+          workout.exercises = [
+            { name: "Растяжка всего тела", sets: 1, reps: "15 минут", rest: 0 }
+          ];
+        }
+        
+        workouts.push(workout);
+      }
+      return workouts;
+    }
+
+    function generateHybridPhase2() {
+      const workouts = [];
+      for (let day = 31; day <= 60; day++) {
+        const adjustedDay = day - 30;
+        const week = Math.ceil(adjustedDay / 7);
+        const dayInWeek = adjustedDay % 7 || 7;
+        const isStreetDay = dayInWeek <= 3;
+        
+        let workout = {
+          day: day,
+          name: `День ${day}: Интенсив Hybrid`,
+          focus: isStreetDay ? "Street" : "Home",
+          duration: 35 + (week * 5),
+          intensity: Math.min(4, week + 1),
+          exercises: []
+        };
+        
+        if (isStreetDay) {
+          workout.exercises = [
+            { name: "Подтягивания широким хватом", sets: 4, reps: "4-6", rest: 90 },
+            { name: "Отжимания на брусьях с наклоном", sets: 4, reps: "8-10", rest: 75 },
+            { name: "Приседания с прыжком", sets: 4, reps: "10-12", rest: 60 },
+            { name: "Подъемы ног в висе", sets: 3, reps: "8-12", rest: 75 }
+          ];
+        } else if (dayInWeek <= 6) {
+          workout.exercises = [
+            { name: "Отжимания с узкой постановкой", sets: 4, reps: "8-12", rest: 60 },
+            { name: "Приседания с паузой", sets: 4, reps: "12-15", rest: 60 },
+            { name: "Берпи", sets: 4, reps: "8-10", rest: 75 },
+            { name: "Планка с касанием плеч", sets: 3, reps: "10-12 на сторону", rest: 45 }
+          ];
+        } else {
+          workout.name = `День ${day}: Восстановление Hybrid`;
+          workout.focus = "Восстановление";
+          workout.duration = 20;
+          workout.exercises = [
+            { name: "Йога среднего уровня", sets: 1, reps: "20 минут", rest: 0 }
+          ];
+        }
+        
+        workouts.push(workout);
+      }
+      return workouts;
+    }
+
+    function generateHybridPhase3() {
+      const workouts = [];
+      for (let day = 61; day <= 90; day++) {
+        const adjustedDay = day - 60;
+        const week = Math.ceil(adjustedDay / 7);
+        const dayInWeek = adjustedDay % 7 || 7;
+        const isStreetDay = dayInWeek <= 3;
+        
+        let workout = {
+          day: day,
+          name: `День ${day}: Элита Hybrid`,
+          focus: isStreetDay ? "Street" : "Home",
+          duration: 45 + (week * 5),
+          intensity: Math.min(5, week + 2),
+          exercises: []
+        };
+        
+        if (isStreetDay) {
+          workout.exercises = [
+            { name: "Подтягивания с весом", sets: 4, reps: "3-5", rest: 120 },
+            { name: "Выход силой (подготовка)", sets: 3, reps: "2-3", rest: 120 },
+            { name: "Приседания пистолетиком", sets: 3, reps: "3-5 на ногу", rest: 90 },
+            { name: "Флажок (попытка)", sets: 3, reps: "5-10 сек", rest: 120 }
+          ];
+        } else if (dayInWeek <= 6) {
+          workout.exercises = [
+            { name: "Отжимания с хлопком", sets: 4, reps: "5-8", rest: 90 },
+            { name: "Приседания с выпрыгиванием", sets: 4, reps: "10-12", rest: 75 },
+            { name: "Комплекс: Берпи + Отжимание + Прыжок", sets: 4, reps: "6-8", rest: 90 },
+            { name: "Планка сложная", sets: 3, reps: "45-60 сек", rest: 60 }
+          ];
+        } else {
+          workout.name = `День ${day}: Финальное восстановление Hybrid`;
+          workout.focus = "Восстановление";
+          workout.duration = 25;
+          workout.exercises = [
+            { name: "Профессиональная растяжка", sets: 1, reps: "25 минут", rest: 0 }
+          ];
+        }
+        
+        workouts.push(workout);
+      }
+      return workouts;
+    }
+
+    function getFocusByDay(dayInWeek) {
+      const focuses = {
+        1: "Верх тела",
+        2: "Кор и навыки",
+        3: "Низ тела",
+        4: "Верх тела",
+        5: "Кор и навыки",
+        6: "Низ тела",
+        7: "Восстановление"
+      };
+      return focuses[dayInWeek] || "Все тело";
+    }
 
     // ================ ПЕРЕВОДЫ ================
     const translations = {
@@ -1169,7 +1395,20 @@
         streetType: "Уличная",
         homeType: "Домашняя",
         hybridType: "Гибридная",
-        restDay: "День отдыха"
+        restDay: "День отдыха",
+        phase1: "Фаза 1: База (1-30 дней)",
+        phase2: "Фаза 2: Прогресс (31-60 дней)",
+        phase3: "Фаза 3: Мастерство (61-90 дней)",
+        expectedResults: "Ожидаемые результаты",
+        muscleGain: "Прирост мышц",
+        fatLoss: "Сжигание жира",
+        strengthGain: "Увеличение силы",
+        endurance: "Выносливость",
+        currentPhase: "Текущая фаза",
+        progressTracking: "Отслеживание прогресса",
+        measurements: "Замеры тела",
+        photos: "Фото прогресса",
+        stats: "Статистика"
       },
       en: {
         navHome: "Home",
@@ -1252,7 +1491,20 @@
         streetType: "Street",
         homeType: "Home",
         hybridType: "Hybrid",
-        restDay: "Rest day"
+        restDay: "Rest day",
+        phase1: "Phase 1: Base (1-30 days)",
+        phase2: "Phase 2: Progress (31-60 days)",
+        phase3: "Phase 3: Mastery (61-90 days)",
+        expectedResults: "Expected results",
+        muscleGain: "Muscle gain",
+        fatLoss: "Fat loss",
+        strengthGain: "Strength gain",
+        endurance: "Endurance",
+        currentPhase: "Current phase",
+        progressTracking: "Progress tracking",
+        measurements: "Body measurements",
+        photos: "Progress photos",
+        stats: "Statistics"
       }
     };
 
@@ -1264,10 +1516,6 @@
     function updateLanguage(lang) {
       currentLanguage = lang;
       localStorage.setItem('silverSurferLanguage', lang);
-      // Перегенерируем тренировки с новым языком
-      workoutsDB.street = generateWorkouts().street;
-      workoutsDB.home = generateWorkouts().home;
-      workoutsDB.hybrid = generateWorkouts().hybrid;
       updatePageContent();
       updateNavigation();
     }
@@ -1295,7 +1543,7 @@
         mobileNavAuth.textContent = t('navLogout');
         mobileAuthNavItem.onclick = () => {
           showLogoutConfirm();
-          closeMobileMenu();
+          toggleMobileMenu();
         };
       } else {
         navAuth.textContent = t('navAuth');
@@ -1303,43 +1551,20 @@
         mobileNavAuth.textContent = t('navAuth');
         mobileAuthNavItem.onclick = () => {
           checkAuth();
-          closeMobileMenu();
+          toggleMobileMenu();
         };
       }
       
       // Обновляем все тексты навигации
-      const navElements = [
-        ['navHome', 'mobileNavHome'],
-        ['navPrograms', 'mobileNavPrograms'],
-        ['navWorkout', 'mobileNavWorkout'],
-        ['navNutrition', 'mobileNavNutrition'],
-        ['navSettings', 'mobileNavSettings'],
-        ['footerText']
-      ];
-      
-      navElements.forEach(([desktopId, mobileId]) => {
-        const desktopEl = document.getElementById(desktopId);
-        const mobileEl = mobileId ? document.getElementById(mobileId) : null;
-        
-        if (desktopId === 'navHome') {
-          if (desktopEl) desktopEl.textContent = t('navHome');
-          if (mobileEl) mobileEl.textContent = t('navHome');
-        } else if (desktopId === 'navPrograms') {
-          if (desktopEl) desktopEl.textContent = t('navPrograms');
-          if (mobileEl) mobileEl.textContent = t('navPrograms');
-        } else if (desktopId === 'navWorkout') {
-          if (desktopEl) desktopEl.textContent = t('navWorkout');
-          if (mobileEl) mobileEl.textContent = t('navWorkout');
-        } else if (desktopId === 'navNutrition') {
-          if (desktopEl) desktopEl.textContent = t('navNutrition');
-          if (mobileEl) mobileEl.textContent = t('navNutrition');
-        } else if (desktopId === 'navSettings') {
-          if (desktopEl) desktopEl.textContent = t('navSettings');
-          if (mobileEl) mobileEl.textContent = t('navSettings');
-        } else if (desktopId === 'footerText') {
-          if (desktopEl) desktopEl.textContent = t('footerText');
-        }
+      ['navHome', 'navPrograms', 'navWorkout', 'navNutrition', 'navSettings'].forEach(id => {
+        const desktopEl = document.getElementById(id);
+        const mobileEl = document.getElementById('mobile' + id.charAt(0).toUpperCase() + id.slice(1));
+        if (desktopEl) desktopEl.textContent = t(id);
+        if (mobileEl) mobileEl.textContent = t(id);
       });
+      
+      const footerText = document.getElementById('footerText');
+      if (footerText) footerText.textContent = t('footerText');
     }
 
     function updatePageContent() {
@@ -1354,36 +1579,29 @@
       else if (currentPage.includes('Настройки') || currentPage.includes('Settings')) showSettings();
     }
 
-    // ================ МОБИЛЬНОЕ МЕНЮ ================
+    // ================ МОБИЛЬНОЕ МЕНЮ - ИСПРАВЛЕНО ================
     function toggleMobileMenu() {
       const mobileMenu = document.getElementById('mobileMenu');
       const overlay = document.getElementById('mobileOverlay');
       
-      if (mobileMenu.classList.contains('show')) {
-        closeMobileMenu();
+      if (mobileMenu.classList.contains('active')) {
+        mobileMenu.classList.remove('active');
+        overlay.classList.remove('active');
+        document.body.style.overflow = 'auto';
       } else {
-        mobileMenu.classList.add('show');
-        overlay.style.display = 'block';
+        mobileMenu.classList.add('active');
+        overlay.classList.add('active');
         document.body.style.overflow = 'hidden';
       }
     }
 
+    // Закрываем меню при клике на ссылку
     function closeMobileMenu() {
       const mobileMenu = document.getElementById('mobileMenu');
       const overlay = document.getElementById('mobileOverlay');
-      
-      mobileMenu.classList.remove('show');
-      overlay.style.display = 'none';
+      mobileMenu.classList.remove('active');
+      overlay.classList.remove('active');
       document.body.style.overflow = 'auto';
-    }
-
-    function checkAuthMobile() {
-      if (currentUser) {
-        showDashboard();
-      } else {
-        showLogin();
-      }
-      closeMobileMenu();
     }
 
     // ================ СИСТЕМА ПОЛЬЗОВАТЕЛЕЙ ================
@@ -1400,7 +1618,11 @@
         totalMinutes: 0,
         achievements: [],
         currentDay: 1,
-        lastWorkout: null
+        lastWorkout: null,
+        startWeight: null,
+        startMeasurements: null,
+        progressPhotos: [],
+        bodyMeasurements: []
       };
       
       usersDB[userId] = user;
@@ -1467,6 +1689,7 @@
       } else {
         showLogin();
       }
+      closeMobileMenu();
     }
 
     function showLogoutConfirm() {
@@ -1530,6 +1753,28 @@
                 </div>
                 <h3>Mobile</h3>
                 <p>${t('lightTheme')}/${t('darkTheme')}</p>
+              </div>
+            </div>
+            
+            <div style="margin-top: 50px; text-align: center;">
+              <h3 style="color: var(--accent); margin-bottom: 20px;">${t('expectedResults')}</h3>
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+                <div style="background: rgba(30, 144, 255, 0.1); padding: 20px; border-radius: 15px; border: 1px solid var(--accent);">
+                  <h4 style="color: var(--light);">${t('muscleGain')}</h4>
+                  <p style="color: var(--ice);">+3-5 кг мышечной массы</p>
+                </div>
+                <div style="background: rgba(30, 144, 255, 0.1); padding: 20px; border-radius: 15px; border: 1px solid var(--accent);">
+                  <h4 style="color: var(--light);">${t('fatLoss')}</h4>
+                  <p style="color: var(--ice);">-5-8 кг жира</p>
+                </div>
+                <div style="background: rgba(30, 144, 255, 0.1); padding: 20px; border-radius: 15px; border: 1px solid var(--accent);">
+                  <h4 style="color: var(--light);">${t('strengthGain')}</h4>
+                  <p style="color: var(--ice);">+150% силы</p>
+                </div>
+                <div style="background: rgba(30, 144, 255, 0.1); padding: 20px; border-radius: 15px; border: 1px solid var(--accent);">
+                  <h4 style="color: var(--light);">${t('endurance')}</h4>
+                  <p style="color: var(--ice);">+200% выносливости</p>
+                </div>
               </div>
             </div>
           </div>
@@ -1648,24 +1893,27 @@
         return;
       }
       
-      const workout = workoutsDB[currentUser.program][currentUser.currentDay - 1];
-      const programName = currentUser.program === 'street' ? t('streetProgram') : 
-                         currentUser.program === 'home' ? t('homeProgram') : t('hybridProgram');
+      const program = workoutPrograms[currentUser.program];
+      const currentPhase = currentUser.currentDay <= 30 ? program.phases[0] : 
+                          currentUser.currentDay <= 60 ? program.phases[1] : program.phases[2];
+      const workout = currentPhase.workouts[currentUser.currentDay - (currentPhase === program.phases[0] ? 0 : 
+                     currentPhase === program.phases[1] ? 30 : 60)];
       
       const progressPercent = Math.min(100, (currentUser.currentDay / 90) * 100);
+      const currentWeek = Math.ceil(currentUser.currentDay / 7);
       
       document.getElementById('mainContent').innerHTML = `
         <div class="home-screen">
           <div class="home-content">
             <h2>${t('welcome')}, ${currentUser.username}!</h2>
-            <p style="color: var(--ice); margin: 20px 0;">
-              ${t('todaysWorkout')}: <strong>${programName}</strong>
+            <p style="color: var(--ice); margin: 10px 0 30px 0;">
+              ${t('currentPhase')}: <strong>${currentPhase.name}</strong>
             </p>
             
             <div class="progress-container">
               <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                <span style="color: var(--ice);">${t('progress')}</span>
-                <span style="color: var(--accent); font-weight: 600;">${currentUser.currentDay}/90 ${t('day')}</span>
+                <span style="color: var(--ice);">${t('progress')} - ${t('day')} ${currentUser.currentDay}/90</span>
+                <span style="color: var(--accent); font-weight: 600;">Неделя ${currentWeek}</span>
               </div>
               <div class="progress-bar">
                 <div class="progress-fill" style="width: ${progressPercent}%"></div>
@@ -1709,28 +1957,218 @@
             <div style="margin: 40px 0;">
               <h3 style="color: var(--accent); margin-bottom: 20px;">${t('todaysWorkout')}</h3>
               <div style="background: rgba(30, 144, 255, 0.1); padding: 20px; border-radius: 15px; border: 2px solid var(--accent);">
-                <h4 style="color: var(--light); margin-bottom: 10px;">${t('day')} ${currentUser.currentDay}: ${workout.name}</h4>
-                <p style="color: var(--ice); margin-bottom: 10px;">${workout.description}</p>
-                <div style="display: flex; flex-wrap: wrap; gap: 10px; margin: 15px 0;">
-                  <span style="background: rgba(30, 144, 255, 0.2); padding: 5px 12px; border-radius: 15px; color: var(--accent);">
-                    <i class="fas fa-clock"></i> ${workout.duration > 0 ? workout.duration + ' ' + t('minutes') : t('restDay')}
-                  </span>
-                  <span style="background: rgba(30, 144, 255, 0.2); padding: 5px 12px; border-radius: 15px; color: var(--accent);">
-                    <i class="fas fa-bullseye"></i> ${getFocusName(workout.focus)}
-                  </span>
+                <h4 style="color: var(--light); margin-bottom: 10px;">${workout.name}</h4>
+                <p style="color: var(--ice); margin-bottom: 10px;">${workout.focus} • ${workout.duration} ${t('minutes')} • ${t('intensity')}: ${workout.intensity}/5</p>
+                
+                <div style="margin: 15px 0;">
+                  <h5 style="color: var(--silver); margin-bottom: 10px;">${t('exercises')}:</h5>
+                  ${workout.exercises.map((ex, index) => `
+                    <div style="background: rgba(0,0,0,0.2); padding: 12px; border-radius: 10px; margin-bottom: 8px; border-left: 3px solid var(--accent);">
+                      <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span style="color: var(--light); font-weight: 600;">${ex.name}</span>
+                        <span style="color: var(--accent); font-size: 0.9rem;">${ex.sets} ${t('sets')} × ${ex.reps}</span>
+                      </div>
+                      <div style="color: var(--ice); font-size: 0.85rem; margin-top: 5px;">
+                        <i class="fas fa-clock"></i> ${ex.rest} ${t('rest')}
+                      </div>
+                    </div>
+                  `).join('')}
                 </div>
-                <button class="btn btn-primary" onclick="startWorkoutSession()" style="margin-top: 15px;">
-                  <i class="fas fa-play"></i> ${workout.duration > 0 ? t('startWorkout') : t('continueWorkout')}
+                
+                <button class="btn btn-primary" onclick="startWorkoutSession()" style="margin-top: 15px; width: 100%;">
+                  <i class="fas fa-play"></i> ${t('startWorkout')}
+                </button>
+              </div>
+            </div>
+            
+            <div style="margin: 30px 0;">
+              <h3 style="color: var(--accent); margin-bottom: 15px;">${t('progressTracking')}</h3>
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px;">
+                <button class="btn btn-secondary" onclick="showProgressTracking()" style="flex-direction: column; padding: 15px;">
+                  <i class="fas fa-ruler"></i> ${t('measurements')}
+                </button>
+                <button class="btn btn-secondary" onclick="showAchievements()" style="flex-direction: column; padding: 15px;">
+                  <i class="fas fa-trophy"></i> ${t('achievements')}
+                </button>
+                <button class="btn btn-secondary" onclick="showStats()" style="flex-direction: column; padding: 15px;">
+                  <i class="fas fa-chart-bar"></i> ${t('stats')}
+                </button>
+                <button class="btn btn-secondary" onclick="showPrograms()" style="flex-direction: column; padding: 15px;">
+                  <i class="fas fa-dumbbell"></i> ${t('allPrograms')}
                 </button>
               </div>
             </div>
             
             <div class="home-buttons">
-              <button class="btn btn-primary" onclick="showPrograms()">
-                <i class="fas fa-dumbbell"></i> ${t('allPrograms')}
-              </button>
-              <button class="btn btn-secondary" onclick="showSettings()">
+              <button class="btn btn-primary" onclick="showSettings()">
                 <i class="fas fa-cog"></i> ${t('navSettings')}
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function showProgressTracking() {
+      document.getElementById('mainContent').innerHTML = `
+        <div class="workout-screen">
+          <h2 style="color: var(--light); text-align: center; margin-bottom: 30px;">${t('progressTracking')}</h2>
+          
+          <div style="max-width: 600px; margin: 0 auto;">
+            <div style="background: rgba(7, 35, 64, 0.7); padding: 25px; border-radius: 20px; margin-bottom: 20px;">
+              <h3 style="color: var(--accent); margin-bottom: 15px;"><i class="fas fa-weight"></i> ${t('measurements')}</h3>
+              <p style="color: var(--ice); margin-bottom: 20px;">${currentLanguage === 'ru' ? 
+                'Записывайте свои замеры каждую неделю для отслеживания прогресса:' : 
+                'Record your measurements every week to track progress:'}</p>
+              
+              <div style="display: grid; gap: 15px;">
+                <input type="number" placeholder="${currentLanguage === 'ru' ? 'Вес (кг)' : 'Weight (kg)'}" id="weightInput" 
+                  style="padding: 12px; border-radius: 10px; border: 2px solid var(--accent); background: rgba(0,0,0,0.2); color: var(--light);">
+                <input type="number" placeholder="${currentLanguage === 'ru' ? 'Обхват груди (см)' : 'Chest (cm)'}" id="chestInput" 
+                  style="padding: 12px; border-radius: 10px; border: 2px solid var(--accent); background: rgba(0,0,0,0.2); color: var(--light);">
+                <input type="number" placeholder="${currentLanguage === 'ru' ? 'Обхват талии (см)' : 'Waist (cm)'}" id="waistInput" 
+                  style="padding: 12px; border-radius: 10px; border: 2px solid var(--accent); background: rgba(0,0,0,0.2); color: var(--light);">
+                <input type="number" placeholder="${currentLanguage === 'ru' ? 'Обхват бицепса (см)' : 'Biceps (cm)'}" id="bicepsInput" 
+                  style="padding: 12px; border-radius: 10px; border: 2px solid var(--accent); background: rgba(0,0,0,0.2); color: var(--light);">
+              </div>
+              
+              <button class="btn btn-primary" onclick="saveMeasurements()" style="width: 100%; margin-top: 20px;">
+                <i class="fas fa-save"></i> ${currentLanguage === 'ru' ? 'Сохранить замеры' : 'Save measurements'}
+              </button>
+            </div>
+            
+            <div style="text-align: center; margin-top: 30px;">
+              <button class="btn btn-secondary" onclick="showDashboard()">
+                <i class="fas fa-arrow-left"></i> ${t('backToProfile')}
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function saveMeasurements() {
+      if (!currentUser) return;
+      
+      const measurement = {
+        date: new Date().toISOString().split('T')[0],
+        day: currentUser.currentDay,
+        weight: document.getElementById('weightInput').value,
+        chest: document.getElementById('chestInput').value,
+        waist: document.getElementById('waistInput').value,
+        biceps: document.getElementById('bicepsInput').value
+      };
+      
+      if (!currentUser.bodyMeasurements) {
+        currentUser.bodyMeasurements = [];
+      }
+      
+      currentUser.bodyMeasurements.push(measurement);
+      usersDB[currentUser.id] = currentUser;
+      localStorage.setItem('silverSurferUsers', JSON.stringify(usersDB));
+      localStorage.setItem('currentUser', JSON.stringify(currentUser));
+      
+      alert(currentLanguage === 'ru' ? 'Замеры сохранены!' : 'Measurements saved!');
+      showDashboard();
+    }
+
+    function showAchievements() {
+      document.getElementById('mainContent').innerHTML = `
+        <div class="workout-screen">
+          <h2 style="color: var(--light); text-align: center; margin-bottom: 30px;">${t('achievements')}</h2>
+          
+          <div style="max-width: 800px; margin: 0 auto;">
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin-bottom: 40px;">
+              <div class="achievement-badge">
+                <div class="achievement-icon">
+                  <i class="fas fa-fire"></i>
+                </div>
+                <h4>${currentUser.streak >= 7 ? '🔥' : '❄️'} ${t('currentStreak')}</h4>
+                <p>${currentUser.streak} ${t('day')}</p>
+              </div>
+              
+              <div class="achievement-badge">
+                <div class="achievement-icon">
+                  <i class="fas fa-dumbbell"></i>
+                </div>
+                <h4>${currentUser.workoutsCompleted >= 10 ? '🏆' : '💪'} ${t('workoutsCompleted')}</h4>
+                <p>${currentUser.workoutsCompleted}</p>
+              </div>
+              
+              <div class="achievement-badge">
+                <div class="achievement-icon">
+                  <i class="fas fa-star"></i>
+                </div>
+                <h4>${currentUser.level >= 5 ? '⭐' : '🌟'} ${t('level')}</h4>
+                <p>${currentUser.level}</p>
+              </div>
+              
+              <div class="achievement-badge">
+                <div class="achievement-icon">
+                  <i class="fas fa-flag-checkered"></i>
+                </div>
+                <h4>${currentUser.currentDay >= 30 ? '🎯' : '🏁'} Прогресс</h4>
+                <p>${currentUser.currentDay}/90</p>
+              </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 30px;">
+              <button class="btn btn-secondary" onclick="showDashboard()">
+                <i class="fas fa-arrow-left"></i> ${t('backToProfile')}
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function showStats() {
+      const totalWorkouts = currentUser.workoutsCompleted;
+      const avgMinutes = totalWorkouts > 0 ? Math.round(currentUser.totalMinutes / totalWorkouts) : 0;
+      const successRate = totalWorkouts > 0 ? Math.round((currentUser.currentDay / totalWorkouts) * 100) : 0;
+      
+      document.getElementById('mainContent').innerHTML = `
+        <div class="workout-screen">
+          <h2 style="color: var(--light); text-align: center; margin-bottom: 30px;">${t('stats')}</h2>
+          
+          <div style="max-width: 600px; margin: 0 auto;">
+            <div style="background: rgba(7, 35, 64, 0.7); padding: 25px; border-radius: 20px; margin-bottom: 20px;">
+              <h3 style="color: var(--accent); margin-bottom: 20px;"><i class="fas fa-chart-bar"></i> ${t('progress')}</h3>
+              
+              <div style="display: grid; gap: 15px;">
+                <div style="background: rgba(30, 144, 255, 0.1); padding: 15px; border-radius: 10px;">
+                  <div style="display: flex; justify-content: space-between;">
+                    <span style="color: var(--ice);">${t('workoutsCompleted')}:</span>
+                    <span style="color: var(--light); font-weight: 600;">${totalWorkouts}</span>
+                  </div>
+                </div>
+                
+                <div style="background: rgba(30, 144, 255, 0.1); padding: 15px; border-radius: 10px;">
+                  <div style="display: flex; justify-content: space-between;">
+                    <span style="color: var(--ice);">${t('totalMinutes')}:</span>
+                    <span style="color: var(--light); font-weight: 600;">${currentUser.totalMinutes}</span>
+                  </div>
+                </div>
+                
+                <div style="background: rgba(30, 144, 255, 0.1); padding: 15px; border-radius: 10px;">
+                  <div style="display: flex; justify-content: space-between;">
+                    <span style="color: var(--ice);">Средняя тренировка:</span>
+                    <span style="color: var(--light); font-weight: 600;">${avgMinutes} ${t('minutes')}</span>
+                  </div>
+                </div>
+                
+                <div style="background: rgba(30, 144, 255, 0.1); padding: 15px; border-radius: 10px;">
+                  <div style="display: flex; justify-content: space-between;">
+                    <span style="color: var(--ice);">Процент завершения:</span>
+                    <span style="color: var(--light); font-weight: 600;">${successRate}%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 30px;">
+              <button class="btn btn-secondary" onclick="showDashboard()">
+                <i class="fas fa-arrow-left"></i> ${t('backToProfile')}
               </button>
             </div>
           </div>
@@ -1751,8 +2189,13 @@
               </div>
               <h3 style="color: var(--light); margin-bottom: 15px;">${t('streetProgram')}</h3>
               <p style="color: var(--ice); margin-bottom: 20px;">${t('streetDesc')}</p>
-              <div style="color: var(--accent); font-weight: 600;">
-                <i class="fas fa-clock"></i> ${t('programDuration')} • <i class="fas fa-dumbbell"></i> 90 ${t('day')}
+              <div style="color: var(--accent); font-weight: 600; margin-bottom: 10px;">
+                <i class="fas fa-clock"></i> ${t('programDuration')}
+              </div>
+              <div style="color: var(--silver); font-size: 0.9rem;">
+                ${t('phase1')}<br>
+                ${t('phase2')}<br>
+                ${t('phase3')}
               </div>
             </div>
             
@@ -1762,8 +2205,13 @@
               </div>
               <h3 style="color: var(--light); margin-bottom: 15px;">${t('homeProgram')}</h3>
               <p style="color: var(--ice); margin-bottom: 20px;">${t('homeDesc')}</p>
-              <div style="color: var(--accent); font-weight: 600;">
-                <i class="fas fa-clock"></i> ${t('programDuration')} • <i class="fas fa-couch"></i> 90 ${t('day')}
+              <div style="color: var(--accent); font-weight: 600; margin-bottom: 10px;">
+                <i class="fas fa-clock"></i> ${t('programDuration')}
+              </div>
+              <div style="color: var(--silver); font-size: 0.9rem;">
+                ${t('phase1')}<br>
+                ${t('phase2')}<br>
+                ${t('phase3')}
               </div>
             </div>
             
@@ -1773,8 +2221,13 @@
               </div>
               <h3 style="color: var(--light); margin-bottom: 15px;">${t('hybridProgram')}</h3>
               <p style="color: var(--ice); margin-bottom: 20px;">${t('hybridDesc')}</p>
-              <div style="color: var(--accent); font-weight: 600;">
-                <i class="fas fa-clock"></i> ${t('programDuration')} • <i class="fas fa-balance-scale"></i> 90 ${t('day')}
+              <div style="color: var(--accent); font-weight: 600; margin-bottom: 10px;">
+                <i class="fas fa-clock"></i> ${t('programDuration')}
+              </div>
+              <div style="color: var(--silver); font-size: 0.9rem;">
+                ${t('phase1')}<br>
+                ${t('phase2')}<br>
+                ${t('phase3')}
               </div>
             </div>
           </div>
@@ -1797,14 +2250,18 @@
       
       currentUser.program = program;
       currentUser.currentDay = 1;
+      currentUser.streak = 0;
+      currentUser.workoutsCompleted = 0;
+      currentUser.totalMinutes = 0;
+      currentUser.level = 1;
       
       usersDB[currentUser.id] = currentUser;
       localStorage.setItem('silverSurferUsers', JSON.stringify(usersDB));
       localStorage.setItem('currentUser', JSON.stringify(currentUser));
       
       alert(currentLanguage === 'ru' ? 
-        `Программа "${program === 'street' ? t('streetProgram') : program === 'home' ? t('homeProgram') : t('hybridProgram')}" выбрана!` :
-        `Program "${program === 'street' ? t('streetProgram') : program === 'home' ? t('homeProgram') : t('hybridProgram')}" selected!`
+        `Программа "${program === 'street' ? t('streetProgram') : program === 'home' ? t('homeProgram') : t('hybridProgram')}" выбрана! Начинаем 90-дневный путь!` :
+        `Program "${program === 'street' ? t('streetProgram') : program === 'home' ? t('homeProgram') : t('hybridProgram')}" selected! Starting 90-day journey!`
       );
       showDashboard();
     }
@@ -1854,17 +2311,19 @@
         return;
       }
       
-      const workout = workoutsDB[currentUser.program][currentUser.currentDay - 1];
-      const isRestDay = workout.duration === 0;
+      const program = workoutPrograms[currentUser.program];
+      const currentPhase = currentUser.currentDay <= 30 ? program.phases[0] : 
+                          currentUser.currentDay <= 60 ? program.phases[1] : program.phases[2];
+      const workout = currentPhase.workouts[currentUser.currentDay - (currentPhase === program.phases[0] ? 0 : 
+                     currentPhase === program.phases[1] ? 30 : 60)];
       
       document.getElementById('mainContent').innerHTML = `
         <div class="workout-screen">
           <h2 style="color: var(--light); text-align: center; margin-bottom: 10px;">${workout.name}</h2>
           <p style="color: var(--ice); text-align: center; margin-bottom: 30px;">
-            ${t('day')} ${currentUser.currentDay} • ${workout.description}
+            ${t('day')} ${currentUser.currentDay} • ${workout.focus} • ${workout.duration} ${t('minutes')}
           </p>
           
-          ${!isRestDay ? `
           <div class="timer-container">
             <h3 style="color: var(--accent); margin-bottom: 10px;">${t('workoutTimer')}</h3>
             <div class="timer-display" id="timerDisplay">00:00:00</div>
@@ -1880,32 +2339,27 @@
               </button>
             </div>
           </div>
-          ` : ''}
           
           <div style="margin: 40px 0;">
-            <h3 style="color: var(--accent); margin-bottom: 20px;">${isRestDay ? t('restDay') : t('exercises')}:</h3>
-            ${!isRestDay ? workout.exercises.map((ex, index) => `
+            <h3 style="color: var(--accent); margin-bottom: 20px;">${t('exercises')}:</h3>
+            ${workout.exercises.map((ex, index) => `
               <div class="exercise-item">
-                <h4 style="color: var(--light); margin-bottom: 10px;">${ex.name}</h4>
-                <div style="display: flex; gap: 20px; color: var(--ice); flex-wrap: wrap;">
-                  <span><i class="fas fa-redo"></i> ${ex.sets} ${t('sets')}</span>
-                  <span><i class="fas fa-fire"></i> ${ex.reps} ${t('reps')}</span>
-                  <span><i class="fas fa-clock"></i> ${ex.rest} ${t('rest')}</span>
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 10px;">
+                  <h4 style="color: var(--light); flex: 1;">${ex.name}</h4>
+                  <span style="background: rgba(30, 144, 255, 0.2); padding: 5px 10px; border-radius: 10px; color: var(--accent); font-weight: 600; margin-left: 10px;">
+                    ${ex.sets} × ${ex.reps}
+                  </span>
+                </div>
+                <div style="color: var(--ice); font-size: 0.9rem;">
+                  <i class="fas fa-clock"></i> Отдых: ${ex.rest} сек
                 </div>
               </div>
-            `).join('') : `
-              <div style="background: rgba(30, 144, 255, 0.1); padding: 30px; border-radius: 15px; text-align: center; border: 2px dashed var(--accent);">
-                <h4 style="color: var(--light); margin-bottom: 10px;">${t('restDay')}</h4>
-                <p style="color: var(--ice); line-height: 1.6;">${currentLanguage === 'ru' 
-                  ? 'Сегодня день активного восстановления. Отдохните, растянитесь, сфокусируйтесь на мобильности суставов и гидратации. Восстановление так же важно, как и тренировки!' 
-                  : 'Today is an active recovery day. Rest, stretch, focus on joint mobility and hydration. Recovery is just as important as training!'}</p>
-              </div>
-            `}
+            `).join('')}
           </div>
           
           <div style="text-align: center; margin-top: 30px;">
             <button class="btn btn-primary" onclick="completeWorkout()" style="padding: 18px 45px; font-size: 1.2rem;">
-              <i class="fas fa-check-circle"></i> ${isRestDay ? t('continueWorkout') : t('completeWorkout')}
+              <i class="fas fa-check-circle"></i> ${t('completeWorkout')}
             </button>
             <button class="btn btn-secondary" onclick="showDashboard()" style="margin-top: 15px;">
               <i class="fas fa-arrow-left"></i> ${t('backToProfile')}
@@ -1913,43 +2367,44 @@
           </div>
         </div>
       `;
-      if (!isRestDay) updateTimerDisplay();
+      updateTimerDisplay();
     }
 
     function completeWorkout() {
       if (!currentUser) return;
       
-      const workout = workoutsDB[currentUser.program][currentUser.currentDay - 1];
-      const isRestDay = workout.duration === 0;
+      const minutes = Math.floor(timerSeconds / 60);
       
-      if (!isRestDay) {
-        // Обновляем статистику для тренировочного дня
-        currentUser.workoutsCompleted++;
-        currentUser.totalMinutes += Math.floor(timerSeconds / 60);
-        currentUser.streak++;
-        currentUser.currentDay++;
-        
-        // Проверяем повышение уровня
-        if (currentUser.workoutsCompleted % 5 === 0) {
-          currentUser.level++;
-          alert(currentLanguage === 'ru' ? 
-            `Поздравляем! Вы достигли ${currentUser.level} уровня!` : 
-            `Congratulations! You reached level ${currentUser.level}!`
-          );
-        }
-      } else {
-        // День отдыха - просто переходим к следующему дню
-        currentUser.currentDay++;
+      // Обновляем статистику
+      currentUser.workoutsCompleted++;
+      currentUser.totalMinutes += minutes;
+      currentUser.streak++;
+      currentUser.currentDay++;
+      
+      // Проверяем повышение уровня
+      if (currentUser.workoutsCompleted % 5 === 0) {
+        currentUser.level++;
+      }
+      
+      // Проверяем достижения
+      if (currentUser.streak >= 7 && !currentUser.achievements.includes('7daystreak')) {
+        currentUser.achievements.push('7daystreak');
+      }
+      if (currentUser.workoutsCompleted >= 30 && !currentUser.achievements.includes('30workouts')) {
+        currentUser.achievements.push('30workouts');
+      }
+      if (currentUser.level >= 5 && !currentUser.achievements.includes('level5')) {
+        currentUser.achievements.push('level5');
       }
       
       // Проверяем завершение программы
       if (currentUser.currentDay > 90) {
-        currentUser.currentDay = 1;
-        currentUser.level += 2;
+        currentUser.achievements.push('90daycomplete');
         alert(currentLanguage === 'ru' ? 
-          '🎉 Поздравляем! Вы завершили 90-дневную программу! Уровень повышен на 2! 🎉' : 
-          '🎉 Congratulations! You completed the 90-day program! Level increased by 2! 🎉'
+          '🎉 ПОЗДРАВЛЯЕМ! Вы завершили 90-дневную программу! Вы достигли невероятных результатов! 🎉' : 
+          '🎉 CONGRATULATIONS! You completed the 90-day program! You achieved incredible results! 🎉'
         );
+        currentUser.currentDay = 90;
       }
       
       // Сохраняем
@@ -1961,19 +2416,10 @@
       resetTimer();
       
       // Показываем сообщение
-      if (!isRestDay) {
-        const minutes = Math.floor(timerSeconds / 60);
-        const seconds = timerSeconds % 60;
-        alert(currentLanguage === 'ru' ? 
-          `Отличная работа! Вы завершили тренировку за ${minutes}:${seconds.toString().padStart(2, '0')}` :
-          `Great job! You completed the workout in ${minutes}:${seconds.toString().padStart(2, '0')}`
-        );
-      } else {
-        alert(currentLanguage === 'ru' ? 
-          'День отдыха завершен. Хорошего восстановления!' :
-          'Rest day completed. Have a good recovery!'
-        );
-      }
+      alert(currentLanguage === 'ru' ? 
+        `Отличная работа! Вы завершили тренировку за ${minutes} минут. Продолжайте в том же духе!` :
+        `Great job! You completed the workout in ${minutes} minutes. Keep up the good work!`
+      );
       
       showDashboard();
     }
@@ -1987,22 +2433,45 @@
           <div class="nutrition-tips">
             <div class="tip-card">
               <h3 style="color: var(--accent); margin-bottom: 10px;"><i class="fas fa-drumstick-bite"></i> ${t('protein')}</h3>
-              <p style="color: var(--ice);">${currentLanguage === 'ru' ? '1.6-2.2г белка на кг веса тела в день. Курица, рыба, яйца, творог.' : '1.6-2.2g protein per kg body weight daily. Chicken, fish, eggs, cottage cheese.'}</p>
+              <p style="color: var(--ice);">${currentLanguage === 'ru' ? '1.6-2.2г белка на кг веса тела в день. Курица, рыба, яйца, творог, протеин.' : '1.6-2.2g protein per kg body weight daily. Chicken, fish, eggs, cottage cheese, protein.'}</p>
+              <div style="margin-top: 10px; color: var(--silver); font-size: 0.9rem;">
+                ${currentLanguage === 'ru' ? 'Пример: 80кг × 2г = 160г белка в день' : 'Example: 80kg × 2g = 160g protein daily'}
+              </div>
             </div>
             
             <div class="tip-card">
               <h3 style="color: var(--accent); margin-bottom: 10px;"><i class="fas fa-bread-slice"></i> ${t('carbs')}</h3>
-              <p style="color: var(--ice);">${currentLanguage === 'ru' ? 'Сложные углеводы: рис, гречка, овсянка. За 2 часа до тренировки.' : 'Complex carbs: rice, buckwheat, oatmeal. 2 hours before workout.'}</p>
+              <p style="color: var(--ice);">${currentLanguage === 'ru' ? 'Сложные углеводы: рис, гречка, овсянка, макароны твердых сортов. За 2 часа до тренировки.' : 'Complex carbs: rice, buckwheat, oatmeal, whole wheat pasta. 2 hours before workout.'}</p>
+              <div style="margin-top: 10px; color: var(--silver); font-size: 0.9rem;">
+                ${currentLanguage === 'ru' ? '3-4г на кг веса в тренировочные дни' : '3-4g per kg weight on training days'}
+              </div>
             </div>
             
             <div class="tip-card">
               <h3 style="color: var(--accent); margin-bottom: 10px;"><i class="fas fa-tint"></i> ${t('water')}</h3>
               <p style="color: var(--ice);">${currentLanguage === 'ru' ? '3-4 литра воды в день. Пейте до, во время и после тренировки.' : '3-4 liters of water daily. Drink before, during, and after workout.'}</p>
+              <div style="margin-top: 10px; color: var(--silver); font-size: 0.9rem;">
+                ${currentLanguage === 'ru' ? 'Стакан воды каждые 2 часа' : 'Glass of water every 2 hours'}
+              </div>
             </div>
             
             <div class="tip-card">
               <h3 style="color: var(--accent); margin-bottom: 10px;"><i class="fas fa-apple-alt"></i> ${t('vegetables')}</h3>
-              <p style="color: var(--ice);">${currentLanguage === 'ru' ? '500г овощей в день для витаминов и пищеварения.' : '500g vegetables daily for vitamins and digestion.'}</p>
+              <p style="color: var(--ice);">${currentLanguage === 'ru' ? '500г овощей в день для витаминов, минералов и пищеварения.' : '500g vegetables daily for vitamins, minerals and digestion.'}</p>
+              <div style="margin-top: 10px; color: var(--silver); font-size: 0.9rem;">
+                ${currentLanguage === 'ru' ? 'Брокколи, шпинат, морковь, огурцы' : 'Broccoli, spinach, carrots, cucumbers'}
+              </div>
+            </div>
+          </div>
+          
+          <div style="max-width: 600px; margin: 40px auto 0; background: rgba(30, 144, 255, 0.1); padding: 25px; border-radius: 20px;">
+            <h3 style="color: var(--accent); margin-bottom: 15px;">${currentLanguage === 'ru' ? 'Пример дневного рациона (для мужчины 80кг):' : 'Example daily diet (for 80kg man):'}</h3>
+            <div style="color: var(--ice); line-height: 1.8;">
+              <div><strong>Завтрак:</strong> ${currentLanguage === 'ru' ? 'Овсянка + 3 яйца + овощи' : 'Oatmeal + 3 eggs + vegetables'}</div>
+              <div><strong>Обед:</strong> ${currentLanguage === 'ru' ? 'Рис + куриная грудка + салат' : 'Rice + chicken breast + salad'}</div>
+              <div><strong>Полдник:</strong> ${currentLanguage === 'ru' ? 'Творог + фрукты' : 'Cottage cheese + fruits'}</div>
+              <div><strong>Ужин:</strong> ${currentLanguage === 'ru' ? 'Рыба + овощи на пару' : 'Fish + steamed vegetables'}</div>
+              <div><strong>Перед сном:</strong> ${currentLanguage === 'ru' ? 'Казеиновый протеин' : 'Casein protein'}</div>
             </div>
           </div>
           
@@ -2042,18 +2511,6 @@
                 <button class="theme-btn ${currentTheme === 'light' ? 'active' : ''}" onclick="updateTheme('light')">
                   ${t('lightTheme')}
                 </button>
-              </div>
-            </div>
-            
-            <div class="setting-group">
-              <h3 style="color: var(--accent); margin-bottom: 15px;"><i class="fas fa-bell"></i> ${t('notifications')}</h3>
-              <div style="color: var(--ice);">
-                <label style="display: flex; align-items: center; gap: 10px; margin: 10px 0;">
-                  <input type="checkbox" id="workoutReminders" checked> ${t('workoutReminders')}
-                </label>
-                <label style="display: flex; align-items: center; gap: 10px; margin: 10px 0;">
-                  <input type="checkbox" id="achievements" checked> ${t('achievements')}
-                </label>
               </div>
             </div>
             
@@ -2109,9 +2566,6 @@
       } else {
         showHome();
       }
-      
-      // Закрываем мобильное меню при клике на оверлей
-      document.getElementById('mobileOverlay').addEventListener('click', closeMobileMenu);
     };
 
     // Закрываем мобильное меню при ресайзе окна
