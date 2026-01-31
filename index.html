@@ -2069,7 +2069,10 @@
     function logoutUser() {
       currentUser = null;
       localStorage.removeItem('currentUser');
-      showHome();
+      // ВАЖНОЕ ИСПРАВЛЕНИЕ: Сначала очищаем currentUser, потом показываем главную
+      updateNavigation();
+      updateFooter();
+      showHome(true); // Передаем true - принудительно показываем главную
     }
 
     // ================ ТАЙМЕР ================
@@ -2118,14 +2121,13 @@
     function showLogoutConfirm() {
       if (confirm(t('confirmLogout'))) {
         logoutUser();
-        updateNavigation();
-        updateFooter();
-        showHome();
       }
     }
 
-    function showHome() {
-      if (currentUser) {
+    // ВАЖНОЕ ИСПРАВЛЕНИЕ: Изменяем функцию showHome
+    function showHome(forceShow = false) {
+      // Если forceShow = true, показываем главную независимо от наличия пользователя
+      if (currentUser && !forceShow) {
         showDashboard();
         return;
       }
