@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Silver Surfer Strength - Free Bodyweight Training</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0a1f3a 0%, #072340 100%);
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: rgba(7, 35, 64, 0.85);
+            padding: 50px 40px;
+            border-radius: 25px;
+            border: 2px solid rgba(192, 192, 192, 0.3);
+            max-width: 800px;
+            width: 100%;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+        }
+        
+        h1 {
+            font-size: 3.2rem;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, #c0c0c0, #87ceeb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .tagline {
+            font-size: 1.4rem;
+            color: #87ceeb;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+        
+        .description {
+            font-size: 1.2rem;
+            color: #e6f3ff;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+        
+        .buttons {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+        
+        .btn {
+            padding: 16px 35px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #1e90ff, #00bfff);
+            color: white;
+            border: 2px solid #c0c0c0;
+        }
+        
+        .btn-secondary {
+            background: rgba(30, 144, 255, 0.2);
+            color: white;
+            border: 2px solid #1e90ff;
+        }
+        
+        .btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(30, 144, 255, 0.3);
+        }
+        
+        .features {
+            color: #c0c0c0;
+            font-size: 1.1rem;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(192, 192, 192, 0.2);
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .container {
+                padding: 30px 20px;
+            }
+            
+            .buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>SILVER SURFER STRENGTH</h1>
+        <div class="tagline">Покори Волну Силы</div>
+        <p class="description">
+            Бесплатная платформа для силовых тренировок с весом тела. 
+            Преобразуй свое тело с помощью 90-дневных программ для улицы и дома.
+        </p>
+        
+        <div class="buttons">
+            <button class="btn btn-primary" onclick="showRegister()">
+                <i class="fas fa-user-plus"></i> НАЧАТЬ БЕСПЛАТНО
+            </button>
+            <button class="btn btn-secondary" onclick="showLogin()">
+                <i class="fas fa-sign-in-alt"></i> ВОЙТИ В АККАУНТ
+            </button>
+        </div>
+        
+        <div class="features">
+            90-дневные программы • Отслеживание прогресса • Система достижений
+        </div>
+    </div>
+
+    <script>
+        function showRegister() {
+            document.querySelector('.container').innerHTML = `
+                <h2>Регистрация</h2>
+                <p style="color: #87ceeb; margin: 30px 0;">Демо-версия сайта. Регистрация работает!</p>
+                <button class="btn btn-primary" onclick="location.reload()">
+                    <i class="fas fa-arrow-left"></i> Назад на главную
+                </button>
+            `;
+        }
+        
+        function showLogin() {
+            document.querySelector('.container').innerHTML = `
+                <h2>Вход в аккаунт</h2>
+                <p style="color: #87ceeb; margin: 30px 0;">Демо-версия сайта. Вход работает!</p>
+                <button class="btn btn-primary" onclick="location.reload()">
+                    <i class="fas fa-arrow-left"></i> Назад на главную
+                </button>
+            `;
+        }
+        
+        // Сообщение в консоль
+        console.log("✅ Silver Surfer Strength loaded successfully!");
+    </script>
+</body>
+</html>
