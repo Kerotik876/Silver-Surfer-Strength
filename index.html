@@ -809,6 +809,100 @@
     let timerInterval = null;
     let isTimerRunning = false;
 
+    // ================ БАЗА ДАННЫХ УПРАЖНЕНИЙ С ПЕРЕВОДАМИ ================
+    const exerciseDatabase = {
+      // Упражнения для верхней части тела
+      upperBody: [
+        { name: {ru: "Отжимания", en: "Push-ups"}, difficulty: 1 },
+        { name: {ru: "Подтягивания", en: "Pull-ups"}, difficulty: 3 },
+        { name: {ru: "Отжимания на брусьях", en: "Parallel bar dips"}, difficulty: 2 },
+        { name: {ru: "Подъемы туловища", en: "Sit-ups"}, difficulty: 1 },
+        { name: {ru: "Планка", en: "Plank"}, difficulty: 1 },
+        { name: {ru: "Берпи", en: "Burpees"}, difficulty: 3 },
+        { name: {ru: "Альпинист", en: "Mountain climbers"}, difficulty: 2 },
+        { name: {ru: "Отжимания с хлопком", en: "Clap push-ups"}, difficulty: 3 },
+        { name: {ru: "Подтягивания широким хватом", en: "Wide grip pull-ups"}, difficulty: 3 },
+        { name: {ru: "Отжимания узким хватом", en: "Diamond push-ups"}, difficulty: 2 },
+        { name: {ru: "Австралийские подтягивания", en: "Australian pull-ups"}, difficulty: 2 },
+        { name: {ru: "Супермен", en: "Superman"}, difficulty: 1 },
+        { name: {ru: "Отжимания от стула", en: "Chair dips"}, difficulty: 2 },
+        { name: {ru: "Пиковые отжимания", en: "Peak push-ups"}, difficulty: 2 }
+      ],
+      
+      // Упражнения для нижней части тела
+      lowerBody: [
+        { name: {ru: "Приседания", en: "Squats"}, difficulty: 1 },
+        { name: {ru: "Выпады", en: "Lunges"}, difficulty: 2 },
+        { name: {ru: "Прыжки на месте", en: "Jumping jacks"}, difficulty: 1 },
+        { name: {ru: "Приседания с выпрыгиванием", en: "Jump squats"}, difficulty: 3 },
+        { name: {ru: "Болгарские выпады", en: "Bulgarian split squats"}, difficulty: 3 },
+        { name: {ru: "Подъемы на носки", en: "Calf raises"}, difficulty: 1 },
+        { name: {ru: "Ягодичный мостик", en: "Glute bridge"}, difficulty: 1 },
+        { name: {ru: "Приседания пистолетиком", en: "Pistol squats"}, difficulty: 4 },
+        { name: {ru: "Бег на месте с высоким подниманием бедра", en: "High knees"}, difficulty: 2 },
+        { name: {ru: "Зашагивания на возвышенность", en: "Step-ups"}, difficulty: 2 },
+        { name: {ru: "Приседания у стены", en: "Wall squats"}, difficulty: 1 },
+        { name: {ru: "Выпады с прыжком", en: "Jumping lunges"}, difficulty: 3 },
+        { name: {ru: "Приседания с паузой", en: "Pause squats"}, difficulty: 2 },
+        { name: {ru: "Плиометрические выпады", en: "Plyometric lunges"}, difficulty: 3 }
+      ],
+      
+      // Упражнения для кора
+      core: [
+        { name: {ru: "Скручивания", en: "Crunches"}, difficulty: 1 },
+        { name: {ru: "Велосипед", en: "Bicycle crunches"}, difficulty: 2 },
+        { name: {ru: "Русские скручивания", en: "Russian twists"}, difficulty: 2 },
+        { name: {ru: "Подъемы ног лежа", en: "Leg raises"}, difficulty: 2 },
+        { name: {ru: "Планка на локтях", en: "Elbow plank"}, difficulty: 2 },
+        { name: {ru: "Боковая планка", en: "Side plank"}, difficulty: 2 },
+        { name: {ru: "Супермен", en: "Superman"}, difficulty: 1 },
+        { name: {ru: "Вакуум живота", en: "Stomach vacuum"}, difficulty: 1 },
+        { name: {ru: "Скручивания с поднятыми ногами", en: "Reverse crunches"}, difficulty: 2 },
+        { name: {ru: "Дровосек", en: "Woodchoppers"}, difficulty: 3 },
+        { name: {ru: "Планка с подъемом рук", en: "Plank with arm lifts"}, difficulty: 2 },
+        { name: {ru: "Планка с касанием плеч", en: "Plank shoulder taps"}, difficulty: 2 },
+        { name: {ru: "Подъемы ног в висе", en: "Hanging leg raises"}, difficulty: 3 },
+        { name: {ru: "Скалолаз", en: "Mountain climbers"}, difficulty: 2 }
+      ],
+      
+      // Уличные упражнения
+      street: [
+        { name: {ru: "Подтягивания", en: "Pull-ups"}, difficulty: 2 },
+        { name: {ru: "Выходы силой", en: "Muscle-ups"}, difficulty: 4 },
+        { name: {ru: "Флажок", en: "Human flag"}, difficulty: 5 },
+        { name: {ru: "Передний вис", en: "Front lever"}, difficulty: 4 },
+        { name: {ru: "Стойка на руках", en: "Handstand"}, difficulty: 3 },
+        { name: {ru: "Отжимания в стойке на руках", en: "Handstand push-ups"}, difficulty: 4 },
+        { name: {ru: "Подъемы с переворотом", en: "Skin the cat"}, difficulty: 3 },
+        { name: {ru: "Подтягивания L-сидя", en: "L-sit pull-ups"}, difficulty: 3 },
+        { name: {ru: "Отжимания на брусьях с весом", en: "Weighted dips"}, difficulty: 3 },
+        { name: {ru: "Подтягивания с отягощением", en: "Weighted pull-ups"}, difficulty: 3 },
+        { name: {ru: "Вис на перекладине", en: "Bar hang"}, difficulty: 1 },
+        { name: {ru: "Подтягивания обратным хватом", en: "Reverse grip pull-ups"}, difficulty: 2 },
+        { name: {ru: "Отжимания на брусьях с наклоном", en: "Leaning forward dips"}, difficulty: 3 },
+        { name: {ru: "Подъемы ног в висе до перекладины", en: "Hanging leg raises to bar"}, difficulty: 3 }
+      ],
+      
+      // Комплексные упражнения
+      complex: [
+        { name: {ru: "Берпи", en: "Burpees"}, difficulty: 3 },
+        { name: {ru: "Планка с переходом", en: "Plank to push-up"}, difficulty: 2 },
+        { name: {ru: "Трастеры", en: "Thrusters"}, difficulty: 3 },
+        { name: {ru: "Комплекс присед-отжимание-прыжок", en: "Squat-pushup-jump complex"}, difficulty: 3 },
+        { name: {ru: "Турецкий подъем", en: "Turkish get-up"}, difficulty: 4 },
+        { name: {ru: "Медведь-краб", en: "Bear crawl"}, difficulty: 2 },
+        { name: {ru: "Комплекс отжимание-подтягивание", en: "Push-pull complex"}, difficulty: 3 },
+        { name: {ru: "Прыжки со звездой", en: "Star jumps"}, difficulty: 2 },
+        { name: {ru: "Комплекс для взрывной силы", en: "Explosive complex"}, difficulty: 4 },
+        { name: {ru: "Кроссфит комплекс", en: "Crossfit complex"}, difficulty: 4 }
+      ]
+    };
+
+    // ================ ФУНКЦИЯ ДЛЯ ПОЛУЧЕНИЯ УПРАЖНЕНИЯ НА ТЕКУЩЕМ ЯЗЫКЕ ================
+    function getExerciseName(exerciseObj) {
+      return exerciseObj.name[currentLanguage] || exerciseObj.name.en;
+    }
+
     // ================ ПОЛНЫЕ ПЕРЕВОДЫ ================
     const translations = {
       ru: {
@@ -899,6 +993,7 @@
         sets: "подхода",
         reps: "повторений",
         rest: "сек отдых",
+        sec: "сек",
         
         // Программы
         streetProgram: "Street Surfer (уличные)",
@@ -1061,6 +1156,7 @@
         sets: "sets",
         reps: "reps",
         rest: "sec rest",
+        sec: "sec",
         
         // Programs
         streetProgram: "Street Surfer (street)",
@@ -1230,7 +1326,7 @@
       else if (currentPage.includes('Статистика') || currentPage.includes('Statistics')) showStats();
     }
 
-    // ================ РЕАЛЬНЫЕ ТРЕНИРОВКИ (оставляем как есть, но переведем названия) ================
+    // ================ ГЕНЕРАЦИЯ ТРЕНИРОВОК С ПЕРЕВОДАМИ ================
     const workoutPrograms = {
       street: {
         name: { ru: "Street Surfer", en: "Street Surfer" },
@@ -1245,7 +1341,7 @@
               ru: "Освоение базовых упражнений, развитие силы и выносливости",
               en: "Mastering basic exercises, developing strength and endurance"
             },
-            workouts: generateStreetPhase1()
+            getWorkouts: function() { return generateStreetPhase1(); }
           },
           {
             name: { ru: "Прогресс (31-60 дней)", en: "Progress (31-60 days)" },
@@ -1253,7 +1349,7 @@
               ru: "Увеличение сложности, освоение продвинутых упражнений",
               en: "Increasing difficulty, mastering advanced exercises"
             },
-            workouts: generateStreetPhase2()
+            getWorkouts: function() { return generateStreetPhase2(); }
           },
           {
             name: { ru: "Мастерство (61-90 дней)", en: "Mastery (61-90 days)" },
@@ -1261,7 +1357,7 @@
               ru: "Продвинутые элементы, максимальные результаты",
               en: "Advanced elements, maximum results"
             },
-            workouts: generateStreetPhase3()
+            getWorkouts: function() { return generateStreetPhase3(); }
           }
         ]
       },
@@ -1278,7 +1374,7 @@
               ru: "Начальный уровень, адаптация, базовая техника",
               en: "Beginner level, adaptation, basic technique"
             },
-            workouts: generateHomePhase1()
+            getWorkouts: function() { return generateHomePhase1(); }
           },
           {
             name: { ru: "Развитие (31-60 дней)", en: "Development (31-60 days)" },
@@ -1286,7 +1382,7 @@
               ru: "Увеличение нагрузки, комбинированные упражнения",
               en: "Increasing load, combined exercises"
             },
-            workouts: generateHomePhase2()
+            getWorkouts: function() { return generateHomePhase2(); }
           },
           {
             name: { ru: "Результат (61-90 дней)", en: "Result (61-90 days)" },
@@ -1294,7 +1390,7 @@
               ru: "Максимальная интенсивность, финальные результаты",
               en: "Maximum intensity, final results"
             },
-            workouts: generateHomePhase3()
+            getWorkouts: function() { return generateHomePhase3(); }
           }
         ]
       },
@@ -1311,7 +1407,7 @@
               ru: "Сочетание разных типов тренировок",
               en: "Combining different types of workouts"
             },
-            workouts: generateHybridPhase1()
+            getWorkouts: function() { return generateHybridPhase1(); }
           },
           {
             name: { ru: "Интенсив (31-60 дней)", en: "Intensity (31-60 days)" },
@@ -1319,7 +1415,7 @@
               ru: "Высокая интенсивность, минимальный отдых",
               en: "High intensity, minimal rest"
             },
-            workouts: generateHybridPhase2()
+            getWorkouts: function() { return generateHybridPhase2(); }
           },
           {
             name: { ru: "Элита (61-90 дней)", en: "Elite (61-90 days)" },
@@ -1327,41 +1423,63 @@
               ru: "Профессиональный уровень, максимальные нагрузки",
               en: "Professional level, maximum loads"
             },
-            workouts: generateHybridPhase3()
+            getWorkouts: function() { return generateHybridPhase3(); }
           }
         ]
       }
     };
 
-    // Генераторы тренировок (оставляем как есть, но добавляем переводы)
     function generateStreetPhase1() {
       const workouts = [];
-      const exercises = {
-        ru: [
-          { name: "Подтягивания широким хватом", sets: 3, reps: "5-8", rest: 90 },
-          { name: "Отжимания на брусьях", sets: 3, reps: "8-12", rest: 75 },
-          { name: "Отжимания от пола", sets: 3, reps: "12-15", rest: 60 },
-          { name: "Австралийские подтягивания", sets: 3, reps: "10-12", rest: 60 },
-          { name: "Планка на локтях", sets: 3, reps: "30-60 сек", rest: 45 },
-          { name: "Подъемы ног в висе", sets: 3, reps: "8-12", rest: 60 },
-          { name: "Приседания с собственным весом", sets: 4, reps: "15-20", rest: 60 },
-          { name: "Выпады", sets: 3, reps: "12-15 на ногу", rest: 60 }
-        ],
-        en: [
-          { name: "Wide grip pull-ups", sets: 3, reps: "5-8", rest: 90 },
-          { name: "Parallel bar dips", sets: 3, reps: "8-12", rest: 75 },
-          { name: "Push-ups", sets: 3, reps: "12-15", rest: 60 },
-          { name: "Australian pull-ups", sets: 3, reps: "10-12", rest: 60 },
-          { name: "Elbow plank", sets: 3, reps: "30-60 sec", rest: 45 },
-          { name: "Hanging leg raises", sets: 3, reps: "8-12", rest: 60 },
-          { name: "Bodyweight squats", sets: 4, reps: "15-20", rest: 60 },
-          { name: "Lunges", sets: 3, reps: "12-15 per leg", rest: 60 }
-        ]
-      };
+      const exercises = [
+        exerciseDatabase.street[0],  // Подтягивания/Pull-ups
+        exerciseDatabase.street[2],  // Отжимания на брусьях/Parallel bar dips
+        exerciseDatabase.upperBody[0], // Отжимания/Push-ups
+        exerciseDatabase.upperBody[10], // Австралийские подтягивания/Australian pull-ups
+        exerciseDatabase.core[4],    // Планка на локтях/Elbow plank
+        exerciseDatabase.core[12],   // Подъемы ног в висе/Hanging leg raises
+        exerciseDatabase.lowerBody[0], // Приседания/Squats
+        exerciseDatabase.lowerBody[1]  // Выпады/Lunges
+      ];
       
       for (let day = 1; day <= 30; day++) {
         const week = Math.ceil(day / 7);
         const dayInWeek = day % 7 || 7;
+        
+        let workoutExercises = [];
+        if (dayInWeek === 1 || dayInWeek === 4) {
+          // Дни верха тела
+          workoutExercises = [
+            { exercise: exercises[0], sets: 3 + week, reps: "5-8", rest: 90 },
+            { exercise: exercises[1], sets: 3 + week, reps: "8-12", rest: 75 },
+            { exercise: exercises[2], sets: 3, reps: "12-15", rest: 60 },
+            { exercise: exercises[3], sets: 3, reps: "10-12", rest: 60 }
+          ];
+        } else if (dayInWeek === 2 || dayInWeek === 5) {
+          // Дни кора и навыков
+          workoutExercises = [
+            { exercise: exercises[4], sets: 3, reps: "30-60 " + t('sec'), rest: 45 },
+            { exercise: exercises[5], sets: 3, reps: "8-12", rest: 60 },
+            { exercise: exerciseDatabase.street[10], sets: 3, reps: "20-30 " + t('sec'), rest: 45 },
+            { exercise: exerciseDatabase.core[5], sets: 3, reps: "20-40 " + t('sec'), rest: 45 }
+          ];
+        } else if (dayInWeek === 3 || dayInWeek === 6) {
+          // Дни низа тела
+          workoutExercises = [
+            { exercise: exercises[6], sets: 4, reps: "15-20", rest: 60 },
+            { exercise: exercises[7], sets: 3, reps: "12-15 " + (currentLanguage === 'ru' ? 'на ногу' : 'per leg'), rest: 60 },
+            { exercise: exerciseDatabase.lowerBody[7], sets: 3, reps: "5-8", rest: 75 },
+            { exercise: exerciseDatabase.lowerBody[2], sets: 3, reps: "20-30", rest: 45 }
+          ];
+        } else {
+          // День отдыха (7)
+          workoutExercises = [
+            { exercise: { name: { ru: "Растяжка грудных мышц", en: "Chest stretch" } }, sets: 2, reps: "30 " + t('sec'), rest: 30 },
+            { exercise: { name: { ru: "Растяжка спины", en: "Back stretch" } }, sets: 2, reps: "30 " + t('sec'), rest: 30 },
+            { exercise: { name: { ru: "Растяжка ног", en: "Leg stretch" } }, sets: 2, reps: "30 " + t('sec'), rest: 30 },
+            { exercise: { name: { ru: "Растяжка плеч", en: "Shoulder stretch" } }, sets: 2, reps: "30 " + t('sec'), rest: 30 }
+          ];
+        }
         
         workouts.push({
           day: day,
@@ -1369,7 +1487,12 @@
           focus: getFocusByDay(dayInWeek),
           duration: 25 + (week * 5),
           intensity: Math.min(3, week),
-          exercises: exercises[currentLanguage].slice(0, 4)
+          exercises: workoutExercises.map(w => ({
+            name: getExerciseName(w.exercise),
+            sets: w.sets,
+            reps: w.reps,
+            rest: w.rest
+          }))
         });
       }
       return workouts;
@@ -1377,40 +1500,65 @@
 
     function generateStreetPhase2() {
       const workouts = [];
-      const exercises = {
-        ru: [
-          { name: "Подтягивания с отягощением (рюкзак)", sets: 4, reps: "4-6", rest: 90 },
-          { name: "Отжимания на брусьях с наклоном вперед", sets: 4, reps: "8-10", rest: 75 },
-          { name: "Отжимания узким хватом", sets: 3, reps: "10-12", rest: 60 },
-          { name: "Подтягивания обратным хватом", sets: 3, reps: "6-8", rest: 75 },
-          { name: "Подъемы ног в висе до перекладины", sets: 3, reps: "6-10", rest: 75 },
-          { name: "Стойка на руках у стены", sets: 3, reps: "15-30 сек", rest: 60 },
-          { name: "Приседания с прыжком", sets: 4, reps: "10-15", rest: 60 },
-          { name: "Болгарские выпады", sets: 3, reps: "10-12 на ногу", rest: 75 }
-        ],
-        en: [
-          { name: "Weighted pull-ups (backpack)", sets: 4, reps: "4-6", rest: 90 },
-          { name: "Leaning forward parallel bar dips", sets: 4, reps: "8-10", rest: 75 },
-          { name: "Close grip push-ups", sets: 3, reps: "10-12", rest: 60 },
-          { name: "Reverse grip pull-ups", sets: 3, reps: "6-8", rest: 75 },
-          { name: "Hanging leg raises to bar", sets: 3, reps: "6-10", rest: 75 },
-          { name: "Wall handstand", sets: 3, reps: "15-30 sec", rest: 60 },
-          { name: "Jump squats", sets: 4, reps: "10-15", rest: 60 },
-          { name: "Bulgarian split squats", sets: 3, reps: "10-12 per leg", rest: 75 }
-        ]
-      };
+      const exercises = [
+        exerciseDatabase.street[9],  // Подтягивания с отягощением/Weighted pull-ups
+        exerciseDatabase.street[13], // Отжимания на брусьях с наклоном/Leaning forward dips
+        exerciseDatabase.upperBody[9], // Отжимания узким хватом/Diamond push-ups
+        exerciseDatabase.street[11], // Подтягивания обратным хватом/Reverse grip pull-ups
+        exerciseDatabase.street[13], // Подъемы ног в висе до перекладины/Hanging leg raises to bar
+        exerciseDatabase.street[4],  // Стойка на руках/Handstand
+        exerciseDatabase.lowerBody[3], // Приседания с прыжком/Jump squats
+        exerciseDatabase.lowerBody[4]  // Болгарские выпады/Bulgarian split squats
+      ];
       
       for (let day = 31; day <= 60; day++) {
         const adjustedDay = day - 30;
         const week = Math.ceil(adjustedDay / 7);
+        const dayInWeek = adjustedDay % 7 || 7;
+        
+        let workoutExercises = [];
+        if (dayInWeek === 1 || dayInWeek === 4) {
+          workoutExercises = [
+            { exercise: exercises[0], sets: 4, reps: "4-6", rest: 90 },
+            { exercise: exercises[1], sets: 4, reps: "8-10", rest: 75 },
+            { exercise: exercises[2], sets: 3, reps: "10-12", rest: 60 },
+            { exercise: exercises[3], sets: 3, reps: "6-8", rest: 75 }
+          ];
+        } else if (dayInWeek === 2 || dayInWeek === 5) {
+          workoutExercises = [
+            { exercise: exercises[4], sets: 3, reps: "6-10", rest: 75 },
+            { exercise: exerciseDatabase.street[1], sets: 3, reps: "5-10 " + t('sec'), rest: 90 },
+            { exercise: exercises[5], sets: 3, reps: "15-30 " + t('sec'), rest: 60 },
+            { exercise: exerciseDatabase.street[7], sets: 3, reps: "10-20 " + t('sec'), rest: 75 }
+          ];
+        } else if (dayInWeek === 3 || dayInWeek === 6) {
+          workoutExercises = [
+            { exercise: exercises[6], sets: 4, reps: "10-15", rest: 60 },
+            { exercise: exercises[7], sets: 3, reps: "10-12 " + (currentLanguage === 'ru' ? 'на ногу' : 'per leg'), rest: 75 },
+            { exercise: exerciseDatabase.lowerBody[8], sets: 3, reps: "8-10", rest: 90 },
+            { exercise: exerciseDatabase.complex[0], sets: 3, reps: "12-15", rest: 60 }
+          ];
+        } else {
+          workoutExercises = [
+            { exercise: { name: { ru: "Мобильность плеч", en: "Shoulder mobility" } }, sets: 3, reps: "10 " + t('reps'), rest: 30 },
+            { exercise: { name: { ru: "Растяжка сгибателей бедра", en: "Hip flexor stretch" } }, sets: 2, reps: "40 " + t('sec'), rest: 30 },
+            { exercise: { name: { ru: "Работа над осанкой", en: "Posture work" } }, sets: 1, reps: "5 " + t('minutes'), rest: 0 },
+            { exercise: { name: { ru: "Глубокое дыхание", en: "Deep breathing" } }, sets: 1, reps: "3 " + t('minutes'), rest: 0 }
+          ];
+        }
         
         workouts.push({
           day: day,
           name: currentLanguage === 'ru' ? `День ${day}: Прогресс Street` : `Day ${day}: Progress Street`,
-          focus: getFocusByDay(adjustedDay % 7 || 7),
+          focus: getFocusByDay(dayInWeek),
           duration: 35 + (week * 5),
           intensity: Math.min(4, week + 2),
-          exercises: exercises[currentLanguage].slice(0, 4)
+          exercises: workoutExercises.map(w => ({
+            name: getExerciseName(w.exercise),
+            sets: w.sets,
+            reps: w.reps,
+            rest: w.rest
+          }))
         });
       }
       return workouts;
@@ -1418,40 +1566,65 @@
 
     function generateStreetPhase3() {
       const workouts = [];
-      const exercises = {
-        ru: [
-          { name: "Подтягивания с весом 5-10кг", sets: 4, reps: "3-5", rest: 120 },
-          { name: "Отжимания на брусьях с весом", sets: 4, reps: "6-8", rest: 90 },
-          { name: "Отжимания в стойке на руках у стены", sets: 3, reps: "3-6", rest: 120 },
-          { name: "Подтягивания L-сидя", sets: 3, reps: "4-6", rest: 90 },
-          { name: "Выход силой на две", sets: 3, reps: "2-4", rest: 120 },
-          { name: "Флажок (попытка)", sets: 3, reps: "5-15 сек", rest: 120 },
-          { name: "Приседания пистолетиком", sets: 3, reps: "3-5 на ногу", rest: 90 },
-          { name: "Прыжки на тумбу 50-70см", sets: 4, reps: "6-8", rest: 90 }
-        ],
-        en: [
-          { name: "Pull-ups with 5-10kg weight", sets: 4, reps: "3-5", rest: 120 },
-          { name: "Weighted parallel bar dips", sets: 4, reps: "6-8", rest: 90 },
-          { name: "Wall handstand push-ups", sets: 3, reps: "3-6", rest: 120 },
-          { name: "L-sit pull-ups", sets: 3, reps: "4-6", rest: 90 },
-          { name: "Muscle-ups", sets: 3, reps: "2-4", rest: 120 },
-          { name: "Human flag (attempt)", sets: 3, reps: "5-15 sec", rest: 120 },
-          { name: "Pistol squats", sets: 3, reps: "3-5 per leg", rest: 90 },
-          { name: "Box jumps 50-70cm", sets: 4, reps: "6-8", rest: 90 }
-        ]
-      };
+      const exercises = [
+        exerciseDatabase.street[9],  // Подтягивания с весом/Weighted pull-ups
+        exerciseDatabase.street[8],  // Отжимания на брусьях с весом/Weighted dips
+        exerciseDatabase.street[5],  // Отжимания в стойке на руках/Handstand push-ups
+        exerciseDatabase.street[7],  // Подтягивания L-сидя/L-sit pull-ups
+        exerciseDatabase.street[1],  // Выход силой/Muscle-ups
+        exerciseDatabase.street[2],  // Флажок/Human flag
+        exerciseDatabase.lowerBody[7], // Приседания пистолетиком/Pistol squats
+        exerciseDatabase.lowerBody[8]  // Прыжки на тумбу/Box jumps
+      ];
       
       for (let day = 61; day <= 90; day++) {
         const adjustedDay = day - 60;
         const week = Math.ceil(adjustedDay / 7);
+        const dayInWeek = adjustedDay % 7 || 7;
+        
+        let workoutExercises = [];
+        if (dayInWeek === 1 || dayInWeek === 4) {
+          workoutExercises = [
+            { exercise: exercises[0], sets: 4, reps: "3-5", rest: 120 },
+            { exercise: exercises[1], sets: 4, reps: "6-8", rest: 90 },
+            { exercise: exercises[2], sets: 3, reps: "3-6", rest: 120 },
+            { exercise: exercises[3], sets: 3, reps: "4-6", rest: 90 }
+          ];
+        } else if (dayInWeek === 2 || dayInWeek === 5) {
+          workoutExercises = [
+            { exercise: exercises[4], sets: 3, reps: "2-4", rest: 120 },
+            { exercise: exercises[5], sets: 3, reps: "5-15 " + t('sec'), rest: 120 },
+            { exercise: exerciseDatabase.street[3], sets: 3, reps: "5-10 " + t('sec'), rest: 120 },
+            { exercise: exerciseDatabase.street[4], sets: 3, reps: "5-10 " + t('sec'), rest: 90 }
+          ];
+        } else if (dayInWeek === 3 || dayInWeek === 6) {
+          workoutExercises = [
+            { exercise: exercises[6], sets: 3, reps: "3-5 " + (currentLanguage === 'ru' ? 'на ногу' : 'per leg'), rest: 90 },
+            { exercise: exercises[7], sets: 4, reps: "6-8", rest: 90 },
+            { exercise: exerciseDatabase.lowerBody[11], sets: 3, reps: "8-10 " + (currentLanguage === 'ru' ? 'на ногу' : 'per leg'), rest: 75 },
+            { exercise: exerciseDatabase.complex[0], sets: 3, reps: "10-12", rest: 60 }
+          ];
+        } else {
+          workoutExercises = [
+            { exercise: { name: { ru: "Пенный ролик (вся спина)", en: "Foam roller (whole back)" } }, sets: 1, reps: "5 " + t('minutes'), rest: 0 },
+            { exercise: { name: { ru: "Динамическая растяжка", en: "Dynamic stretching" } }, sets: 1, reps: "10 " + t('minutes'), rest: 0 },
+            { exercise: { name: { ru: "Медитация для спортсменов", en: "Athlete meditation" } }, sets: 1, reps: "5 " + t('minutes'), rest: 0 },
+            { exercise: { name: { ru: "Планирование следующей недели", en: "Next week planning" } }, sets: 1, reps: "5 " + t('minutes'), rest: 0 }
+          ];
+        }
         
         workouts.push({
           day: day,
           name: currentLanguage === 'ru' ? `День ${day}: Мастер Street` : `Day ${day}: Master Street`,
-          focus: getFocusByDay(adjustedDay % 7 || 7),
+          focus: getFocusByDay(dayInWeek),
           duration: 45 + (week * 5),
           intensity: Math.min(5, week + 3),
-          exercises: exercises[currentLanguage].slice(0, 4)
+          exercises: workoutExercises.map(w => ({
+            name: getExerciseName(w.exercise),
+            sets: w.sets,
+            reps: w.reps,
+            rest: w.rest
+          }))
         });
       }
       return workouts;
@@ -1459,25 +1632,32 @@
 
     function generateHomePhase1() {
       const workouts = [];
-      const exercises = {
-        ru: [
-          { name: "Отжимания от пола", sets: 3, reps: "10-15", rest: 60 },
-          { name: "Приседания", sets: 3, reps: "15-20", rest: 45 },
-          { name: "Планка", sets: 3, reps: "30-45 сек", rest: 45 },
-          { name: "Выпады на месте", sets: 3, reps: "10-12 на ногу", rest: 60 },
-          { name: "Скручивания", sets: 3, reps: "15-20", rest: 30 }
-        ],
-        en: [
-          { name: "Push-ups", sets: 3, reps: "10-15", rest: 60 },
-          { name: "Squats", sets: 3, reps: "15-20", rest: 45 },
-          { name: "Plank", sets: 3, reps: "30-45 sec", rest: 45 },
-          { name: "Stationary lunges", sets: 3, reps: "10-12 per leg", rest: 60 },
-          { name: "Crunches", sets: 3, reps: "15-20", rest: 30 }
-        ]
-      };
+      const exercises = [
+        exerciseDatabase.upperBody[0],  // Отжимания/Push-ups
+        exerciseDatabase.lowerBody[0],  // Приседания/Squats
+        exerciseDatabase.core[4],       // Планка на локтях/Elbow plank
+        exerciseDatabase.lowerBody[10], // Выпады на месте/Stationary lunges
+        exerciseDatabase.core[0]        // Скручивания/Crunches
+      ];
       
       for (let day = 1; day <= 30; day++) {
         const week = Math.ceil(day / 7);
+        const dayInWeek = day % 7 || 7;
+        
+        let workoutExercises = [];
+        if (dayInWeek <= 6) {
+          workoutExercises = [
+            { exercise: exercises[0], sets: 3, reps: "10-15", rest: 60 },
+            { exercise: exercises[1], sets: 3, reps: "15-20", rest: 45 },
+            { exercise: exercises[2], sets: 3, reps: "30-45 " + t('sec'), rest: 45 },
+            { exercise: exercises[3], sets: 3, reps: "10-12 " + (currentLanguage === 'ru' ? 'на ногу' : 'per leg'), rest: 60 },
+            { exercise: exercises[4], sets: 3, reps: "15-20", rest: 30 }
+          ];
+        } else {
+          workoutExercises = [
+            { exercise: { name: { ru: "Легкая растяжка", en: "Light stretching" } }, sets: 1, reps: "10 " + t('minutes'), rest: 0 }
+          ];
+        }
         
         workouts.push({
           day: day,
@@ -1485,7 +1665,12 @@
           focus: "Full Body",
           duration: 20 + (week * 3),
           intensity: Math.min(2, week),
-          exercises: exercises[currentLanguage]
+          exercises: workoutExercises.map(w => ({
+            name: getExerciseName(w.exercise),
+            sets: w.sets,
+            reps: w.reps,
+            rest: w.rest
+          }))
         });
       }
       return workouts;
@@ -1493,36 +1678,64 @@
 
     function generateHomePhase2() {
       const workouts = [];
-      const exercises = {
-        ru: [
-          { name: "Отжимания с узкой постановкой", sets: 4, reps: "8-12", rest: 60 },
-          { name: "Отжимания от стула", sets: 3, reps: "10-15", rest: 60 },
-          { name: "Планка с подъемом рук", sets: 3, reps: "10-12 на руку", rest: 45 },
-          { name: "Приседания с паузой", sets: 4, reps: "12-15", rest: 60 },
-          { name: "Ягодичный мостик", sets: 3, reps: "15-20", rest: 45 },
-          { name: "Берпи", sets: 4, reps: "8-10", rest: 75 }
-        ],
-        en: [
-          { name: "Close grip push-ups", sets: 4, reps: "8-12", rest: 60 },
-          { name: "Chair dips", sets: 3, reps: "10-15", rest: 60 },
-          { name: "Plank with arm lifts", sets: 3, reps: "10-12 per arm", rest: 45 },
-          { name: "Pause squats", sets: 4, reps: "12-15", rest: 60 },
-          { name: "Glute bridge", sets: 3, reps: "15-20", rest: 45 },
-          { name: "Burpees", sets: 4, reps: "8-10", rest: 75 }
-        ]
-      };
+      const exercises = [
+        exerciseDatabase.upperBody[9],  // Отжимания узким хватом/Close grip push-ups
+        exerciseDatabase.upperBody[12], // Отжимания от стула/Chair dips
+        exerciseDatabase.core[10],      // Планка с подъемом рук/Plank with arm lifts
+        exerciseDatabase.upperBody[6],  // Супермен/Superman
+        exerciseDatabase.lowerBody[12], // Приседания с паузой/Pause squats
+        exerciseDatabase.lowerBody[6],  // Ягодичный мостик/Glute bridge
+        exerciseDatabase.lowerBody[1],  // Выпады в ходьбе/Walking lunges
+        exerciseDatabase.lowerBody[5],  // Подъемы на носки/Calf raises
+        exerciseDatabase.complex[0],    // Берпи/Burpees
+        exerciseDatabase.core[13]       // Скалолаз/Mountain climbers
+      ];
       
       for (let day = 31; day <= 60; day++) {
         const adjustedDay = day - 30;
         const week = Math.ceil(adjustedDay / 7);
+        const dayInWeek = adjustedDay % 7 || 7;
+        
+        let workoutExercises = [];
+        if (dayInWeek === 1 || dayInWeek === 4) {
+          workoutExercises = [
+            { exercise: exercises[0], sets: 4, reps: "8-12", rest: 60 },
+            { exercise: exercises[1], sets: 3, reps: "10-15", rest: 60 },
+            { exercise: exercises[2], sets: 3, reps: "10-12 " + (currentLanguage === 'ru' ? 'на руку' : 'per arm'), rest: 45 },
+            { exercise: exercises[3], sets: 3, reps: "12-15", rest: 45 }
+          ];
+        } else if (dayInWeek === 2 || dayInWeek === 5) {
+          workoutExercises = [
+            { exercise: exercises[4], sets: 4, reps: "12-15", rest: 60 },
+            { exercise: exercises[5], sets: 3, reps: "15-20", rest: 45 },
+            { exercise: exercises[6], sets: 3, reps: "10-12 " + (currentLanguage === 'ru' ? 'на ногу' : 'per leg'), rest: 60 },
+            { exercise: exercises[7], sets: 3, reps: "20-25", rest: 30 }
+          ];
+        } else if (dayInWeek === 3 || dayInWeek === 6) {
+          workoutExercises = [
+            { exercise: exercises[8], sets: 4, reps: "8-12", rest: 75 },
+            { exercise: exercises[9], sets: 3, reps: "30-40 " + t('sec'), rest: 45 },
+            { exercise: exerciseDatabase.core[11], sets: 3, reps: "20-30 " + (currentLanguage === 'ru' ? 'на сторону' : 'per side'), rest: 45 },
+            { exercise: exerciseDatabase.complex[7], sets: 3, reps: "15-20", rest: 60 }
+          ];
+        } else {
+          workoutExercises = [
+            { exercise: { name: { ru: "Йога для начинающих", en: "Beginner yoga" } }, sets: 1, reps: "15 " + t('minutes'), rest: 0 }
+          ];
+        }
         
         workouts.push({
           day: day,
           name: currentLanguage === 'ru' ? `День ${day}: Развитие Home` : `Day ${day}: Development Home`,
-          focus: "Full Body",
+          focus: getFocusByDay(dayInWeek),
           duration: 30 + (week * 3),
           intensity: Math.min(4, week + 1),
-          exercises: exercises[currentLanguage].slice(0, 4)
+          exercises: workoutExercises.map(w => ({
+            name: getExerciseName(w.exercise),
+            sets: w.sets,
+            reps: w.reps,
+            rest: w.rest
+          }))
         });
       }
       return workouts;
@@ -1530,36 +1743,61 @@
 
     function generateHomePhase3() {
       const workouts = [];
-      const exercises = {
-        ru: [
-          { name: "Отжимания с хлопком", sets: 4, reps: "5-8", rest: 90 },
-          { name: "Отжимания от стола (уклон)", sets: 4, reps: "10-12", rest: 60 },
-          { name: "Приседания с выпрыгиванием", sets: 4, reps: "10-12", rest: 75 },
-          { name: "Болгарские выпады (с опорой)", sets: 3, reps: "8-10 на ногу", rest: 75 },
-          { name: "Комплекс: Берпи + Отжимание + Прыжок", sets: 4, reps: "6-8", rest: 90 },
-          { name: "Планка сложная", sets: 3, reps: "45-60 сек", rest: 60 }
-        ],
-        en: [
-          { name: "Clap push-ups", sets: 4, reps: "5-8", rest: 90 },
-          { name: "Incline table push-ups", sets: 4, reps: "10-12", rest: 60 },
-          { name: "Jump squats", sets: 4, reps: "10-12", rest: 75 },
-          { name: "Bulgarian split squats (with support)", sets: 3, reps: "8-10 per leg", rest: 75 },
-          { name: "Complex: Burpee + Push-up + Jump", sets: 4, reps: "6-8", rest: 90 },
-          { name: "Advanced plank", sets: 3, reps: "45-60 sec", rest: 60 }
-        ]
-      };
+      const exercises = [
+        exerciseDatabase.upperBody[7],  // Отжимания с хлопком/Clap push-ups
+        exerciseDatabase.upperBody[13], // Пиковые отжимания/Peak push-ups
+        exerciseDatabase.lowerBody[3],  // Приседания с выпрыгиванием/Jump squats
+        exerciseDatabase.lowerBody[4],  // Болгарские выпады/Bulgarian split squats
+        exerciseDatabase.complex[3],    // Комплекс присед-отжимание-прыжок/Squat-pushup-jump complex
+        exerciseDatabase.complex[9],    // Кроссфит комплекс/Crossfit complex
+        exerciseDatabase.core[4]        // Планка сложная/Advanced plank
+      ];
       
       for (let day = 61; day <= 90; day++) {
         const adjustedDay = day - 60;
         const week = Math.ceil(adjustedDay / 7);
+        const dayInWeek = adjustedDay % 7 || 7;
+        
+        let workoutExercises = [];
+        if (dayInWeek === 1 || dayInWeek === 4) {
+          workoutExercises = [
+            { exercise: exercises[0], sets: 4, reps: "5-8", rest: 90 },
+            { exercise: exercises[1], sets: 4, reps: "10-12", rest: 60 },
+            { exercise: exerciseDatabase.upperBody[9], sets: 3, reps: "8-10", rest: 75 },
+            { exercise: exerciseDatabase.complex[1], sets: 3, reps: "10-12", rest: 60 }
+          ];
+        } else if (dayInWeek === 2 || dayInWeek === 5) {
+          workoutExercises = [
+            { exercise: exercises[2], sets: 4, reps: "10-12", rest: 75 },
+            { exercise: exercises[3], sets: 3, reps: "8-10 " + (currentLanguage === 'ru' ? 'на ногу' : 'per leg'), rest: 75 },
+            { exercise: exerciseDatabase.lowerBody[7], sets: 3, reps: "3-5 " + (currentLanguage === 'ru' ? 'на ногу' : 'per leg'), rest: 90 },
+            { exercise: exerciseDatabase.lowerBody[2], sets: 3, reps: "8-10", rest: 60 }
+          ];
+        } else if (dayInWeek === 3 || dayInWeek === 6) {
+          workoutExercises = [
+            { exercise: exercises[4], sets: 4, reps: "6-8", rest: 90 },
+            { exercise: { name: { ru: "Спринт на месте", en: "Sprint in place" } }, sets: 4, reps: "30 " + t('sec'), rest: 60 },
+            { exercise: exerciseDatabase.complex[0], sets: 3, reps: "15-20", rest: 45 },
+            { exercise: exerciseDatabase.lowerBody[11], sets: 3, reps: "10-12 " + (currentLanguage === 'ru' ? 'на ногу' : 'per leg'), rest: 60 }
+          ];
+        } else {
+          workoutExercises = [
+            { exercise: { name: { ru: "Глубокая растяжка всего тела", en: "Deep full body stretching" } }, sets: 1, reps: "20 " + t('minutes'), rest: 0 }
+          ];
+        }
         
         workouts.push({
           day: day,
           name: currentLanguage === 'ru' ? `День ${day}: Результат Home` : `Day ${day}: Result Home`,
-          focus: "Full Body",
+          focus: getFocusByDay(dayInWeek),
           duration: 40 + (week * 5),
           intensity: Math.min(5, week + 2),
-          exercises: exercises[currentLanguage].slice(0, 4)
+          exercises: workoutExercises.map(w => ({
+            name: getExerciseName(w.exercise),
+            sets: w.sets,
+            reps: w.reps,
+            rest: w.rest
+          }))
         });
       }
       return workouts;
@@ -1567,41 +1805,45 @@
 
     function generateHybridPhase1() {
       const workouts = [];
-      const exercises = {
-        street: {
-          ru: [
-            { name: "Подтягивания (или негативы)", sets: 3, reps: "3-5", rest: 90 },
-            { name: "Отжимания на брусьях", sets: 3, reps: "6-10", rest: 75 },
-            { name: "Приседания у стены", sets: 3, reps: "15-20", rest: 60 },
-            { name: "Вис на перекладине", sets: 3, reps: "20-30 сек", rest: 60 }
-          ],
-          en: [
-            { name: "Pull-ups (or negatives)", sets: 3, reps: "3-5", rest: 90 },
-            { name: "Parallel bar dips", sets: 3, reps: "6-10", rest: 75 },
-            { name: "Wall squats", sets: 3, reps: "15-20", rest: 60 },
-            { name: "Bar hang", sets: 3, reps: "20-30 sec", rest: 60 }
-          ]
-        },
-        home: {
-          ru: [
-            { name: "Отжимания от пола", sets: 4, reps: "10-15", rest: 60 },
-            { name: "Приседания с собственным весом", sets: 4, reps: "15-20", rest: 60 },
-            { name: "Планка на локтях", sets: 3, reps: "30-45 сек", rest: 45 },
-            { name: "Выпады", sets: 3, reps: "10-12 на ногу", rest: 60 }
-          ],
-          en: [
-            { name: "Push-ups", sets: 4, reps: "10-15", rest: 60 },
-            { name: "Bodyweight squats", sets: 4, reps: "15-20", rest: 60 },
-            { name: "Elbow plank", sets: 3, reps: "30-45 sec", rest: 45 },
-            { name: "Lunges", sets: 3, reps: "10-12 per leg", rest: 60 }
-          ]
-        }
-      };
+      const streetExercises = [
+        exerciseDatabase.street[0],  // Подтягивания/Pull-ups
+        exerciseDatabase.street[2],  // Отжимания на брусьях/Parallel bar dips
+        exerciseDatabase.lowerBody[10], // Приседания у стены/Wall squats
+        exerciseDatabase.street[10]  // Вис на перекладине/Bar hang
+      ];
+      
+      const homeExercises = [
+        exerciseDatabase.upperBody[0],  // Отжимания/Push-ups
+        exerciseDatabase.lowerBody[0],  // Приседания/Squats
+        exerciseDatabase.core[4],       // Планка на локтях/Elbow plank
+        exerciseDatabase.lowerBody[1]   // Выпады/Lunges
+      ];
       
       for (let day = 1; day <= 30; day++) {
         const week = Math.ceil(day / 7);
         const dayInWeek = day % 7 || 7;
         const isStreetDay = dayInWeek <= 3;
+        
+        let workoutExercises = [];
+        if (isStreetDay) {
+          workoutExercises = [
+            { exercise: streetExercises[0], sets: 3, reps: "3-5", rest: 90 },
+            { exercise: streetExercises[1], sets: 3, reps: "6-10", rest: 75 },
+            { exercise: streetExercises[2], sets: 3, reps: "15-20", rest: 60 },
+            { exercise: streetExercises[3], sets: 3, reps: "20-30 " + t('sec'), rest: 60 }
+          ];
+        } else if (dayInWeek <= 6) {
+          workoutExercises = [
+            { exercise: homeExercises[0], sets: 4, reps: "10-15", rest: 60 },
+            { exercise: homeExercises[1], sets: 4, reps: "15-20", rest: 60 },
+            { exercise: homeExercises[2], sets: 3, reps: "30-45 " + t('sec'), rest: 45 },
+            { exercise: homeExercises[3], sets: 3, reps: "10-12 " + (currentLanguage === 'ru' ? 'на ногу' : 'per leg'), rest: 60 }
+          ];
+        } else {
+          workoutExercises = [
+            { exercise: { name: { ru: "Растяжка всего тела", en: "Full body stretching" } }, sets: 1, reps: "15 " + t('minutes'), rest: 0 }
+          ];
+        }
         
         workouts.push({
           day: day,
@@ -1609,7 +1851,12 @@
           focus: isStreetDay ? "Street" : "Home",
           duration: 25 + (week * 4),
           intensity: Math.min(3, week),
-          exercises: isStreetDay ? exercises.street[currentLanguage] : exercises.home[currentLanguage]
+          exercises: workoutExercises.map(w => ({
+            name: getExerciseName(w.exercise),
+            sets: w.sets,
+            reps: w.reps,
+            rest: w.rest
+          }))
         });
       }
       return workouts;
@@ -1617,36 +1864,19 @@
 
     function generateHybridPhase2() {
       const workouts = [];
-      const exercises = {
-        street: {
-          ru: [
-            { name: "Подтягивания широким хватом", sets: 4, reps: "4-6", rest: 90 },
-            { name: "Отжимания на брусьях с наклоном", sets: 4, reps: "8-10", rest: 75 },
-            { name: "Приседания с прыжком", sets: 4, reps: "10-12", rest: 60 },
-            { name: "Подъемы ног в висе", sets: 3, reps: "8-12", rest: 75 }
-          ],
-          en: [
-            { name: "Wide grip pull-ups", sets: 4, reps: "4-6", rest: 90 },
-            { name: "Leaning parallel bar dips", sets: 4, reps: "8-10", rest: 75 },
-            { name: "Jump squats", sets: 4, reps: "10-12", rest: 60 },
-            { name: "Hanging leg raises", sets: 3, reps: "8-12", rest: 75 }
-          ]
-        },
-        home: {
-          ru: [
-            { name: "Отжимания с узкой постановкой", sets: 4, reps: "8-12", rest: 60 },
-            { name: "Приседания с паузой", sets: 4, reps: "12-15", rest: 60 },
-            { name: "Берпи", sets: 4, reps: "8-10", rest: 75 },
-            { name: "Планка с касанием плеч", sets: 3, reps: "10-12 на сторону", rest: 45 }
-          ],
-          en: [
-            { name: "Close grip push-ups", sets: 4, reps: "8-12", rest: 60 },
-            { name: "Pause squats", sets: 4, reps: "12-15", rest: 60 },
-            { name: "Burpees", sets: 4, reps: "8-10", rest: 75 },
-            { name: "Plank shoulder taps", sets: 3, reps: "10-12 per side", rest: 45 }
-          ]
-        }
-      };
+      const streetExercises = [
+        exerciseDatabase.street[9],  // Подтягивания с весом/Weighted pull-ups
+        exerciseDatabase.street[13], // Отжимания на брусьях с наклоном/Leaning forward dips
+        exerciseDatabase.lowerBody[3], // Приседания с прыжком/Jump squats
+        exerciseDatabase.core[12]    // Подъемы ног в висе/Hanging leg raises
+      ];
+      
+      const homeExercises = [
+        exerciseDatabase.upperBody[9],  // Отжимания узким хватом/Close grip push-ups
+        exerciseDatabase.lowerBody[12], // Приседания с паузой/Pause squats
+        exerciseDatabase.complex[0],    // Берпи/Burpees
+        exerciseDatabase.core[11]       // Планка с касанием плеч/Plank shoulder taps
+      ];
       
       for (let day = 31; day <= 60; day++) {
         const adjustedDay = day - 30;
@@ -1654,13 +1884,39 @@
         const dayInWeek = adjustedDay % 7 || 7;
         const isStreetDay = dayInWeek <= 3;
         
+        let workoutExercises = [];
+        if (isStreetDay) {
+          workoutExercises = [
+            { exercise: streetExercises[0], sets: 4, reps: "4-6", rest: 90 },
+            { exercise: streetExercises[1], sets: 4, reps: "8-10", rest: 75 },
+            { exercise: streetExercises[2], sets: 4, reps: "10-12", rest: 60 },
+            { exercise: streetExercises[3], sets: 3, reps: "8-12", rest: 75 }
+          ];
+        } else if (dayInWeek <= 6) {
+          workoutExercises = [
+            { exercise: homeExercises[0], sets: 4, reps: "8-12", rest: 60 },
+            { exercise: homeExercises[1], sets: 4, reps: "12-15", rest: 60 },
+            { exercise: homeExercises[2], sets: 4, reps: "8-10", rest: 75 },
+            { exercise: homeExercises[3], sets: 3, reps: "10-12 " + (currentLanguage === 'ru' ? 'на сторону' : 'per side'), rest: 45 }
+          ];
+        } else {
+          workoutExercises = [
+            { exercise: { name: { ru: "Йога среднего уровня", en: "Intermediate yoga" } }, sets: 1, reps: "20 " + t('minutes'), rest: 0 }
+          ];
+        }
+        
         workouts.push({
           day: day,
           name: currentLanguage === 'ru' ? `День ${day}: Интенсив Hybrid` : `Day ${day}: Intensity Hybrid`,
           focus: isStreetDay ? "Street" : "Home",
           duration: 35 + (week * 5),
           intensity: Math.min(4, week + 1),
-          exercises: isStreetDay ? exercises.street[currentLanguage] : exercises.home[currentLanguage]
+          exercises: workoutExercises.map(w => ({
+            name: getExerciseName(w.exercise),
+            sets: w.sets,
+            reps: w.reps,
+            rest: w.rest
+          }))
         });
       }
       return workouts;
@@ -1668,36 +1924,19 @@
 
     function generateHybridPhase3() {
       const workouts = [];
-      const exercises = {
-        street: {
-          ru: [
-            { name: "Подтягивания с весом", sets: 4, reps: "3-5", rest: 120 },
-            { name: "Выход силой (подготовка)", sets: 3, reps: "2-3", rest: 120 },
-            { name: "Приседания пистолетиком", sets: 3, reps: "3-5 на ногу", rest: 90 },
-            { name: "Флажок (попытка)", sets: 3, reps: "5-10 сек", rest: 120 }
-          ],
-          en: [
-            { name: "Weighted pull-ups", sets: 4, reps: "3-5", rest: 120 },
-            { name: "Muscle-up (preparation)", sets: 3, reps: "2-3", rest: 120 },
-            { name: "Pistol squats", sets: 3, reps: "3-5 per leg", rest: 90 },
-            { name: "Human flag (attempt)", sets: 3, reps: "5-10 sec", rest: 120 }
-          ]
-        },
-        home: {
-          ru: [
-            { name: "Отжимания с хлопком", sets: 4, reps: "5-8", rest: 90 },
-            { name: "Приседания с выпрыгиванием", sets: 4, reps: "10-12", rest: 75 },
-            { name: "Комплекс: Берпи + Отжимание + Прыжок", sets: 4, reps: "6-8", rest: 90 },
-            { name: "Планка сложная", sets: 3, reps: "45-60 сек", rest: 60 }
-          ],
-          en: [
-            { name: "Clap push-ups", sets: 4, reps: "5-8", rest: 90 },
-            { name: "Jump squats", sets: 4, reps: "10-12", rest: 75 },
-            { name: "Complex: Burpee + Push-up + Jump", sets: 4, reps: "6-8", rest: 90 },
-            { name: "Advanced plank", sets: 3, reps: "45-60 sec", rest: 60 }
-          ]
-        }
-      };
+      const streetExercises = [
+        exerciseDatabase.street[9],  // Подтягивания с весом/Weighted pull-ups
+        exerciseDatabase.street[1],  // Выход силой/Muscle-ups
+        exerciseDatabase.lowerBody[7], // Приседания пистолетиком/Pistol squats
+        exerciseDatabase.street[2]   // Флажок/Human flag
+      ];
+      
+      const homeExercises = [
+        exerciseDatabase.upperBody[7],  // Отжимания с хлопком/Clap push-ups
+        exerciseDatabase.lowerBody[3],  // Приседания с выпрыгиванием/Jump squats
+        exerciseDatabase.complex[3],    // Комплекс: Берпи + Отжимание + Прыжок/Squat-pushup-jump complex
+        exerciseDatabase.core[4]        // Планка сложная/Advanced plank
+      ];
       
       for (let day = 61; day <= 90; day++) {
         const adjustedDay = day - 60;
@@ -1705,13 +1944,39 @@
         const dayInWeek = adjustedDay % 7 || 7;
         const isStreetDay = dayInWeek <= 3;
         
+        let workoutExercises = [];
+        if (isStreetDay) {
+          workoutExercises = [
+            { exercise: streetExercises[0], sets: 4, reps: "3-5", rest: 120 },
+            { exercise: streetExercises[1], sets: 3, reps: "2-3", rest: 120 },
+            { exercise: streetExercises[2], sets: 3, reps: "3-5 " + (currentLanguage === 'ru' ? 'на ногу' : 'per leg'), rest: 90 },
+            { exercise: streetExercises[3], sets: 3, reps: "5-10 " + t('sec'), rest: 120 }
+          ];
+        } else if (dayInWeek <= 6) {
+          workoutExercises = [
+            { exercise: homeExercises[0], sets: 4, reps: "5-8", rest: 90 },
+            { exercise: homeExercises[1], sets: 4, reps: "10-12", rest: 75 },
+            { exercise: homeExercises[2], sets: 4, reps: "6-8", rest: 90 },
+            { exercise: homeExercises[3], sets: 3, reps: "45-60 " + t('sec'), rest: 60 }
+          ];
+        } else {
+          workoutExercises = [
+            { exercise: { name: { ru: "Профессиональная растяжка", en: "Professional stretching" } }, sets: 1, reps: "25 " + t('minutes'), rest: 0 }
+          ];
+        }
+        
         workouts.push({
           day: day,
           name: currentLanguage === 'ru' ? `День ${day}: Элита Hybrid` : `Day ${day}: Elite Hybrid`,
           focus: isStreetDay ? "Street" : "Home",
           duration: 45 + (week * 5),
           intensity: Math.min(5, week + 2),
-          exercises: isStreetDay ? exercises.street[currentLanguage] : exercises.home[currentLanguage]
+          exercises: workoutExercises.map(w => ({
+            name: getExerciseName(w.exercise),
+            sets: w.sets,
+            reps: w.reps,
+            rest: w.rest
+          }))
         });
       }
       return workouts;
@@ -2068,8 +2333,8 @@
       const program = workoutPrograms[currentUser.program];
       const currentPhase = currentUser.currentDay <= 30 ? program.phases[0] : 
                           currentUser.currentDay <= 60 ? program.phases[1] : program.phases[2];
-      const workout = currentPhase.workouts[currentUser.currentDay - (currentPhase === program.phases[0] ? 0 : 
-                     currentPhase === program.phases[1] ? 30 : 60)];
+      const workouts = currentPhase.getWorkouts();
+      const workout = workouts.find(w => w.day === currentUser.currentDay) || workouts[0];
       
       const progressPercent = Math.min(100, (currentUser.currentDay / 90) * 100);
       const currentWeek = Math.ceil(currentUser.currentDay / 7);
@@ -2479,8 +2744,8 @@
       const program = workoutPrograms[currentUser.program];
       const currentPhase = currentUser.currentDay <= 30 ? program.phases[0] : 
                           currentUser.currentDay <= 60 ? program.phases[1] : program.phases[2];
-      const workout = currentPhase.workouts[currentUser.currentDay - (currentPhase === program.phases[0] ? 0 : 
-                     currentPhase === program.phases[1] ? 30 : 60)];
+      const workouts = currentPhase.getWorkouts();
+      const workout = workouts.find(w => w.day === currentUser.currentDay) || workouts[0];
       
       document.getElementById('mainContent').innerHTML = `
         <div class="workout-screen">
@@ -2516,7 +2781,7 @@
                   </span>
                 </div>
                 <div style="color: var(--ice); font-size: 0.9rem;">
-                  <i class="fas fa-clock"></i> ${t('rest')}: ${ex.rest} ${currentLanguage === 'ru' ? 'сек' : 'sec'}
+                  <i class="fas fa-clock"></i> ${t('rest')}: ${ex.rest} ${t('sec')}
                 </div>
               </div>
             `).join('')}
